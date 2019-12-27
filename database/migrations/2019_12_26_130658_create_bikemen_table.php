@@ -16,6 +16,8 @@ class CreateBikemenTable extends Migration
         Schema::create('bikemen', function (Blueprint $table) {
             $table->increments('idbikemen');
             $table->string('name');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('region_id')->unsigned();
             $table->foreign('region_id')->references('idregions')->on('regions');
             $table->string('phone_number');
