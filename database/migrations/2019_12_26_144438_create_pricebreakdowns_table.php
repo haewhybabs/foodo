@@ -20,6 +20,7 @@ class CreatePricebreakdownsTable extends Migration
             $table->integer('to_region_id')->unsigned();
             $table->foreign('to_region_id')->references('idregions')->on('regions');
             $table->string('description');
+            $table->integer('price');
             $table->timestamps();
         });
     }

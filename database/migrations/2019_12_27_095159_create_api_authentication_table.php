@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRegionsTable extends Migration
+class CreateApiAuthenticationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateRegionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('regions', function (Blueprint $table) {
-            $table->increments('idregions');
+        Schema::create('api_authentication', function (Blueprint $table) {
+            $table->increments('idapi');
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('city_id')->unsigned();
-            $table->foreign('city_id')->references('idcities')->on('cities');
+            $table->string('token');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateRegionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('api_authentication');
     }
 }

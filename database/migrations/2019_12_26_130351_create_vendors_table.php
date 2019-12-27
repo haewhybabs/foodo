@@ -18,7 +18,7 @@ class CreateVendorsTable extends Migration
             $table->string('manager_name');
             $table->string('store_name');
             $table->string('address');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->string('phone_number');
             $table->integer('status');
             $table->string('description');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Bikeman extends Model
 {
+
     protected $fillable = [
         "name","region_id", "phone_number", "phone_number", "status", "home_address"
     ];
@@ -13,4 +14,5 @@ class Bikeman extends Model
     public function user (){
         return $this->belongsTo(User::class);
     }
+
 }
