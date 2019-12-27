@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Vendor;
 
 class Vendors extends Controller
 {
@@ -21,9 +22,33 @@ class Vendors extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $vendorData= $request->validate([
+
+            'manager_name'=>'required',
+            'store_name'=>'required',
+            'address'=>'required',
+            'phone_number'=>'required',
+            'status'=>'required',
+            'description'=>'required',
+            'user_id'=>'required',
+            'category_id'=>'required',
+            'region_id'=>'required',
+            'open_at'=>'required',
+            'close_at'=>'required',
+        ]);
+
+        #Pending
+        $vendorData['status']=1;
+
+        $vendor=Vendor::create($vendorData);
+        $data=array(
+            'message'=>'Vendor is successfully created',
+            'status'=>true,
+        );
+
+        return response($data,200)->header('content-Type','application/json');
     }
 
     /**
