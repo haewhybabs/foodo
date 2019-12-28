@@ -3,6 +3,9 @@
 namespace Illuminate\Routing;
 
 use BadMethodCallException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 abstract class Controller
 {
@@ -68,5 +71,13 @@ abstract class Controller
         throw new BadMethodCallException(sprintf(
             'Method %s::%s does not exist.', static::class, $method
         ));
+    }
+
+    public function audit($task,$user_id){
+        $data_audit=array(
+            'user_id'=>$user_id,
+            'task'=>$task,
+        );
+        DB::table('audit_trails')->insert($data_audit);
     }
 }

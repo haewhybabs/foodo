@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -42,6 +43,12 @@ class AuthController extends Controller
         return response(['user'=>auth()->user(), 'access_token'=>$accessToken]);
 
     }
+
+    public function details() 
+    { 
+        $user = Auth::user(); 
+        return response()->json(['success' => $user],200)->header('content-Type','application/json'); 
+    } 
 
 
 }
