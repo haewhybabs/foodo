@@ -80,6 +80,8 @@ class Vendors extends Controller
 
         $vendor=Vendor::create($vendorData);
 
+        $accessToken = $user->createToken('authToken')->accessToken;
+
         $task=$vendorData['store_name'].' just created an account with FoodXyme';
         $this->audit($task,$user->id);
         $data=array(
@@ -88,7 +90,7 @@ class Vendors extends Controller
             'data'=>$vendor,
         );
 
-        return response($data,200)->header('content-Type','application/json');
+        return response(['user'=> $user, 'access_token'=>$accessToken])->header('content-Type','application/json');
     }
 
     /**

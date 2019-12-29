@@ -52,8 +52,9 @@ class Customers extends Controller
             'status'=>true,
             'data'=>$customer,
         );
+        $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response($data,200)->header('content-Type','application/json');
+        return response(['user'=> $user, 'access_token'=>$accessToken])->header('content-Type','application/json');
 
     }
 }

@@ -44,11 +44,11 @@ class AuthController extends Controller
 
     }
 
-    public function details() 
-    { 
-        $user = Auth::user(); 
-        return response()->json(['success' => $user],200)->header('content-Type','application/json'); 
-    } 
+    public function details()
+    {
+        $user = Auth::user();
+        return response()->json(['success' => $user],200)->header('content-Type','application/json');
+    }
 
 
 }
