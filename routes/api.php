@@ -24,12 +24,21 @@ Route::post('/register','AuthController@register');
 Route::post('/login','AuthController@login');
 Route::post('/vendor-create','Vendors@create');
 Route::get('/vendor-list','Vendors@index');
+Route::get('/category/{id}','Category@selectedCategory');
 Route::get('/show-vendor/{id}','Vendors@show');
 Route::post('/customer-create','Customers@create');
+Route::post('/upload','Stock@store');
+
 
 
 Route::middleware('auth:api')->group(function () {
+
     Route::get('/details','AuthController@details');
+    Route::get('/stock-categories','Stock@categoryList');
+    Route::get('/stock-list','Stock@list');
+    Route::post('/stock-upload','Stock@store');
+    Route::post('/vendor-rating','Reviews@create');
+
 
 
 });

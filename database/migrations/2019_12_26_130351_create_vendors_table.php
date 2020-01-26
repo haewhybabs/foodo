@@ -27,8 +27,9 @@ class CreateVendorsTable extends Migration
             $table->foreign('category_id')->references('idcategories')->on('categories');
             $table->integer('region_id')->unsigned();
             $table->foreign('region_id')->references('idregions')->on('regions');
-            $table->time('open_at');
-            $table->time('close_at');
+            $table->decimal('rating')->nullable();
+            $table->string('open_at');
+            $table->string('close_at');
             $table->timestamps();
         });
     }

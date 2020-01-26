@@ -10,24 +10,26 @@
                 <h5 class="mb-5 text-secondary font-weight-normal">Lists of top restaurants, pharmacy, supermarket, and bars, based on trends</h5>
             </div>
             <div class="homepage-search-form">
-                <form class="form-noborder">
+                <form class="form-noborder" method="get" action="{{URL::TO('vendor-search')}}">
+                    @csrf
                 <div class="form-row">
                     <div class="col-lg-3 col-md-3 col-sm-12 form-group">
                         <div class="location-dropdown">
                             <i class="icofont-location-arrow"></i>
                             <select class="custom-select form-control-lg">
-                            <option>Select City</option>
-                            <option>Ile-Ife </option>
+                                <option>Select City</option>
+                                @foreach($cities as $city)
+                                    <option href="{{$city->idcities}}">{{$city->name}} </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-12 form-group">
-                        <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg">
+                        <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg" name="search">
                         <!-- <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a> -->
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-12 form-group">
-                        <a href="https://askbootstrap.com/preview/osahan-eat/listing.html" class="btn btn-warning btn-block btn-lg btn-gradient">Search</a>
-                        <!--<button type="submit" class="btn btn-primary btn-block btn-lg btn-gradient">Search</button>-->
+                        <button type="submit" class="btn btn-warning btn-block btn-lg btn-gradient">Search</button>
                     </div>
                 </div>
                 </form>
@@ -37,8 +39,8 @@
                 @foreach($categories as $category)
                 <div class="item">
                 <div class="osahan-category-item">
-                    <a href="{{URL::TO('')}}/{{ $category->name }}">
-                        <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/1.png" alt="">
+                    <a href="{{URL::TO('category')}}/{{ $category->name }}">
+                        <img class="img-fluid" src="{{ $category->icon }}" alt="">
                         <h6>{{ $category->name }}</h6>
                         <p>156</p>
                     </a>
@@ -50,21 +52,21 @@
 
         <!-- Advertisment -->
 
-        <!-- <div class="col-md-4">
+        <div class="col-md-4">
             <div class="osahan-slider pl-4 pt-3">
                 <div class="owl-carousel homepage-ad owl-theme">
                 <div class="item">
                     <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
                 </div>
                 <div class="item">
-                    <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider1.png"></a>
+                    <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" style="height:300px;" src="{{ asset('web/img/phone_app.PNG') }}"></a>
                 </div>
                 <div class="item">
                     <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
                 </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
     </div>
 </section>
@@ -97,7 +99,7 @@
     </div>
 </section>
 
-<section class="section pt-5 pb-5 bg-white homepage-add-section">]
+<section class="section pt-5 pb-5 bg-white homepage-add-section">
     <div class="container">
     <div class="section-header text-center">
         <h2>How It Works</h2>
@@ -275,7 +277,7 @@
     </div>
     <div class="row">
         <div class="col-sm-12 text-center">
-            <a href="https://askbootstrap.com/preview/osahan-eat/register.html" class="btn btn-warning btn-lg">
+            <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
             Create an Account <i class="fa fa-chevron-circle-right"></i>
             </a>
         </div>

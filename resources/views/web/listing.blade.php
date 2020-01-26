@@ -4,7 +4,7 @@
          <h1 class="text-white">{{ $category_name }} in your Area</h1>
          <h6 class="text-white-50">Best deals at your favourite {{ $category_name }}</h6>
       </section>
-      <section class="section pt-5 pb-5 products-listing">
+       <section class="section pt-5 pb-5 products-listing">
          <div class="container">
             <div class="row d-none-m">
                <div class="col-md-12">
@@ -245,238 +245,47 @@
                   </div>
                </div>
                <div class="col-md-9">
-                  <div class="owl-carousel owl-carousel-category owl-theme list-cate-page mb-4">
-                    @foreach($categories as $category)
-                    <div class="item">
-                    <div class="osahan-category-item">
-                        <a href="{{URL::TO('')}}/{{ $category->name }}">
-                            <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/1.png" alt="">
-                            <h6>{{ $category->name }}</h6>
-                            <p>156</p>
-                        </a>
+                    <div class="owl-carousel owl-carousel-category owl-theme list-cate-page mb-4">
+                        @foreach($categories as $category)
+                        <div class="item">
+                        <div class="osahan-category-item">
+                            <a href="{{URL::TO('category')}}/{{ $category->name }}">
+                                <img class="img-fluid" src="{{ $category->icon }}" alt="">
+                                <h6>{{ $category->name }}</h6>
+                                <p>156</p>
+                            </a>
+                        </div>
+                        </div>
+                        @endforeach
                     </div>
+                    <div class="row">
+                        @foreach($vendors as $vendor)
+                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
+                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                                <div class="list-card-image">
+                                    <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> 3.1 (300+)</span></div>
+                                    <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
+                                    <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                                    <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
+                                    <img src="{{ $vendor->logo }}" class="img-fluid item-img">
+                                    </a>
+                                </div>
+                                <div class="p-3 position-relative">
+                                    <div class="list-card-body">
+                                        <h6 class="mb-1"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{ $vendor->store_name }}</a></h6>
+                                        <p class="text-gray mb-3">{{ $vendor->description }}</p>
+                                        <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 20–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
+                                    </div>
+                                    <div class="list-card-badge">
+                                        <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                  </div>
-                  <div class="row">
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/1.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">World Famous</a></h6>
-                                 <p class="text-gray mb-3">North Indian • American • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 20–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/2.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Famous Food</a></h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/3.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Bite Me Sandwiches</a></h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $100 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/4.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Famous Dave's Bar-B-Que
-                                    </a>
-                                 </h6>
-                                 <p class="text-gray mb-3">Vegetarian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–30 min</span> <span class="float-right text-black-50"> $350 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/5.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Thai Famous Cuisine</a></h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 30–35 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-danger">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/6.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">The osahan Restaurant
-                                    </a>
-                                 </h6>
-                                 <p class="text-gray mb-3">North • Hamburgers • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $500 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/7.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Stan's Restaurant
-                                    </a>
-                                 </h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/8.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Polo Lounge
-                                    </a>
-                                 </h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                              <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i> 3.1 (300+)</span></div>
-                              <div class="favourite-heart text-danger position-absolute"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html"><i class="icofont-heart"></i></a></div>
-                              <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                              <a href="https://askbootstrap.com/preview/osahan-eat/detail.html">
-                              <img src="https://askbootstrap.com/preview/osahan-eat/img/list/9.png" class="img-fluid item-img">
-                              </a>
-                           </div>
-                           <div class="p-3 position-relative">
-                              <div class="list-card-body">
-                                 <h6 class="mb-1"><a href="https://askbootstrap.com/preview/osahan-eat/detail.html" class="text-black">Jack Fry's
-                                    </a>
-                                 </h6>
-                                 <p class="text-gray mb-3">North Indian • Indian • Pure veg</p>
-                                 <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i> 15–25 min</span> <span class="float-right text-black-50"> $250 FOR TWO</span></p>
-                              </div>
-                              <div class="list-card-badge">
-                                 <span class="badge badge-danger">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-12 text-center load-more">
-                        <button class="btn btn-primary" type="button" disabled>
-                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                        Loading...
-                        </button>
-                     </div>
-                  </div>
-               </div>
+                </div>
             </div>
-         </div>
          </div>
       </section>
       <section class="section pt-5 pb-5 text-center bg-white">

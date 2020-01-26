@@ -12,8 +12,33 @@ class Category extends Controller
         $categories=DB::table('categories')->get();
         $data=array(
             'status'=>true,
-            'data'=>$categories
+            'categories'=>$categories
         );
+        return response($data,200)->header('content-Type','application/json');
+    }
+
+    public function selectedCategory($name)
+    {
+
+        $check=DB::table('categories')->where('name',$name)->first();
+
+        if(!$check){
+            return response(['status'=>false,'message'=>'Category not found'],422)->header('content-Type','application/json');
+        }
+
+        $vendors=DB::table('vendors')
+        ->join('regions','regions.idregions','=','vendors.region_id')
+        ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->where('vendors.status',2)
+        ->where('categories.name',$name)
+        ->get();
+
+        $data = array(
+            'vendors'=>$vendors,
+            'category_name'=>$name,
+            'status'=>true,
+        );
+
         return response($data,200)->header('content-Type','application/json');
     }
 }

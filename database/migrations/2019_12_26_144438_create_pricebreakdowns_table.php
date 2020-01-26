@@ -19,8 +19,9 @@ class CreatePricebreakdownsTable extends Migration
             $table->foreign('from_region_id')->references('idregions')->on('regions');
             $table->integer('to_region_id')->unsigned();
             $table->foreign('to_region_id')->references('idregions')->on('regions');
-            $table->string('description');
-            $table->integer('price');
+            $table->string('description')->nullable();
+            $table->integer('delivery_fee');
+            $table->integer('charges')->nullable();
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->increments('idtransactions');
-            $table->integer('cart_summaries_id')->unsigned();
-            $table->foreign('cart_summaries_id')->references('idcartsummaries')->on('cartsummaries');
+            $table->integer('order_summaries_id')->unsigned();
+            $table->foreign('order_summaries_id')->references('idordersummaries')->on('ordersummaries');
             $table->string('reference');
             $table->integer('status');
             $table->timestamps();

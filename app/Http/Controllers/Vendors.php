@@ -78,11 +78,11 @@ class Vendors extends Controller
         );
 
 
-        $vendor=Vendor::create($vendorData);
+        $vendor=DB::table('vendors')->insert($vendorData);
 
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        $task=$vendorData['store_name'].' just created an account with FoodXyme';
+        $task=$vendorData['store_name'].' just created a vendor account with FoodXyme';
         $this->audit($task,$user->id);
         $data=array(
             'message'=>'Vendor is successfully created',

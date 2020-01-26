@@ -16,7 +16,10 @@ class CreateStockcategoriesTable extends Migration
         Schema::create('stockcategories', function (Blueprint $table) {
             $table->increments('idstockcategories');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
+            $table->integer('vendor_id');
+            $table->foreign('vendor_id')->references('idvendors')->on('vendors');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }

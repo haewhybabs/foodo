@@ -18,6 +18,7 @@ class CreateStockdetailsTable extends Migration
             $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('idvendors')->on('vendors');
             $table->string('description');
+            $table->string('status')->nullable();
             $table->string('name');
             $table->string('image');
             $table->integer('stockprice');

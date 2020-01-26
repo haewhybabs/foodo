@@ -20,7 +20,7 @@ class CreateBikemenreviewsTable extends Migration
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('idcustomers')->on('customers');
             $table->integer('rating');
-            $table->string('review');
+            $table->string('review')->nullable();
             $table->timestamps();
         });
     }

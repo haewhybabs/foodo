@@ -26,9 +26,8 @@ class CreateOrdersummariesTable extends Migration
             $table->integer('to_region_id')->unsigned();
             $table->foreign('to_region_id')->references('idregions')->on('regions');
             $table->integer('status');
-            $table->integer('price');
-            $table->integer('qty');
-
+            $table->integer('total_amount');
+            $table->integer('vendor_fee');
             $table->timestamps();
         });
     }

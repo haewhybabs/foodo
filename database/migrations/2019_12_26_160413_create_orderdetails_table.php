@@ -20,6 +20,7 @@ class CreateOrderdetailsTable extends Migration
             $table->integer('stock_details_id')->unsigned();
             $table->foreign('stock_details_id')->references('idstockdetails')->on('stockdetails');
             $table->integer('qty');
+            $table->integer('price');
             $table->timestamps();
         });
     }

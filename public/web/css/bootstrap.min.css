@@ -6,7 +6,7 @@
     --pink:#e83e8c;
     --red:#dc3545;
     --orange:#fd7e14;
-    --yellow:#ffc107;
+    --yellow:#ffb200;
     --green:#28a745;
     --teal:#20c997;
     --cyan:#17a2b8;
@@ -17,7 +17,7 @@
     --secondary:#6c757d;
     --success:#28a745;
     --info:#17a2b8;
-    --warning:#ffc107;
+    --warning:#ffb200;
     --danger:#dc3545;
     --light:#f8f9fa;
     --dark:#343a40;
@@ -1568,7 +1568,7 @@ pre code{
 .form-control:focus{
     color:#495057;
     background-color:#fff;
-    border-color:#80bdff;
+    border-color:#ffb200;
     outline:0;
     box-shadow:0 0 0 .2rem rgba(0,123,255,.25)
 }
@@ -1597,7 +1597,7 @@ pre code{
     opacity:1
 }
 select.form-control:focus::-ms-value{
-    color:#495057;
+    color:#ffb200;
     background-color:#fff
 }
 .form-control-file,.form-control-range{
@@ -3021,7 +3021,7 @@ input[type=button].btn-block,input[type=reset].btn-block,input[type=submit].btn-
     appearance:none
 }
 .custom-select:focus{
-    border-color:#80bdff;
+    border-color:#ffb200;
     outline:0;
     box-shadow:0 0 0 .2rem rgba(0,123,255,.25)
 }

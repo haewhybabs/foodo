@@ -14,8 +14,14 @@
       <link href="{{ asset('web/css/bootstrap.min.css')}}" rel="stylesheet">
       <!-- Font Awesome-->
       <link href="{{ asset('web/css/all.min.css')}}" rel="stylesheet">
+      <link href="{{ asset('web/css/all.css')}}" rel="stylesheet">
+      <link href="{{ asset('web/css/fontawesome.css')}}" rel="stylesheet">
+      <link href="{{ asset('web/css/fontawesome.min.css')}}" rel="stylesheet">
+
+
       <!-- Font Awesome-->
-      <link href="{{ asset('web/css/icofont.min.css')}}" rel="stylesheet">
+      <link href="{{ asset('web/icofont.min.css')}}" rel="stylesheet">
+      <link href="{{ asset('web/icofont.css')}}" rel="stylesheet">
       <!-- Select2 CSS-->
       <link href="{{ asset('web/css/select2.min.css')}}" rel="stylesheet">
       <!-- Custom styles for this template-->
@@ -29,7 +35,7 @@
    <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-light osahan-nav shadow-sm">
          <div class="container">
-            <a class="navbar-brand" href="index.html">FoodXyme</a>
+            <a class="navbar-brand" href="{{ URL::TO('/') }}">FoodXyme</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -65,21 +71,36 @@
                      </div>
                   </li> -->
                   <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/4.png" class="nav-osahan-pic rounded-pill">Login|Signup
-                     </a>
-                     <!-- <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                        <a class="dropdown-item" href="orders.html#orders"><i class="icofont-food-cart"></i> Orders</a>
-                        <a class="dropdown-item" href="orders.html#offers"><i class="icofont-sale-discount"></i> Offers</a>
-                        <a class="dropdown-item" href="orders.html#favourites"><i class="icofont-heart"></i> Favourites</a>
-                        <a class="dropdown-item" href="orders.html#payments"><i class="icofont-credit-card"></i> Payments</a>
-                        <a class="dropdown-item" href="orders.html#addresses"><i class="icofont-location-pin"></i> Addresses</a>
-                     </div> -->
+
+                    @auth
+                        <a class="nav-link dropdown-toggle" href="{{URL::TO('login')}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/4.png" class="nav-osahan-pic rounded-pill">{{Auth::user()->email}}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
+                            <a class="dropdown-item" href="{{URL::TO('user-profile')}}"><i class="icofont-profile"></i>Profile</a>
+                            <a class="dropdown-item" href="{{URL::TO('logout')}}"><i class="icofont-sale-discount"></i>Logout</a>
+                        </div>
+                    @endauth
+                    @guest
+                        <a class="nav-link dropdown-toggle" href="{{URL::TO('login')}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/4.png" class="nav-osahan-pic rounded-pill">Login|Signup
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
+                        <a class="dropdown-item" href="{{URL::TO('login')}}"><i class="icofont-credit-card"></i> SignIn</a>
+                            <a class="dropdown-item" href="{{URL::TO('register')}}"><i class="icofont-food-cart"></i> SignUp</a>
+
+                        </div>
+                    @endguest
                   </li>
                   <li class="nav-item dropdown dropdown-cart">
                      <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      <i class="fas fa-shopping-basket"></i> Cart
-                     <span class="badge badge-success">5</span>
+                     @if(!session()->get('cart'))
+                     <span class="badge badge-success">0</span>
+                    @else
+                    <span class="badge badge-success">{{count(session('cart'))}}</span>
+                    @endif
+
                      </a>
                      <div class="dropdown-menu dropdown-cart-top p-0 dropdown-menu-right shadow-sm border-0">
                         <div class="dropdown-cart-top-header p-4">
@@ -100,7 +121,7 @@
                            <small class="text-info">Extra charges may apply</small>
                         </div>
                         <div class="dropdown-cart-top-footer border-top p-2">
-                           <a class="btn btn-success btn-block btn-lg" href="https://askbootstrap.com/preview/osahan-eat/checkout.html"> Checkout</a>
+                        <a class="btn btn-success btn-block btn-lg" href="{{URL::TO('checkout')}}"> Checkout</a>
                         </div>
                      </div>
                   </li>

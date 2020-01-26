@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Customer;
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 
 class Customers extends Controller
@@ -16,9 +17,8 @@ class Customers extends Controller
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
             'name'=>'required',
-            'home_address'=>'required',
+            'address'=>'required',
             'phone_number'=>'required',
-            'region_id'=>'required',
         ]);
 
         $AuthenticationData=array(
@@ -31,20 +31,18 @@ class Customers extends Controller
 
         $user=User::create($AuthenticationData);
 
-        $vendorData=array(
+        $userData=array(
 
             'name'=>$request->name,
-            'home_address'=>$request->home_address,
+            'address'=>$request->home_address,
             'phone_number'=>$request->phone_number,
-            'status'=>1, #Pending
             'user_id'=>$user->id,
-            'region_id'=>$request->region_id,
         );
 
 
-        $customer=Customer::create($vendorData);
+        $customer=DB::table('customers')->insert($userData);
 
-        $task=$vendorData['name'].' just created an account with FoodXyme';
+        $task=$userData['name'].' just created a user account with FoodXyme';
         $this->audit($task,$user->id);
 
         $data=array(
