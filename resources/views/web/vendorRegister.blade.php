@@ -63,7 +63,7 @@
                     @endif
                      <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto pl-5 pr-5">
-                           <h3 class="login-heading mb-4">Welcome back!</h3>
+                           <h3 class="login-heading mb-4">Vendor Registration!</h3>
                            <form method="post" action="{{ URL::TO('vendor-register')}}">
                             @csrf
                                 <div class="row">

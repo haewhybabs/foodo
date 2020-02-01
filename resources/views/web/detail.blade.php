@@ -11,7 +11,13 @@
                 <div class="restaurant-detailed-header-left">
                 <img class="img-fluid mr-3 float-left" alt="osahan" src="https://askbootstrap.com/preview/osahan-eat/img/1.jpg">
                 <h2 class="text-white">{{ $vendor->store_name }}</h2>
-                <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{$vendor->address}}<span class="badge badge-success">OPEN</span>
+
+                <p class="text-white mb-1"><i class="icofont-location-pin"></i>{{$vendor->address}}
+                    @if($close==false)
+                    <span class="badge badge-success">OPEN</span>
+                    @else
+                        <span class="badge badge-success">CLOSED</span>
+                    @endif
                 </p>
                 {{--  <p class="text-white mb-0"><i class="icofont-food-cart"></i> North Indian, Chinese, Fast Food, South Indian
                 </p>  --}}
@@ -21,7 +27,7 @@
                 <div class="restaurant-detailed-header-right text-right">
                 <button class="btn btn-success" type="button"><i class="icofont-clock-time"></i> 25–35 min
                 </button>
-                <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> 3.1</span> 23 Ratings  <i class="ml-3 icofont-speech-comments"></i> 91 reviews</h6>
+                    <h6 class="text-white mb-0 restaurant-detailed-ratings"><span class="generator-bg rounded text-white"><i class="icofont-star"></i> {{$vendor->rating}}</span> {{$reviewCount}} Rating(s)</h6>
                 </div>
             </div>
         </div>
@@ -34,26 +40,19 @@
     <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <span class="restaurant-detailed-action-btn float-right">
-            <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-heart text-danger"></i> Mark as Favourite</button>
-            <button class="btn btn-light btn-sm border-light-btn" type="button"><i class="icofont-cauli-flower text-success"></i>  Pure Veg</button>
-            <button class="btn btn-outline-danger btn-sm" type="button"><i class="icofont-sale-discount"></i>  OFFERS</button>
-            </span>
             <ul class="nav" id="pills-tab" role="tablist">
                 <li class="nav-item">
-                <a class="nav-link active" id="pills-order-online-tab" data-toggle="pill" href="#pills-order-online" role="tab" aria-controls="pills-order-online" aria-selected="true">Order Online</a>
+                    <a class="nav-link active" id="pills-order-online-tab" data-toggle="pill" href="#pills-order-online" role="tab" aria-controls="pills-order-online" aria-selected="true">Order Online</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" id="pills-gallery-tab" data-toggle="pill" href="#pills-gallery" role="tab" aria-controls="pills-gallery" aria-selected="false">Gallery</a>
+                    <a class="nav-link" id="pills-gallery-tab" data-toggle="pill" href="#pills-gallery" role="tab" aria-controls="pills-gallery" aria-selected="false">Gallery</a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill" href="#pills-restaurant-info" role="tab" aria-controls="pills-restaurant-info" aria-selected="false">Restaurant Info</a>
+                    <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill" href="#pills-restaurant-info" role="tab" aria-controls="pills-restaurant-info" aria-selected="false">Restaurant Info</a>
                 </li>
+
                 <li class="nav-item">
-                <a class="nav-link" id="pills-book-tab" data-toggle="pill" href="#pills-book" role="tab" aria-controls="pills-book" aria-selected="false">Book A Table</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="false">Ratings & Reviews</a>
+                    <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab" aria-controls="pills-reviews" aria-selected="false">Ratings & Reviews</a>
                 </li>
             </ul>
         </div>
@@ -92,9 +91,12 @@
                     <h5 class="mb-4 mt-3 col-md-12">{{$stockcategory->name}} <small class="h6 text-black-50"> {{$count}} ITEMS</small></h5>
                         <div class="col-md-12">
                             <div class="bg-white rounded border shadow-sm mb-4">
+
                                 @foreach($stocks as $stock)
                                 <div class="gold-members p-3 border-bottom">
-                                <a class="btn btn-outline-secondary btn-sm  float-right" href="{{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}}">ADD</a>
+                                    @if($close==false)
+                                        <a class="btn btn-outline-secondary btn-sm  float-right" href="{{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}}">ADD</a>
+                                    @endif
                                     <div class="media">
                                         <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
                                         <div class="media-body">
@@ -113,63 +115,43 @@
                     <div id="gallery" class="bg-white rounded shadow-sm p-4 mb-4">
                         <div class="restaurant-slider-main position-relative homepage-great-deals-carousel">
                             <div class="owl-carousel owl-theme homepage-ad">
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/1.png">
+
+                                @foreach($galleries as $gallery)
+                                    <div class="item">
+                                        <img class="img-fluid" src="{{$gallery->images}}">
+                                    </div>
+                                @endforeach
+
                             </div>
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/2.png">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/3.png">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/1.png">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/2.png">
-                            </div>
-                            <div class="item">
-                                <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/gallery/3.png">
-                            </div>
-                            </div>
-                            <div class="position-absolute restaurant-slider-pics bg-dark text-white">2 of 14 Photos</div>
-                            <div class="position-absolute restaurant-slider-view-all"><button type="button" class="btn btn-light bg-white">See all Photos</button></div>
+                            {{-- <div class="position-absolute restaurant-slider-pics bg-dark text-white">2 of 14 Photos</div> --}}
+                            {{-- <div class="position-absolute restaurant-slider-view-all"><button type="button" class="btn btn-light bg-white">See all Photos</button></div> --}}
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="pills-restaurant-info" role="tabpanel" aria-labelledby="pills-restaurant-info-tab">
                     <div id="restaurant-info" class="bg-white rounded shadow-sm p-4 mb-4">
-                        <div class="address-map float-right ml-5">
-                            <div class="mapouter">
-                            <div class="gmap_canvas"><iframe width="300" height="170" id="gmap_canvas" src="https://maps.google.com/maps?q=university%20of%20san%20francisco&amp;t=&amp;z=9&amp;ie=UTF8&amp;iwloc=&amp;output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe></div>
-                            </div>
-                        </div>
+                        <div class="text-center">
+
+
+
                         <h5 class="mb-4">Restaurant Info</h5>
-                        <p class="mb-3">Jagjit Nagar, Near Railway Crossing,
-                            <br> Near Model Town, Ludhiana, PUNJAB
+                        <p class="mb-3">
+                                {{$vendor->address}}
                         </p>
-                        <p class="mb-2 text-black"><i class="icofont-phone-circle text-primary mr-2"></i> +91 01234-56789, +91 01234-56789</p>
-                        <p class="mb-2 text-black"><i class="icofont-email text-primary mr-2"></i> iamosahan@gmail.com, osahaneat@gmail.com</p>
-                        <p class="mb-2 text-black"><i class="icofont-clock-time text-primary mr-2"></i> Today  11am – 5pm, 6pm – 11pm
-                            <span class="badge badge-success"> OPEN NOW </span>
+                        <p class="mb-2 text-black"><i class="icofont-phone-circle text-primary mr-2"></i>{{$vendor->phone_number}}</p>
+                        <p class="mb-2 text-black"><i class="icofont-email text-primary mr-2"></i>{{$vendor->email}}</p>
+                        <p class="mb-2 text-black"><i class="icofont-clock-time text-primary mr-2"></i>opens at {{$vendor->open_at}}am,  closes at {{$vendor->close_at}}pm
+                            @if($close==false)
+                                <span class="badge badge-success"> OPEN NOW </span>
+                            @else
+                                <span class="badge badge-success">CLOSED</span>
+                            @endif
                         </p>
-                        <hr class="clearfix">
-                        <p class="text-black mb-0">You can also check the 3D view by using our menue map clicking here &nbsp;&nbsp;&nbsp; <a class="text-info font-weight-bold" href="#">Venue Map</a></p>
-                        <hr class="clearfix">
-                        <h5 class="mt-4 mb-4">More Info</h5>
-                        <p class="mb-3">Dal Makhani, Panneer Butter Masala, Kadhai Paneer, Raita, Veg Thali, Laccha Paratha, Butter Naan</p>
-                        <div class="border-btn-main mb-4">
-                            <a class="border-btn text-success mr-2" href="#"><i class="icofont-check-circled"></i> Breakfast</a>
-                            <a class="border-btn text-danger mr-2" href="#"><i class="icofont-close-circled"></i> No Alcohol Available</a>
-                            <a class="border-btn text-success mr-2" href="#"><i class="icofont-check-circled"></i> Vegetarian Only</a>
-                            <a class="border-btn text-success mr-2" href="#"><i class="icofont-check-circled"></i> Indoor Seating</a>
-                            <a class="border-btn text-success mr-2" href="#"><i class="icofont-check-circled"></i> Breakfast</a>
-                            <a class="border-btn text-danger mr-2" href="#"><i class="icofont-close-circled"></i> No Alcohol Available</a>
-                            <a class="border-btn text-success mr-2" href="#"><i class="icofont-check-circled"></i> Vegetarian Only</a>
-                        </div>
+                    </div>
+
                     </div>
                 </div>
-                <div class="tab-pane fade" id="pills-book" role="tabpanel" aria-labelledby="pills-book-tab">
+                {{-- <div class="tab-pane fade" id="pills-book" role="tabpanel" aria-labelledby="pills-book-tab">
                     <div id="book-a-table" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
                         <h5 class="mb-4">Book A Table</h5>
                         <form>
@@ -206,192 +188,92 @@
                             </div>
                         </form>
                     </div>
+                </div> --}}
+                <div class="alert alert-success alert-dismissible" id="alert-success">
+
                 </div>
+
                 <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
-                    <div id="ratings-and-reviews" class="bg-white rounded shadow-sm p-4 mb-4 clearfix restaurant-detailed-star-rating">
-                        <span class="star-rating float-right">
-                        <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
-                        <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
-                        <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
-                        <a href="#"><i class="icofont-ui-rating icofont-2x active"></i></a>
-                        <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                        </span>
-                        <h5 class="mb-0 pt-1">Rate this Place</h5>
-                    </div>
-                    <div class="bg-white rounded shadow-sm p-4 mb-4 clearfix graph-star-rating">
-                        <h5 class="mb-0 mb-4">Ratings and Reviews</h5>
-                        <div class="graph-star-rating-header">
-                            <div class="star-rating">
-                            <a href="#"><i class="icofont-ui-rating active"></i></a>
-                            <a href="#"><i class="icofont-ui-rating active"></i></a>
-                            <a href="#"><i class="icofont-ui-rating active"></i></a>
-                            <a href="#"><i class="icofont-ui-rating active"></i></a>
-                            <a href="#"><i class="icofont-ui-rating"></i></a>  <b class="text-black ml-2">334</b>
-                            </div>
-                            <p class="text-black mb-4 mt-2">Rated 3.5 out of 5</p>
+                    @auth
+                        <div id="ratings-and-reviews" class="bg-white rounded shadow-sm p-4 mb-4 clearfix restaurant-detailed-star-rating">
+
+                            <span class="star-rating float-right">
+                                <i class="fa fa-star fa-2x"  data-index="0" ></i>
+                                <i class="fa fa-star fa-2x"  data-index="1" ></i>
+                                <i class="fa fa-star fa-2x"  data-index="2" ></i>
+                                <i class="fa fa-star fa-2x"  data-index="3" ></i>
+                                <i class="fa fa-star fa-2x"  data-index="4" ></i>
+                            </span>
+                            <h5 class="mb-0 pt-1">Rate this Place</h5>
+
+
                         </div>
-                        <div class="graph-star-rating-body">
-                            <div class="rating-list">
-                            <div class="rating-list-left text-black">
-                                5 Star
-                            </div>
-                            <div class="rating-list-center">
-                                <div class="progress">
-                                    <div style="width: 56%" aria-valuemax="5" aria-valuemin="0" aria-valuenow="5" role="progressbar" class="progress-bar bg-primary">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rating-list-right text-black">56%</div>
-                            </div>
-                            <div class="rating-list">
-                            <div class="rating-list-left text-black">
-                                4 Star
-                            </div>
-                            <div class="rating-list-center">
-                                <div class="progress">
-                                    <div style="width: 23%" aria-valuemax="5" aria-valuemin="0" aria-valuenow="5" role="progressbar" class="progress-bar bg-primary">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rating-list-right text-black">23%</div>
-                            </div>
-                            <div class="rating-list">
-                            <div class="rating-list-left text-black">
-                                3 Star
-                            </div>
-                            <div class="rating-list-center">
-                                <div class="progress">
-                                    <div style="width: 11%" aria-valuemax="5" aria-valuemin="0" aria-valuenow="5" role="progressbar" class="progress-bar bg-primary">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rating-list-right text-black">11%</div>
-                            </div>
-                            <div class="rating-list">
-                            <div class="rating-list-left text-black">
-                                2 Star
-                            </div>
-                            <div class="rating-list-center">
-                                <div class="progress">
-                                    <div style="width: 2%" aria-valuemax="5" aria-valuemin="0" aria-valuenow="5" role="progressbar" class="progress-bar bg-primary">
-                                        <span class="sr-only">80% Complete (danger)</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="rating-list-right text-black">02%</div>
-                            </div>
-                        </div>
-                        <div class="graph-star-rating-footer text-center mt-3 mb-3">
-                            <button type="button" class="btn btn-outline-primary btn-sm">Rate and Review</button>
-                        </div>
-                    </div>
+                    @endauth
+
                     <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
                         <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a>
                         <h5 class="mb-1">All Ratings and Reviews</h5>
-                        <div class="reviews-members pt-4 pb-4">
-                            <div class="media">
-                            <a href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/1.png" class="mr-3 rounded-pill"></a>
-                            <div class="media-body">
-                                <div class="reviews-members-header">
-                                    <span class="star-rating float-right">
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating"></i></a>
-                                    </span>
-                                    <h6 class="mb-1"><a class="text-black" href="#">Singh Osahan</a></h6>
-                                    <p class="text-gray">Tue, 20 Mar 2020</p>
+                        @foreach($reviews as $review)
+                            <div class="reviews-members pt-4 pb-4">
+                                <div class="media">
+                                <a href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/1.png" class="mr-3 rounded-pill"></a>
+                                <div class="media-body">
+                                    <div class="reviews-members-header">
+                                        <span class="star-rating float-right">
+                                            @for($i=0; $i<$review->rating; $i++)
+                                                <i class="fa fa-star"></i>
+                                            @endfor
+                                        </span>
+                                        <h6 class="mb-1"><a class="text-black" href="#">{{$review->name}}</a></h6>
+                                        <p class="text-gray">{{$review->created_at}}</p>
+                                    </div>
+                                    <div class="reviews-members-body">
+                                        <p>{{$review->review}}</p>
+                                    </div>
+                                    @auth
+                                        <div class="reviews-members-footer">
+                                            @if($like==true)
+                                                <a class="total-like likes" style="background:#ffb200;" id="like_count{{$review->idvendorsreviews}}" onClick="cwRating({{$review->idvendorsreviews}},0,'like_count{{$review->idvendorsreviews}}')"><i class="icofont-thumbs-up"></i> {{$review->likes}}</a>
+                                            @else
+                                                <a class="total-like likes" id="like_count{{$review->idvendorsreviews}}" onClick="cwRating({{$review->idvendorsreviews}},1,'like_count{{$review->idvendorsreviews}}')"><i class="icofont-thumbs-up"></i> {{$review->likes}}</a>
+                                            @endif
+
+
+                                            <a class="total-like dislikes"  id="{{$review->idvendorsreviews}}"><i class="icofont-thumbs-down"></i>{{$review->dislikes}}</a>
+                                        </div>
+                                    @endauth
                                 </div>
-                                <div class="reviews-members-body">
-                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections </p>
-                                </div>
-                                <div class="reviews-members-footer">
-                                    <a class="total-like" href="#"><i class="icofont-thumbs-up"></i> 856M</a> <a class="total-like" href="#"><i class="icofont-thumbs-down"></i> 158K</a>
-                                    <span class="total-like-user-main ml-2" dir="rtl">
-                                    <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/5.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Gurdeep Singh" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/2.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Askbootstrap" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/3.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Osahan" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/4.png" class="total-like-user rounded-pill"></a>
-                                    </span>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="reviews-members pt-4 pb-4">
-                            <div class="media">
-                            <a href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/6.png" class="mr-3 rounded-pill"></a>
-                            <div class="media-body">
-                                <div class="reviews-members-header">
-                                    <span class="star-rating float-right">
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                    <a href="#"><i class="icofont-ui-rating"></i></a>
-                                    </span>
-                                    <h6 class="mb-1"><a class="text-black" href="#">Gurdeep Singh</a></h6>
-                                    <p class="text-gray">Tue, 20 Mar 2020</p>
-                                </div>
-                                <div class="reviews-members-body">
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</p>
-                                </div>
-                                <div class="reviews-members-footer">
-                                    <a class="total-like" href="#"><i class="icofont-thumbs-up"></i> 88K</a> <a class="total-like" href="#"><i class="icofont-thumbs-down"></i> 1K</a>
-                                    <span class="total-like-user-main ml-2" dir="rtl">
-                                    <a data-toggle="tooltip" data-placement="top" title="Gurdeep Osahan" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/5.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Gurdeep Singh" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/2.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Askbootstrap" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/3.png" class="total-like-user rounded-pill"></a>
-                                    <a data-toggle="tooltip" data-placement="top" title="Osahan" href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/4.png" class="total-like-user rounded-pill"></a>
-                                    </span>
                                 </div>
                             </div>
-                            </div>
-                        </div>
-                        <hr>
+                            <hr>
+                        @endforeach
+
                         <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a>
                     </div>
-                    <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-                        <h5 class="mb-4">Leave Comment</h5>
-                        <p class="mb-2">Rate the Place</p>
-                        <div class="mb-4">
-                            <span class="star-rating">
-                            <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                            <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                            <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                            <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                            <a href="#"><i class="icofont-ui-rating icofont-2x"></i></a>
-                            </span>
+                    <div class="alert alert-success alert-dismissible" id="review-message"></div>
+                    @auth
+                        <div class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
+                            <h5 class="mb-4">Review</h5>
+                            <form id="form-review">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Your Review</label>
+                                    <textarea class="form-control" name="review"></textarea>
+                                    <input type="hidden" value="{{$id}}" name="vendor_id">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-warning btn-sm" type="submit"> Submit Review </button>
+                                </div>
+                            </form>
+
                         </div>
-                        <form>
-                            <div class="form-group">
-                            <label>Your Comment</label>
-                            <textarea class="form-control"></textarea>
-                            </div>
-                            <div class="form-group">
-                            <button class="btn btn-primary btn-sm" type="button"> Submit Comment </button>
-                            </div>
-                        </form>
-                    </div>
+                    @endauth
                 </div>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="pb-2">
-            <div class="bg-white rounded shadow-sm text-white mb-4 p-4 clearfix restaurant-detailed-earn-pts card-icon-overlap">
-                <img class="img-fluid float-left mr-3" src="https://askbootstrap.com/preview/osahan-eat/img/earn-score-icon.png">
-                <h6 class="pt-0 text-primary mb-1 font-weight-bold">OFFER</h6>
-                <p class="mb-0">60% off on orders above $99 | Use coupon <span class="text-danger font-weight-bold">OSAHAN50</span></p>
-                <div class="icon-overlap">
-                <i class="icofont-sale-discount"></i>
-                </div>
-            </div>
-            </div>
+
             <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
                 <h5 class="mb-1 text-white">Your Order</h5>
 
@@ -405,7 +287,7 @@
 
                         @foreach(session()->get('cart') as $id=>$detail)
                             <div class="gold-members p-2 border-bottom">
-                                <p class="text-gray mb-0 float-right ml-2">&#8358 {{$detail['price'] * $detail['quantity']}}</p>
+                                <p class="text-gray mb-0 float-right ml-2"></p>
                                 <span class="count-number float-right">
                                 <input class="count-number-input" type="number" min="1" value="{{$detail['quantity']}}" name="quantity[]">
                                 <input type="hidden" value="{{$id}}" name="id[]">
@@ -437,17 +319,207 @@
 
                 @endif
             </div>
+
+            <div class="filters shadow-sm rounded bg-white mb-4">
+                <div class="filters-header border-bottom pl-4 pr-4 pt-3 pb-3">
+                   <h5 class="m-0">Filter By</h5>
+                </div>
+                <div class="filters-body">
+                   <div id="accordion">
+                      <div class="filters-card border-bottom p-4">
+                         <div class="filters-card-header" id="headingOne">
+                            <h6 class="mb-0">
+                               <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                               Categories <i class="icofont-arrow-down float-right"></i>
+                               </a>
+                            </h6>
+                         </div>
+                         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="filters-card-body card-shop-filters">
+                               @foreach ($categories as $category)
+                                   <div class="custom-control custom-checkbox">
+                                       <a href="{{URL::TO('category')}}/{{ $category->name }}" style="color:black;"class="custom-control-label">{{$category->name}}</a>
+                                   </div>
+                               @endforeach
+                            </div>
+                         </div>
+                      </div>
+                      <div class="filters-card border-bottom p-4">
+                         <div class="filters-card-header" id="headingTwo">
+                            <h6 class="mb-0">
+                               <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
+                                   Regions
+                                   <i class="icofont-arrow-down float-right"></i>
+                               </a>
+                            </h6>
+                         </div>
+                         <div id="collapsetwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="filters-card-body card-shop-filters">
+                               @foreach ($regions as $region)
+                                   <div class="custom-control custom-checkbox">
+                                       <a href="{{URL::TO('region-filter')}}/{{ $region->idregions }}" style="color:black;"class="custom-control-label">{{$region->name}}</a>
+                                   </div>
+                               @endforeach
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
         </div>
     </div>
     </div>
 </section>
-<section class="section pt-5 pb-5 text-center bg-white">
-    <div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h5 class="m-0">Operate food store or restaurants? <a href="https://askbootstrap.com/preview/osahan-eat/login.html">Work With Us</a></h5>
-        </div>
-    </div>
-    </div>
-</section>
+
+<script src="http://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script src="{{asset('web/js/webscript.js')}}"></script>
+<script type="text/javascript">
+    var ratedIndex=-1; uID=0;
+    $("#review-message").hide();
+
+
+    function cwRating(id,type,target){
+
+        $.ajax({
+
+            url:"{{URL::TO('like-review')}}",
+            type:"GET",
+            dataType:'json',
+            data:{
+
+                id:id,
+                type:type
+
+            },success:function(r){
+
+                if(r.status==true){
+
+                    $('#'+target).css({
+                        'background': '#fff',
+                    });
+
+                    $('#'+target).html(r.result);
+
+                }
+                else{
+
+                    $('#'+target).css({
+                        'background': '#ffb200',
+                    });
+
+                    $('#'+target).html(r.result);
+                }
+
+
+            }
+        })
+    }
+
+
+    $('#form-review').bind("submit", function(event){
+        event.preventDefault();
+
+        var me=$(this);
+
+        $.ajax({
+            url:"{{URL::TO('vendor-review')}}",
+            type:"POST",
+            data:me.serialize(),
+            dataType:'json',
+            success:function(response){
+
+                $("#review-message").show();
+                $('#review-message').append('<div  id="rad" class="alert-success">'+response.message+'</div>');
+                $('#review-message').delay(500).show(10,function(){
+                $(this).delay(1000).hide(10,function(){
+                   $('#rad').remove();
+                   });
+               })
+
+            }
+        });
+    });
+
+    $(document).ready(function(){
+        $("#alert-success").hide();
+
+
+
+        resetStarColors();
+
+        if(localStorage.getItem('ratedIndex')!=null){
+            setStars(parseInt(localStorage.getItem('ratedIndex')));
+            uID=localStorage.getItem('uID');
+        }
+
+        $('.fa-star').on('click',function(){
+            ratedIndex = parseInt($(this).data('index'));
+            localStorage.setItem('ratedIndex',ratedIndex);
+            saveTotheDB()
+        });
+
+        $('.likess').on('click',function(e){
+            e.preventDefault();
+
+
+        })
+
+
+
+        $('.fa-star').mouseover(function(){
+            resetStarColors();
+
+            var currentIndex = parseInt($(this).data('index'));
+
+            setStars(currentIndex);
+        });
+
+        $('.fa-star').mouseleave(function (){
+            resetStarColors();
+
+            if(ratedIndex != -1)
+                setStars(ratedIndex);
+
+        });
+    });
+
+    function setStars(max){
+        for (var i=0; i<=max; i++)
+            $('.fa-star:eq('+i+')').css('color','green');
+    }
+
+    function saveTotheDB(){
+        $.ajax({
+            url:"{{URL::TO('vendor-rating')}}",
+            method:"GET",
+            dataType:'json',
+            data:{
+                save:1,
+                uID:uID,
+                ratedIndex:ratedIndex,
+                vendor_id:{{$id}}
+            },success:function(r){
+                uID=r.id;
+                localStorage.setItem('uID',uID);
+
+                $("#alert-success").show();
+                $('#alert-success').append('<div  id="mad" class="alert-success">Thank you for the rating!!!</div>');
+                $('#alert-success').delay(500).show(10,function(){
+                $(this).delay(1000).hide(10,function(){
+                   $('#mad').remove();
+                   });
+               })
+            }
+        })
+    }
+
+    function resetStarColors(){
+        $('.fa-star').css('color','#ffb200');
+    }
+
+
+
+
+</script>
 @endsection
+

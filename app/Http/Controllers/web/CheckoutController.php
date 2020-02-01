@@ -29,6 +29,12 @@ class CheckoutController extends Controller
         $vendor=DB::table('vendors')->where('idvendors',$vendor_id)->first();
         $vendorRegion=$vendor->region_id;
 
+        $now= time()+3600; $time=(int)date('H',$now);
+        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        }
+        else{
+            return redirect()->back()->with('error','We have closed. Thank you');
+        }
         #Get User Region
         $user_id=Auth::user()->id;
         $charges=0;
@@ -227,13 +233,6 @@ class CheckoutController extends Controller
         $email=Auth::user()->email;
         $amount=session()->get('AmountToPay')['total'];
         $ref=$reference;
-
         return $this->flutterwave($email,$amount,$ref);
-
-
-
-
-
-
     }
 }

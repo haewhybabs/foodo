@@ -38,13 +38,14 @@
             <div class="owl-carousel owl-carousel-category owl-theme">
                 @foreach($categories as $category)
                 <div class="item">
-                <div class="osahan-category-item">
-                    <a href="{{URL::TO('category')}}/{{ $category->name }}">
-                        <img class="img-fluid" src="{{ $category->icon }}" alt="">
-                        <h6>{{ $category->name }}</h6>
-                        <p>156</p>
-                    </a>
-                </div>
+                    <div class="osahan-category-item">
+                        <a href="{{URL::TO('category')}}/{{ $category->name }}">
+                            <img class="img-fluid" src="{{ $category->icon }}" alt="">
+                            <h6>{{ $category->name }}</h6>
+                            <?php $count=count(DB::table('vendors')->where('category_id',$category->idcategories)->get());?>
+                        <p>{{$count}}</p>
+                        </a>
+                    </div>
                 </div>
                 @endforeach
             </div>
@@ -56,13 +57,13 @@
             <div class="osahan-slider pl-4 pt-3">
                 <div class="owl-carousel homepage-ad owl-theme">
                 <div class="item">
-                    <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
+                    <a ><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
                 </div>
                 <div class="item">
-                    <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" style="height:300px;" src="{{ asset('web/img/phone_app.PNG') }}"></a>
+                    <a><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
                 </div>
                 <div class="item">
-                    <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
+                    <a><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
                 </div>
                 </div>
             </div>
@@ -77,22 +78,22 @@
     <div class="row">
         <div class="col-md-3 col-6">
             <div class="products-box">
-                <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro1.jpg" class="img-fluid rounded"></a>
+            <a href="{{URL::TO('category/Bar')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro1.jpg" class="img-fluid rounded"></a>
             </div>
         </div>
         <div class="col-md-3 col-6">
             <div class="products-box">
-                <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro2.jpg" class="img-fluid rounded"></a>
+                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro2.jpg" class="img-fluid rounded"></a>
             </div>
         </div>
         <div class="col-md-3 col-6">
             <div class="products-box">
-                <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro3.jpg" class="img-fluid rounded"></a>
+                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro3.jpg" class="img-fluid rounded"></a>
             </div>
         </div>
         <div class="col-md-3 col-6">
             <div class="products-box">
-                <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro4.jpg" class="img-fluid rounded"></a>
+                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro4.jpg" class="img-fluid rounded"></a>
             </div>
         </div>
     </div>
@@ -268,29 +269,6 @@
     </div>
     </div>
 </section>
-<section class="section pt-5 pb-5 bg-white becomemember-section border-bottom">
-    <div class="container">
-    <div class="section-header text-center white-text">
-        <h2>Become one of our Vendors</h2>
-        <p>You own a Restaurant,Bar,Supermarket,Pharmacy</p>
-        <span class="line"></span>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
-            Create an Account <i class="fa fa-chevron-circle-right"></i>
-            </a>
-        </div>
-    </div>
-    </div>
-</section>
-<section class="section pt-5 pb-5 text-center bg-white">
-    <div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h5 class="m-0">Operate food store or restaurants? <a href="https://askbootstrap.com/preview/osahan-eat/login.html">Work With Us</a></h5>
-        </div>
-    </div>
-    </div>
-</section>
+
+
 @endsection

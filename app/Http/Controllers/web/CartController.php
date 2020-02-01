@@ -9,8 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+
     public function add($id)
     {
+
+
         $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
 
         $currentVendor=session()->get('vendor_id');
@@ -26,6 +29,18 @@ class CartController extends Controller
         if(!$stock){
             abort(404);
         }
+
+        $vendor=DB::table('vendors')->where('idvendors',$currentVendor)->first();
+
+
+        $now= time()+3600; $time=(int)date('H',$now);
+        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        }
+        else{
+            return redirect()->back()->with('error','We have closed. Thank you');
+        }
+
+
 
         $cart=session()->get('cart');
 
@@ -100,6 +115,10 @@ class CartController extends Controller
                 unset($cart[$id]);
 
                 session()->put('cart',$cart);
+                if(count($cart)==0){
+                    session()->forget('vendor_id');
+                    session()->forget('cart');
+                }
             }
 
             return redirect()->back()->with('cartSuccess','cart updated successfully');

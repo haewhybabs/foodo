@@ -30,10 +30,19 @@ class Reviews extends Controller
         $reviewData=array(
             'vendor_id'=>$vendor_id,
             'rating'=>$request->rating,
-            'review'=>$request->review,
             'customer_id'=>$user_id,
         );
-        DB::table('vendorsreviews')->insert($reviewData);
+
+        $customer=DB::table('vendorsreviews')->where('customer_id',$user_id)->where('vendor_id',$vendor_id)->first();
+        if($customer){
+
+            DB::table('vendorsreviews')->where('customer_id',$user_id)->update(['rating'=>$request->rating]);
+        }
+        else{
+            DB::table('vendorsreviews')->insert($reviewData);
+
+        }
+
 
         //update Vendors Table
 

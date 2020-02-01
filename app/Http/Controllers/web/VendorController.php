@@ -25,7 +25,8 @@ class VendorController extends Controller
 
 
         $getTransaction=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
-        ->join('users','users.id','=','ordersummaries.user_id')->where('ordersummaries.vendor_id',$vendor_id)->where('transactions.status',1)->get();
+        ->join('users','users.id','=','ordersummaries.user_id')->where('ordersummaries.vendor_id',$vendor_id)->where('transactions.status',1)
+        ->orderBy('ordersummaries.idordersummaries','desc')->get();
 
         // $getDetails=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
         // ->join('orderdetails','orderdetails.order_summaries_id','=','ordersummaries.idordersummaries')->join('stockdetails','orderdetails.stock_details_id','=','stockdetails.idstockdetails');
@@ -37,7 +38,7 @@ class VendorController extends Controller
             'user'=>$user,
             'transactions'=>$getTransaction,
         );
-        return view('web.vendor.orders')->with($data);
+        return view('web.vendor.vendorspage')->with($data);
 
     }
 

@@ -1,3 +1,8 @@
-.works{
-    border-top:10px;
+.works {
+    border-top: 10px;
+}
+
+.total-like {
+    cursor: pointer;
+    color: #ffb200;
 }

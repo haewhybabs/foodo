@@ -40,4 +40,14 @@ Route::get('/change-address/{id}','web\CheckoutController@changeAddress');
 Route::post('/transaction','web\CheckoutController@transaction');
 Route::get('/vendor-delivery/{id}','web\VendorController@vendorDelivery');
 Route::get('/vendor-search','web\HomeController@vendorSearch');
+Route::get('/vendor-rating','web\HomeController@vendorRating');
+Route::post('/vendor-review','web\HomeController@vendorReview');
+Route::get('/like-review','web\HomeController@likeReview');
+Route::get('/region-filter/{id}','web\HomeController@regionFilter');
+Route::get('/payment-verification','web\checkoutController@paymentVerification');
+Route::get('/user-account','web\UserAccount@index');
+Route::get('/delivery-confirm/{id}','web\UserAccount@confirmDelivery');
+
+
 Route::get('/test','web\CartController@test');
+

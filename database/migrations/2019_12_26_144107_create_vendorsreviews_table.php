@@ -20,6 +20,8 @@ class CreateVendorsreviewsTable extends Migration
             $table->integer('customer_id')->unsigned();
             $table->foreign('customer_id')->references('idcustomers')->on('customers');
             $table->integer('rating');
+            $table->integer('likes');
+            $table->integer('dislikes');
             $table->string('review')->nullable();
             $table->timestamps();
         });

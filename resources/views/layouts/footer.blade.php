@@ -1,3 +1,19 @@
+<section class="section pt-5 pb-5 bg-white becomemember-section border-bottom">
+    <div class="container">
+    <div class="section-header text-center white-text">
+        <h2>Become one of our Vendors</h2>
+        <p>You own a Restaurant,Bar,Supermarket,Pharmacy</p>
+        <span class="line"></span>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
+            Create an Account <i class="fa fa-chevron-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    </div>
+</section>
 <section class="footer pt-5 pb-5">
     <div class="container">
        <div class="row">
@@ -27,23 +43,31 @@
           <div class="col-md-1 col-sm-6 mobile-none">
           </div>
           <div class="col-md-2 col-6 col-sm-4">
-             <h6 class="mb-3">About OE</h6>
+             <h6 class="mb-3">Cities</h6>
+             <?php $cities=DB::table('cities')->get();?>
              <ul>
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Culture</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Contact</a></li>
+                @foreach($cities as $city)
+                    <li>{{$city->name}}</li>
+                @endforeach
+
              </ul>
           </div>
           <div class="col-md-2 col-6 col-sm-4">
-             <h6 class="mb-3">For Foodies</h6>
+             <h6 class="mb-3">Regions</h6>
+             <?php $regs = DB::table('regions')->get();
+             $subs=DB::table('subregions')->get();
+             $newArr=[];
+             foreach($regs as $reg){
+                 $newArr[]=array('name'=>$reg->name);
+             }
+             foreach($subs as $sub){
+                 $newArr[]=array('name'=>$sub->name);
+             }?>
              <ul>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Developers</a></li>
-                <li><a href="#">Blogger Help</a></li>
-                <li><a href="#">Verified Users</a></li>
-                <li><a href="#">Code of Conduct</a></li>
+                 @foreach($newArr as $region)
+             <li>{{$region['name']}}</li>
+                @endforeach
+
              </ul>
           </div>
           <div class="col-md-2 m-none col-4 col-sm-4">
@@ -63,9 +87,12 @@
     <div class="container">
        <div class="row">
           <div class="col-xl-12">
-             <p class="mt-4 text-black">POPULAR FOOD</p>
+             <p class="mt-4 text-black">All Vendors</p>
              <div class="search-links">
-                <a href="#">Fast Food</a> |  <a href="#">Chinese</a> | <a href="#">Street Food</a> |  <a href="#">Continental</a>  |  <a href="#">Mithai</a> |  <a href="#">Cafe</a>  |  <a href="#">South Indian</a> |  <a href="#">Punjabi Food</a> |  <a href="#">Fast Food</a> |  <a href="#">Chinese</a> | <a href="#">Street Food</a> |  <a href="#">Continental</a>  |  <a href="#">Mithai</a> |  <a href="#">Cafe</a>  |  <a href="#">South Indian</a> |  <a href="#">Punjabi Food</a><a href="#">Fast Food</a> |  <a href="#">Chinese</a> | <a href="#">Street Food</a> |  <a href="#">Continental</a>  |  <a href="#">Mithai</a> |  <a href="#">Cafe</a>  |  <a href="#">South Indian</a> |  <a href="#">Punjabi Food</a> |  <a href="#">Fast Food</a> |  <a href="#">Chinese</a> | <a href="#">Street Food</a> |  <a href="#">Continental</a>  |  <a href="#">Mithai</a> |  <a href="#">Cafe</a>  |  <a href="#">South Indian</a> |  <a href="#">Punjabi Food</a>
+                 <?php $vendors=DB::table('vendors')->join('categories','categories.idcategories','=','vendors.idvendors')->get();?>
+                 @foreach($vendors as $vendor)
+                    <a href="{{URL::TO($vendor->name)}}/{{$vendor->idvendors}}/{{$vendor->store_name}}">{{$vendor->store_name}}</a> |
+                 @endforeach
              </div>
           </div>
        </div>
