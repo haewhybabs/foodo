@@ -37,6 +37,7 @@ class CartController extends Controller
         if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
         }
         else{
+
             return redirect()->back()->with('error','We have closed. Thank you');
         }
 

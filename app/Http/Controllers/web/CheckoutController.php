@@ -189,6 +189,12 @@ class CheckoutController extends Controller
         $userAddress=DB::table('address')->where('user_id',Auth::user()->id)->where('active',1)->first();
         $userRegion=$userAddress->region_id;
 
+        $vendorAmount=session()->get('cartAmount');
+
+        $vendor_percentage = DB::table('vendorpercentage')->where('vendor_id',$vendor_id)->where('minAmount','<=',$vendorAmount)
+        ->where('maxAmount','>=',$vendorAmount)->first();
+        $percentage = ($vendor_percentage->percentage/100)*$vendorAmount;
+
         $orderSummaryData=array(
             'vendor_id'=>$vendor_id,
             'user_id'=>$user_id,
@@ -196,7 +202,7 @@ class CheckoutController extends Controller
             'to_region_id'=>$vendorRegion,
             'status'=>0,
             'total_amount'=>session()->get('AmountToPay')['total'],
-            'vendor_fee'=>session()->get('cartAmount')
+            'vendor_fee'=>session()->get('cartAmount')-$percentage,
         );
 
         #insert to Order Summary
@@ -221,7 +227,7 @@ class CheckoutController extends Controller
         $transactionData=array(
             'order_summaries_id'=>$orderSummary,
             'reference'=>$reference,
-            'status'=>1,
+            'status'=>0,
         );
         DB::table('transactions')->insert($transactionData);
 
@@ -234,5 +240,22 @@ class CheckoutController extends Controller
         $amount=session()->get('AmountToPay')['total'];
         $ref=$reference;
         return $this->flutterwave($email,$amount,$ref);
+    }
+
+    public function paymentVerification()
+    {
+        $amount =session()->get('AmountToPay')['total'];
+
+        if (isset($_GET['txref'])) {
+            $ref=$_GET['txref'];
+
+            return $this->verify($amount,$ref);
+        }
+        else {
+            die('No reference supplied');
+        }
+
+
+        // return $this->verify($amount);
     }
 }

@@ -44,9 +44,11 @@ Route::get('/vendor-rating','web\HomeController@vendorRating');
 Route::post('/vendor-review','web\HomeController@vendorReview');
 Route::get('/like-review','web\HomeController@likeReview');
 Route::get('/region-filter/{id}','web\HomeController@regionFilter');
-Route::get('/payment-verification','web\checkoutController@paymentVerification');
+Route::post('/payment-verification','web\checkoutController@paymentVerification');
 Route::get('/user-account','web\UserAccount@index');
 Route::get('/delivery-confirm/{id}','web\UserAccount@confirmDelivery');
+Route::get('/thankyou/{id}','web\UserAccount@thankyou');
+Route::post('/user-edit-profile','web\UserAccount@editProfile');
 
 
 Route::get('/test','web\CartController@test');

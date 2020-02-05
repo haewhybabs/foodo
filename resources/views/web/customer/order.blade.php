@@ -33,7 +33,7 @@
                                     <td>{{$x}}</td>
                                     <td>{{$detail->name}}</td>
                                     <td>{{$detail->qty}}</td>
-                                    <td>{{$detail->stockprice}}</td>
+                                    <td>{{$detail->stockprice * $detail->qty}}</td>
                                 </tr>
                                 <?php $x++;?>
                                 @endforeach
@@ -43,6 +43,8 @@
 
                         <hr>
                         <div class="float-right">
+
+
 
                             <?php if($trans->status<2){
                                 $spanclass='spinner-grow spinner-grow-sm';
@@ -73,4 +75,5 @@
         </div>
     </div>
     @endforeach
+    {{ $transactions->links() }}
 </div>

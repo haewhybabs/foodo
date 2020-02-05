@@ -77,7 +77,7 @@
                         <img alt="Generic placeholder image" src="{{asset('web/img/icons/usericon.jpg')}}" class="nav-osahan-pic rounded-pill">{{Auth::user()->email}}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                            <a class="dropdown-item" href="{{URL::TO('user-profile')}}"><i class="icofont-profile"></i>Profile</a>
+                            <a class="dropdown-item" href="{{URL::TO('user-account')}}"><i class="icofont-profile"></i>Profile</a>
                             <a class="dropdown-item" href="{{URL::TO('logout')}}"><i class="icofont-sale-discount"></i>Logout</a>
                         </div>
                     @endauth

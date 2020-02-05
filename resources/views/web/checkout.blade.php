@@ -61,60 +61,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="offer-dedicated-body-left">
-                        <div class="bg-white rounded shadow-sm p-4 mb-4">
-                            <h6 class="mb-3">You may also like</h6>
-                            <div class="owl-carousel owl-theme owl-carousel-five offers-interested-carousel">
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/1.png">
-                                    <h6>Burgers</h6>
-                                    <small>$500</small>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/2.png">
-                                    <h6>Sandwiches</h6>
-                                    <small>$260</small>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/3.png">
-                                    <h6>Soups</h6>
-                                    <small>$860</small>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/4.png">
-                                    <h6>Pizzas</h6>
-                                    <small>$602</small>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/5.png">
-                                    <h6>Pastas</h6>
-                                    <small>$360</small>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="mall-category-item position-relative">
-                                    <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="https://askbootstrap.com/preview/osahan-eat/img/list/6.png">
-                                    <h6>Chinese</h6>
-                                    <small>$760</small>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        <div class="pt-2"></div>
+
                         <div class="bg-white rounded shadow-sm p-4 mb-4">
                             <h4 class="mb-1">Select Delivery Address</h4>
                             <h6 class="mb-3 text-black-50">Multiple addresses in this location</h6>
@@ -213,7 +160,7 @@
                                         <input type="hidden" value="{{$id}}" name="id[]">
                                         </span>
                                         <div class="media">
-                                        <div class="mr-2"><a href="{{URL::TO('remove-cart')}}/{{$id}}"><i class="fa fa-times"></i></a></div>
+                                        <div class="mr-2"></div>
                                             <div class="media-body">
                                                 <p class="mt-1 mb-0 text-black">{{$detail['name']}}</p>
                                             </div>
@@ -224,10 +171,10 @@
                             <div class="mb-2 bg-white rounded p-2 clearfix">
                                 <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
                                 <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
-                                <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$charges}}</span></p>
+                                {{-- <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$charges}}</span></p> --}}
                                 <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
                                 <i class="icofont-info-circle"></i>
-                                </span> <span class="float-right text-dark">&#8358 {{$delivery_fee}}</span>
+                                </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
                                 </p>
                                 <p class="mb-1 text-success">Total
                                 <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span>

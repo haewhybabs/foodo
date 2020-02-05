@@ -17,9 +17,20 @@ class HomeController extends Controller
         $category=DB::table('categories')->get();
         $city=DB::table('cities')->get();
 
+        $vendors=DB::table('vendors')
+        ->select('vendors.*','categories.name')
+        // ->join('regions','regions.idregions','=','vendors.region_id')
+        ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->where('vendors.status',2)
+        // ->where('categories.name',$name)
+        ->inRandomOrder()
+        ->get(5);
+
+
         $data=array(
             'categories'=>$category,
             'cities'=>$city,
+            'vendors'=>$vendors,
         );
 
         return view('web.index')->with($data);
