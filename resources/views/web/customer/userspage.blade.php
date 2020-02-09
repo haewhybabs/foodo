@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                <div class="osahan-account-page-right shadow-sm bg-white p-4">
                     <div class="tab-content" id="myTabContent">
                         @include('web.customer.order')
 

@@ -68,29 +68,29 @@
                            <form method="post" action="{{ URL::TO('register')}}">
                            @csrf
                               <div class="form-label-group">
-                                 <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" required>
+                                 <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" value="{{ old('name') }}" required>
                                  <label for="inputName">Name</label>
                               </div>
                               <div class="form-label-group">
-                                 <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required>
+                                 <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" value="{{ old('email') }}" required>
                                  <label for="inputEmail">Email address</label>
                               </div>
                               <div class="form-label-group">
-                                 <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                                 <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password"  required>
                                  <label for="inputPassword">Password</label>
                               </div>
                               <div class="form-label-group">
-                                 <input type="password" id="inputPasswordconf" name="password_confirmation" class="form-control" placeholder="Confirm Password" required>
+                                 <input type="password" id="inputPasswordconf" name="password_confirmation" class="form-control" placeholder="Confirm Password"  required>
                                  <label for="inputPasswordconf">Password Confirmation</label>
                               </div>
 
                               <div class="form-label-group">
-                                 <input type="text" id="inputAddress" name="address" class="form-control" placeholder="Address" required>
+                                 <input type="text" id="inputAddress" name="address" class="form-control" placeholder="Address" value="{{ old('address') }}" required>
                                  <label for="inputAddress">Address</label>
                               </div>
 
                               <div class="form-label-group">
-                                 <input type="text" id="inputmobile" name="phone_number" class="form-control" placeholder="Phone Number" required>
+                                 <input type="number" id="inputmobile" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
                                  <label for="inputmobile">Phone Number</label>
                               </div>
                               <div class="custom-control custom-checkbox mb-3">

@@ -10,8 +10,15 @@ use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
 
-    public function add($id)
+    public function add(Request $request)
     {
+        $id = $request->id;
+        $amount =$this->cartAmount();
+
+
+        $data = array(
+            'status'=>false,
+        );
 
 
         $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
@@ -23,7 +30,9 @@ class CartController extends Controller
         }
 
         if($stock->vendor_id!=$currentVendor){
-            return redirect()->back()->with('cartError','Error!!! You have not checked out with the previous vendor');
+
+            $data['message'] = 'Error!!! You have not checked out with the previous vendor';
+            return response()->json($data);
         }
 
         if(!$stock){
@@ -38,7 +47,9 @@ class CartController extends Controller
         }
         else{
 
-            return redirect()->back()->with('error','We have closed. Thank you');
+            $data['message']='We have closed. Thank you';
+            return response()->json($data);
+
         }
 
 
@@ -61,7 +72,15 @@ class CartController extends Controller
             ];
 
             session()->put('cart',$cart);
-            return redirect()->back()->with('cartSuccess','Product added to cart');
+
+            $amount =$this->cartAmount();
+            $view = view("jquery.cartshow")->render();
+            $data['html']=$view;
+            $data['message']='Product added to cart';
+            $data['status']=true;
+            return response()->json($data);
+
+
         }
 
         if(isset($cart[$id]))
@@ -70,8 +89,12 @@ class CartController extends Controller
             $cart[$id]['quantity']++;
 
             session()->put('cart',$cart);
-
-            return redirect()->back()->with('cartSuccess','Product added to cart');
+            $amount = $this->cartAmount();
+            $view = view("jquery.cartshow")->render();
+            $data['html']=$view;
+            $data['message']='Product added to cart';
+            $data['status']=true;
+            return response()->json($data);
         }
 
 
@@ -82,13 +105,20 @@ class CartController extends Controller
             "quantity"=>1,
             "price"=>$stock->stockprice
         ];
+        
         session()->put('cart',$cart);
+        $amount =$this->cartAmount();
+        $view = view("jquery.cartshow")->render();
+        $data['html']=$view;
+        $data['message']='Product added to cart';
+        $data['status']=true;
+        return response()->json($data);
 
-        return redirect()->back()->with('cartSuccess','Item added to cart');
     }
 
     public function update(Request $request)
     {
+
         if($request->id and $request->quantity){
 
             $cart = session()->get('cart');
@@ -99,14 +129,14 @@ class CartController extends Controller
 
                 session()->put('cart',$cart);
             }
-
-            return redirect()->back()->with('cartSuccess','Item cart is updated');
         }
 
     }
 
-    public function remove($id)
+    public function remove(Request $request)
     {
+        $id = $request->id;
+
         if($id){
 
             $cart = session()->get('cart');
@@ -116,13 +146,20 @@ class CartController extends Controller
                 unset($cart[$id]);
 
                 session()->put('cart',$cart);
+                $amount =$this->cartAmount();
                 if(count($cart)==0){
                     session()->forget('vendor_id');
                     session()->forget('cart');
                 }
             }
+            $view = view("jquery.cartshow")->render();
 
-            return redirect()->back()->with('cartSuccess','cart updated successfully');
+            $data['html']=$view;
+            $data['message']='cart updated successfully';
+            $data['status']=true;
+            return response()->json($data);
+
+            // return redirect()->back()->with('cartSuccess','cart updated successfully');
         }
     }
 
@@ -133,5 +170,7 @@ class CartController extends Controller
         // print_r(session()->get('cartAmount'));
         session()->flush();
     }
+
+
 
 }

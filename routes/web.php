@@ -29,9 +29,9 @@ Route::get('/vendor-account','web\VendorController@index');
 Route::post('/stock-category','web\VendorController@stockCategory');
 Route::post('/stock-create','web\VendorController@stockCreate');
 Route::get('/stock-status/{id}/{status}','web\VendorController@stockStatus');
-Route::get('/add-to-cart/{id}','web\CartController@add');
-Route::get('/remove-cart/{id}','web\CartController@remove');
-Route::post('/update-cart','web\CartController@update');
+Route::post('/add-to-cart','web\CartController@add');
+Route::post('/remove-cart','web\CartController@remove');
+// Route::post('/update-cart','web\CartController@update');
 Route::get('/checkout','web\CheckoutController@index');
 Route::post('/add-address','web\CheckoutController@addAddress');
 Route::get('/deliver-here/{id}','web\CheckoutController@deliverHere');
@@ -49,6 +49,9 @@ Route::get('/user-account','web\UserAccount@index');
 Route::get('/delivery-confirm/{id}','web\UserAccount@confirmDelivery');
 Route::get('/thankyou/{id}','web\UserAccount@thankyou');
 Route::post('/user-edit-profile','web\UserAccount@editProfile');
+
+Route::post('/transfer-update','web\VendorController@transferAccountUpdate');
+Route::post('/payout','web\VendorController@payout');
 
 
 Route::get('/test','web\CartController@test');

@@ -11,7 +11,7 @@ use App\Events\NewOrder;
 class CheckoutController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
 
         if(!session()->get('cart')){
@@ -35,6 +35,9 @@ class CheckoutController extends Controller
         else{
             return redirect()->back()->with('error','We have closed. Thank you');
         }
+
+        
+
         #Get User Region
         $user_id=Auth::user()->id;
         $charges=0;

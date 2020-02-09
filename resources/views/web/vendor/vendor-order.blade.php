@@ -43,15 +43,15 @@
                         <hr>
                         <div class="float-right">
                             <a class="btn btn-sm btn-outline-success" href="#"><i class="icofont-headphone-alt"></i>
-                                @if($trans->status==0)
+                                @if($trans->status==1)
                                     {{'New Order'}}
-                                @elseif($trans->status==1)
-                                    {{'On Delivery'}}
                                 @elseif($trans->status==2)
+                                    {{'On Delivery'}}
+                                @elseif($trans->status==3)
                                     {{'Received'}}
                                 @endif
                             </a>
-                            @if($trans->status==0)
+                            @if($trans->status==1)
                                 <a class="btn btn-sm btn-warning" href="{{URL::TO('vendor-delivery')}}/{{$trans->idordersummaries}}"><i class="icofont-refresh"></i>Set on Delivery</a>
                             @endif
                         </div>
@@ -64,3 +64,21 @@
     </div>
     @endforeach
 </div>
+
+{{-- <script>
+    $(document).ready(function(){
+        var token = $('input[name="_token"]').val();
+        function load_data(id ="", _token){
+
+            $.ajax({
+                url:"{{route('vendor-loadmore')}}",
+                method:"POST",
+                data:{id:id,_token:_token},
+                success:function(data)
+                {
+                    $
+                }
+            })
+        }
+    })
+</script> --}}

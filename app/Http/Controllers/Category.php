@@ -17,10 +17,10 @@ class Category extends Controller
         return response($data,200)->header('content-Type','application/json');
     }
 
-    public function selectedCategory($name)
+    public function selectedCategory($id)
     {
 
-        $check=DB::table('categories')->where('name',$name)->first();
+        $check=DB::table('categories')->where('idcategories',$id)->first();
 
         if(!$check){
             return response(['status'=>false,'message'=>'Category not found'],422)->header('content-Type','application/json');
@@ -30,12 +30,12 @@ class Category extends Controller
         ->join('regions','regions.idregions','=','vendors.region_id')
         ->join('categories','categories.idcategories','=','vendors.category_id')
         ->where('vendors.status',2)
-        ->where('categories.name',$name)
+        ->where('categories.idcategories',$id)
         ->get();
 
         $data = array(
             'vendors'=>$vendors,
-            'category_name'=>$name,
+            // 'category_name'=>$name,
             'status'=>true,
         );
 

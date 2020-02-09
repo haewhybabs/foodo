@@ -44,32 +44,7 @@
                   <li class="nav-item active">
                      <a class="nav-link" href="{{ URL::TO('/') }}">Home <span class="sr-only">(current)</span></a>
                   </li>
-                  <!-- <li class="nav-item">
-                     <a class="nav-link" href="https://askbootstrap.com/preview/osahan-eat/offers.html"><i class="icofont-sale-discount"></i> Offers <span class="badge badge-danger">New</span></a>
-                  </li> -->
-                  <!-- <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Restaurants
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                        <a class="dropdown-item" href="listing.html">Listing</a>
-                        <a class="dropdown-item" href="detail.html">Detail + Cart</a>
-                        <a class="dropdown-item" href="checkout.html">Checkout</a>
-                     </div>
-                  </li> -->
-                  <!-- <li class="nav-item dropdown">
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Pages
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                        <a class="dropdown-item" href="https://askbootstrap.com/preview/osahan-eat/track-order.html">Track Order</a>
-                        <a class="dropdown-item" href="https://askbootstrap.com/preview/osahan-eat/invoice.html">Invoice</a>
-                        <a class="dropdown-item" href="login.html">Login</a>
-                        <a class="dropdown-item" href="https://askbootstrap.com/preview/osahan-eat/register.html">Register</a>
-                        <a class="dropdown-item" href="https://askbootstrap.com/preview/osahan-eat/404.html">404</a>
-                        <a class="dropdown-item" href="https://askbootstrap.com/preview/osahan-eat/extra.html">Extra :)</a>
-                     </div>
-                  </li> -->
+
                   <li class="nav-item dropdown">
 
                     @auth
@@ -77,7 +52,11 @@
                         <img alt="Generic placeholder image" src="{{asset('web/img/icons/usericon.jpg')}}" class="nav-osahan-pic rounded-pill">{{Auth::user()->email}}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow-sm border-0">
-                            <a class="dropdown-item" href="{{URL::TO('user-account')}}"><i class="icofont-profile"></i>Profile</a>
+                            @if(Auth::user()->role_id == 2)
+                                <a class="dropdown-item" href="{{URL::TO('vendor-account')}}"><i class="icofont-profile"></i>Profile</a>
+                            @else
+                                <a class="dropdown-item" href="{{URL::TO('user-account')}}"><i class="icofont-profile"></i>Profile</a>
+                            @endif
                             <a class="dropdown-item" href="{{URL::TO('logout')}}"><i class="icofont-sale-discount"></i>Logout</a>
                         </div>
                     @endauth
@@ -92,38 +71,76 @@
 
                         </div>
                     @endguest
-                  </li>
-                  <li class="nav-item dropdown dropdown-cart">
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     <i class="fas fa-shopping-basket"></i> Cart
-                     @if(!session()->get('cart'))
-                     <span class="badge badge-success">0</span>
-                    @else
-                    <span class="badge badge-success">{{count(session('cart'))}}</span>
-                    @endif
 
-                     </a>
-                     @if(session()->get('cart'))
-                     <?php $vendor=DB::table('vendors')->where('idvendors',session()->get('vendor_id'))->first();?>
-                        <div class="dropdown-menu dropdown-cart-top p-0 dropdown-menu-right shadow-sm border-0">
-                            <div class="dropdown-cart-top-header p-4">
-                                <img class="img-fluid mr-3" alt="osahan" src="https://askbootstrap.com/preview/osahan-eat/img/cart.jpg">
-                                <h6 class="mb-0">{{$vendor->store_name}}</h6>
-                            </div>
-                            <div class="dropdown-cart-top-body border-top p-4">
-                                @foreach(session()->get('cart') as $id=>$detail)
-                                    <p class="mb-2"><i class="icofont-ui-press text-danger food-item"></i> {{$detail['name']}} <span class="float-right text-secondary">&#8358 {{$detail['price'] * $detail['quantity']}}</span></p>
-                                @endforeach
-                            </div>
-                            <div class="dropdown-cart-top-footer border-top p-4">
-                                <p class="mb-0 font-weight-bold text-secondary">Sub Total <span class="float-right text-dark">&#8358 {{session()->get('cartAmount')}}</span></p>
-                            </div>
-                            <div class="dropdown-cart-top-footer border-top p-2">
-                            <a class="btn btn-success btn-block btn-lg" href="{{URL::TO('checkout')}}"> Checkout</a>
-                            </div>
-                        </div>
-                     @endif
                   </li>
+                    @auth
+                        @if(Auth::user()->role_id==1)
+                            <li class="nav-item dropdown dropdown-cart">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-shopping-basket"></i> Cart
+                                @if(!session()->get('cart'))
+                                <span class="badge badge-success">0</span>
+                                @else
+                                <span class="badge badge-success">{{count(session('cart'))}}</span>
+                                @endif
+
+                                </a>
+                                @if(session()->get('cart'))
+                                <?php $vendor=DB::table('vendors')->where('idvendors',session()->get('vendor_id'))->first();?>
+                                    <div class="dropdown-menu dropdown-cart-top p-0 dropdown-menu-right shadow-sm border-0">
+                                        <div class="dropdown-cart-top-header p-4">
+                                            <img class="img-fluid mr-3" alt="osahan" src="https://askbootstrap.com/preview/osahan-eat/img/cart.jpg">
+                                            <h6 class="mb-0">{{$vendor->store_name}}</h6>
+                                        </div>
+                                        <div class="dropdown-cart-top-body border-top p-4">
+                                            @foreach(session()->get('cart') as $id=>$detail)
+                                                <p class="mb-2"><i class="icofont-ui-press text-danger food-item"></i> {{$detail['name']}} <span class="float-right text-secondary">&#8358 {{$detail['price'] * $detail['quantity']}}</span></p>
+                                            @endforeach
+                                        </div>
+                                        <div class="dropdown-cart-top-footer border-top p-4">
+                                            <p class="mb-0 font-weight-bold text-secondary">Sub Total <span class="float-right text-dark">&#8358 {{session()->get('cartAmount')}}</span></p>
+                                        </div>
+                                        <div class="dropdown-cart-top-footer border-top p-2">
+                                        <a class="btn btn-success btn-block btn-lg" href="{{URL::TO('checkout')}}"> Checkout</a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </li>
+                        @endif
+                    @endauth
+                    @guest
+                        <li class="nav-item dropdown dropdown-cart">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-shopping-basket"></i> Cart
+                            @if(!session()->get('cart'))
+                            <span class="badge badge-success">0</span>
+                            @else
+                            <span class="badge badge-success">{{count(session('cart'))}}</span>
+                            @endif
+
+                            </a>
+                            @if(session()->get('cart'))
+                            <?php $vendor=DB::table('vendors')->where('idvendors',session()->get('vendor_id'))->first();?>
+                                <div class="dropdown-menu dropdown-cart-top p-0 dropdown-menu-right shadow-sm border-0">
+                                    <div class="dropdown-cart-top-header p-4">
+                                        <img class="img-fluid mr-3" alt="osahan" src="https://askbootstrap.com/preview/osahan-eat/img/cart.jpg">
+                                        <h6 class="mb-0">{{$vendor->store_name}}</h6>
+                                    </div>
+                                    <div class="dropdown-cart-top-body border-top p-4">
+                                        @foreach(session()->get('cart') as $id=>$detail)
+                                            <p class="mb-2"><i class="icofont-ui-press text-danger food-item"></i> {{$detail['name']}} <span class="float-right text-secondary">&#8358 {{$detail['price'] * $detail['quantity']}}</span></p>
+                                        @endforeach
+                                    </div>
+                                    <div class="dropdown-cart-top-footer border-top p-4">
+                                        <p class="mb-0 font-weight-bold text-secondary">Sub Total <span class="float-right text-dark">&#8358 {{session()->get('cartAmount')}}</span></p>
+                                    </div>
+                                    <div class="dropdown-cart-top-footer border-top p-2">
+                                    <a class="btn btn-success btn-block btn-lg" href="{{URL::TO('checkout')}}"> Checkout</a>
+                                    </div>
+                                </div>
+                            @endif
+                        </li>
+                    @endguest
                </ul>
             </div>
          </div>

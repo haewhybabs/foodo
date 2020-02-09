@@ -69,14 +69,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" required>
+                                            <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" value="{{ old('name') }}" required>
                                             <label for="inputName">Store Name</label>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="text" id="inputm_name" name="manager_name" class="form-control" placeholder="Manager Name" required>
+                                            <input type="text" id="inputm_name" name="manager_name" class="form-control" placeholder="Manager Name" value="{{ old('manager_name') }}" required>
                                             <label for="inputm_name">Manager Name</label>
                                         </div>
                                     </div>
@@ -85,14 +85,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="email" id="inputemail" name="email" class="form-control" placeholder="Email" required>
+                                            <input type="email" id="inputemail" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}" required>
                                             <label for="inputemail">Email</label>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="text" id="inputmobile" name="phone_number" class="form-control" placeholder="Phone Number" required>
+                                            <input type="text" id="inputmobile" name="phone_number" class="form-control" placeholder="Phone Number" value="{{ old('phone_number') }}" required>
                                             <label for="inputmobile">Phone Number</label>
                                         </div>
                                     </div>
@@ -115,26 +115,26 @@
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="text" id="inputAddress" name="address" class="form-control" placeholder="Address" required>
+                                    <input type="text" id="inputAddress" name="address" class="form-control" placeholder="Address" value="{{ old('address') }}" required>
                                     <label for="inputAddress">Address</label>
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="text" id="inputdescription" name="description" class="form-control" placeholder="Brief Description" required>
+                                    <input type="text" id="inputdescription" name="description" class="form-control" placeholder="Brief Description" value="{{ old('description') }}" required>
                                     <label for="inputdescription">Description</label>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="time" id="inputopen" name="open_at" class="form-control" placeholder="Tell us when you open" required>
+                                            <input type="time" id="inputopen" name="open_at" class="form-control" placeholder="Tell us when you open" value="{{ old('open_at') }}" required>
                                             <label for="inputopen">Opens At</label>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="time" id="inputclose" name="close_at" class="form-control" placeholder="Tell us when you close" required>
+                                            <input type="time" id="inputclose" name="close_at" class="form-control" placeholder="Tell us when you close" value="{{ old('close_at') }}" required>
                                             <label for="inputclose">Closes At</label>
                                         </div>
                                     </div>
@@ -143,8 +143,8 @@
 
                                 <div class="form-group">
                                     <label for="region_id">Select a region closer to you</label>
-                                    <select class="form-control" id="region">
-                                        <option>Select Region</option>
+                                    <select class="form-control" id="region" required>
+                                        <option value="">Select Region</option>
                                         @foreach($regions as $region)
                                             <option value="{{ $region->idregions }}">{{ $region->name }}</option>
                                         @endforeach
@@ -154,7 +154,7 @@
                                 <div class="form-group">
                                     <label for="category_id">Select a category you belong to</label>
                                     <select class="form-control" id="category">
-                                        <option>Select Category</option>
+                                        <option value="">Select Category</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->idcategories }}">{{ $category->name }}</option>
                                         @endforeach

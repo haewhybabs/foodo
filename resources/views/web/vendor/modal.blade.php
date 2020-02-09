@@ -55,7 +55,43 @@
           </div>
        </div>
     </div>
- </div>
+</div>
+
+<div class="modal fade" id="withdraw" tabindex="-1" role="dialog" aria-labelledby="withdraw" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-address">Withdraw</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="{{URL::TO('payout')}}">
+                @csrf
+                <div class="modal-body">
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputPassword4">Amount to Withdraw</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="Amount" name="amount">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="icofont-ui-pointer"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
+                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning">SUBMIT</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 
 
 
@@ -66,38 +102,74 @@
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
        <div class="modal-content">
           <div class="modal-header">
-             <h5 class="modal-title" id="edit-profile">Edit profile</h5>
+             <h5 class="modal-title" id="edit-profile">Bank Update</h5>
              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">&times;</span>
              </button>
           </div>
-          <div class="modal-body">
-             <form>
-                <div class="form-row">
-                   <div class="form-group col-md-12">
-                      <label>Phone number
-                      </label>
-                      <input type="text" value="+91 85680-79956" class="form-control" placeholder="Enter Phone number">
-                   </div>
-                   <div class="form-group col-md-12">
-                      <label>Email id
-                      </label>
-                      <input type="text" value="iamosahan@gmail.com" class="form-control" placeholder="Enter Email id
-                         ">
-                   </div>
-                   <div class="form-group col-md-12 mb-0">
-                      <label>Password
-                      </label>
-                      <input type="password" value="**********" class="form-control" placeholder="Enter password
-                         ">
-                   </div>
+            <form method="POSt" action="{{URL::TO('transfer-update')}}">
+                @csrf
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        {{-- <div class="form-group col-md-12">
+                            <label>Store Name
+                            </label>
+                            <input type="text" value="{{$user->store_name}}" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Phone number
+                            </label>
+                            <input type="text" value="{{$user->phone_number}}" class="form-control" name="phone_number" required>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label>Address
+                            </label>
+                            <input type="text" value="{{$user->address}}" class="form-control" required name="address">
+                        </div> --}}
+
+                        <div class="form-group col-md-12">
+                            <select name="bank_code">
+                                @if($bankdetails)
+                                    <option value="{{$bankdetails->bank_code}}">{{$bankdetails->bank_name}}</option>
+                                @else
+                                    @foreach($bankcodes as $bankcode)
+                                        <option value = "{{$bankcode->bank_codes}}">{{$bankcode->bank_name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                                {{-- <input type="text" value="{{$user->address}}" class="form-control" required name="address"> --}}
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>Account Number</label>
+                            @if($bankdetails)
+                                <input type="text" value="{{$bankdetails->account_number}}" class="form-control" required name="account_number">
+                            @else
+                                <input type="text" class="form-control" required name="account_number">
+                            @endif
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label>Transfer Beneficiary Name
+                            </label>
+                            @if($bankdetails)
+                                <input type="text" value="{{$bankdetails->beneficiary_name}}" class="form-control" required name="beneficiary_name">
+                            @else
+                                <input type="text" class="form-control" required name="beneficiary_name">
+                            @endif
+                        </div>
+
+                        {{-- <button class="btn btn-warning" type="submit">Submit</button> --}}
+                    </div>
+
                 </div>
-             </form>
-          </div>
-          <div class="modal-footer">
-             <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-primary" data-dismiss="modal">CANCEL
-             </button><button type="button" class="btn d-flex w-50 text-center justify-content-center btn-primary">UPDATE</button>
-          </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
+                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning">UPDATE</button>
+                </div>
+            </form>
        </div>
     </div>
  </div>

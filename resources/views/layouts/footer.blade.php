@@ -1,19 +1,44 @@
+@auth
+    @if(Auth::user()->role_id==2)
+    @else
+    <section class="section pt-5 pb-5 bg-white becomemember-section border-bottom">
+        <div class="container">
+            <div class="section-header text-center white-text">
+                <h2>Become one of our Vendors</h2>
+                <p>You own a Restaurant,Bar,Supermarket,Pharmacy</p>
+                <span class="line"></span>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
+                    Create an Account <i class="fa fa-chevron-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+@endauth
+@guest
 <section class="section pt-5 pb-5 bg-white becomemember-section border-bottom">
     <div class="container">
-    <div class="section-header text-center white-text">
-        <h2>Become one of our Vendors</h2>
-        <p>You own a Restaurant,Bar,Supermarket,Pharmacy</p>
-        <span class="line"></span>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 text-center">
-            <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
-            Create an Account <i class="fa fa-chevron-circle-right"></i>
-            </a>
+        <div class="section-header text-center white-text">
+            <h2>Become one of our Vendors</h2>
+            <p>You own a Restaurant,Bar,Supermarket,Pharmacy</p>
+            <span class="line"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 text-center">
+                <a href="{{URL::TO('vendor-register')}}" class="btn btn-warning btn-lg">
+                Create an Account <i class="fa fa-chevron-circle-right"></i>
+                </a>
+            </div>
         </div>
     </div>
-    </div>
 </section>
+@endguest
+
+
 <section class="footer pt-5 pb-5">
     <div class="container">
        <div class="row">

@@ -212,6 +212,9 @@ abstract class Controller
         if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
             DB::table('transactions')->where('reference',$ref)->update(['status'=>1]);
 
+            DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+            ->where('transactions.reference',$ref)->update(['ordersummaries.status'=>1]);
+
             session()->forget('vendor_id');
             session()->forget('cart');
             session()->forget('cartAmount');
@@ -230,13 +233,20 @@ abstract class Controller
     public function VendorMoney()
     {
         $vendor_id = $this->user()->idvendors;
+        $user_id =Auth::user()->id;
 
         $vendor = DB::table('ordersummaries')->where('vendor_id',$vendor_id)->where('status',3)->get();
         $amount = 0;
+        $withdraw=0;
         foreach($vendor as $v){
             $amount = $amount + $v->vendor_fee;
         }
-        return $amount;
+        $vendorwithdraw = DB::table('withdrawals')->where('user_id',$user_id)->get();
+        foreach($vendorwithdraw as $j){
+            $withdraw = $withdraw + $j->amount;
+        }
+        $credit =$amount -$withdraw;
+        return $credit;
 
     }
 }

@@ -55,15 +55,15 @@
                             }?>
 
                             <button class="{{$aclass}}" type="button" disabled><span class="{{$spanclass}}" role="status" aria-hidden="true"></span>
-                                @if($trans->status==0)
+                                @if($trans->status==1)
                                     {{'Preparing Food'}}
-                                @elseif($trans->status==1)
-                                    {{'On Delivery'}}
                                 @elseif($trans->status==2)
+                                    {{'On Delivery'}}
+                                @elseif($trans->status==3)
                                     {{'Received'}}
                                 @endif
                             </button>
-                            @if($trans->status==1)
+                            @if($trans->status==2)
                                 <a class="btn btn-sm btn-warning" href="{{URL::TO('delivery-confirm')}}/{{$trans->reference}}"><i class="icofont-refresh"></i>Confirm Delivery</a>
                             @endif
                         </div>

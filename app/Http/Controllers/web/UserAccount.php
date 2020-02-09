@@ -19,8 +19,11 @@ class UserAccount extends Controller
     public function index()
     {
         $user_id=Auth::user()->id;
-        $transactions=DB::table('transactions')->select('ordersummaries.*','transactions.reference','vendors.store_name')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
-        ->join('users','users.id','=','ordersummaries.user_id')->join('vendors','vendors.idvendors','=','ordersummaries.vendor_id')->where('ordersummaries.user_id',$user_id)->where('transactions.status',1)
+        $transactions=DB::table('transactions')->select('ordersummaries.*','transactions.reference','vendors.store_name')
+        ->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+        ->join('users','users.id','=','ordersummaries.user_id')->join('vendors','vendors.idvendors','=','ordersummaries.vendor_id')
+
+        ->where('ordersummaries.user_id',$user_id)->where('transactions.status',1)
         ->orderBy('ordersummaries.idordersummaries','desc')->paginate(5);
 
         $data=array(
