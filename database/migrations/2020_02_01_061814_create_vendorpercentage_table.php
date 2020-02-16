@@ -15,7 +15,7 @@ class CreateVendorpercentageTable extends Migration
     {
         Schema::create('vendorpercentage', function (Blueprint $table) {
             $table->increments('idvendorpercentage');
-            $table->integer('vendor_id');
+            $table->integer('vendor_id')->unsigned();
             $table->foreign('vendor_id')->references('idvendors')->on('vendors');
             $table->integer('percentage');
             $table->integer('minAmount');

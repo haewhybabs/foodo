@@ -53,7 +53,8 @@ class HomeController extends Controller
         ->join('categories','categories.idcategories','=','vendors.category_id')
         ->where('vendors.status',2)
         ->where('categories.name',$name)
-        ->orderBy('vendors.rating','desc')
+        ->orderBy('vendors.idvendors','desc')
+        ->limit(3)
         ->get();
 
         $data = array(
@@ -78,6 +79,7 @@ class HomeController extends Controller
 
         $vendors=DB::table('vendors')->join('regions','regions.idregions','=','vendors.region_id')
         ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->select('vendors.*','regions.*','categories.name')
         ->where('vendors.store_name','like','%'.$input.'%')
         ->where('vendors.status',2)
         ->orderBy('vendors.rating','desc')
@@ -94,6 +96,83 @@ class HomeController extends Controller
 
     }
 
+    public function loadmore(Request $request)
+    {
+        
+       $last_id =$request->id;
+
+       $category = DB::table('categories')->where('idcategories',1)->first();
+
+        if($request->id>0){
+
+            $vendors=DB::table('vendors')
+            ->select('vendors.*','regions.*')
+            ->join('regions','regions.idregions','=','vendors.region_id')
+            ->join('categories','categories.idcategories','=','vendors.category_id')
+            ->where('vendors.status',2)
+            ->where('categories.idcategories',$category->idcategories)
+            ->where('vendors.idvendors', '<', $last_id)
+            ->orderBy('vendors.idvendors','desc')
+            ->limit(3)
+            ->get();
+        }
+        else{
+
+            $vendors=DB::table('vendors')
+            ->select('vendors.*','regions.*','categories.name')
+            ->join('regions','regions.idregions','=','vendors.region_id')
+            ->join('categories','categories.idcategories','=','vendors.category_id')
+            ->where('vendors.status',2)
+            ->where('categories.idcategories',$category->idcategories)
+            ->orderBy('vendors.idvendors','desc')
+            ->limit(3)
+            ->get();
+        }
+
+        $view=view("jquery.loadmore",compact('vendors','category'))->render();
+        $data['html']=$view;
+        return response()->json($data);
+
+        // $output = '';
+        // $last_id ='';
+        // $now= time()+3600; $time=(int)date('H',$now);
+
+        // if(!$vendors->isEmpty()){
+
+        //     foreach($vendors as $vendor){
+                
+        //         $output .='
+                    
+        //         <div class="col-md-4 col-sm-6 mb-4 pb-2">
+        //             <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                        
+        //                 sdfasdfads
+        //             </div>
+        //         </div>
+                
+        //         ';
+
+        //         $last_id=$vendor->idvendors;
+        //     }
+
+        //     $output .=
+        //     '<div class="">
+        //         <button class="btn btn-warning btn-block btn-lg loadmore" data-id="'.$last_id.'">Load More</button>
+        //     </div>';
+
+        // }
+
+        // else{
+        //     $output .='
+        //     <div class="">
+        //         <button class="btn btn-danger btn-block btn-lg">No Data Found!!!</button>
+        //     </div>
+        //     ';
+        // }
+        // echo $output;
+
+    }
+
     public function regionFilter($region_id)
     {
 
@@ -102,6 +181,7 @@ class HomeController extends Controller
 
         $vendors=DB::table('vendors')->join('regions','regions.idregions','=','vendors.region_id')
         ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->select('vendors.*','regions.*','categories.name')
         ->where('vendors.region_id',$region_id)
         ->where('vendors.status',2)
         ->orderBy('vendors.rating','desc')
@@ -155,7 +235,9 @@ class HomeController extends Controller
             $like=true;
         }
 
-        $stock_category=DB::table('stockcategories')->where('vendor_id',$id)->get();
+        $stock_category=DB::table('stockcategories')->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
+        ->where('stockcategories.vendor_id',$id)->get();
+        
         $close = true;
         $now= time()+3600; $time=(int)date('H',$now);
         if($time>=$vendor->open_at and $time<=$vendor->close_at+12){

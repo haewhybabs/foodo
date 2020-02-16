@@ -26,17 +26,22 @@ class UserAccount extends Controller
         ->where('ordersummaries.user_id',$user_id)->where('transactions.status',1)
         ->orderBy('ordersummaries.idordersummaries','desc')->paginate(5);
 
+        $getCredits = DB::table('credits')->where('user_id',Auth::user()->id)->get();
+
         $data=array(
             'user'=>$this->user(),
             'transactions'=>$transactions,
+            'credits'=>$getCredits,
+            'walletAmount'=>$this->walletMoney(),
         );
+        
         return view('web.customer.userspage')->with($data);
         // print_r($transactions);
     }
     public function confirmDelivery($ref){
 
         $trans= DB::table('transactions')->where('reference',$ref)->first();
-        DB::table('ordersummaries')->where('idordersummaries',$trans->order_summaries_id)->update(['status'=>2]);
+        DB::table('ordersummaries')->where('idordersummaries',$trans->order_summaries_id)->update(['status'=>3]);
         return redirect('user-account')->with('message',"It's nice working with you!!! See you soon");
     }
 
@@ -59,7 +64,54 @@ class UserAccount extends Controller
         $user_id = $this->user()->idcustomers;
 
         DB::table('customers')->where('idcustomers',$user_id)->update($validatedData);
+
         return redirect()->back()->with('message','Account Updated Successfully');
 
+    }
+
+    public function creditWallet(Request $request)
+    {
+        session()->put('walletAmount',$request->amount);
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length=16;
+        $reference=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+
+        $email=Auth::user()->email;
+        $amount=$request->amount;
+        $ref=$reference;
+        $redirect_url=$this->url.'wallet-payment-verification';
+
+        return $this->userPayment($email,$amount,$ref,$redirect_url);
+
+
+    }
+
+    public function walletVerify()
+    {
+        
+        $amount =session()->get('walletAmount');
+
+        if (isset($_GET['txref'])) {
+            $ref=$_GET['txref'];
+
+            if($this->flutterwaveVerify($amount,$ref)==true){
+
+                $data=array(
+                    'user_id'=>Auth::user()->id,
+                    'amount'=>$amount,
+                    'reference'=>$ref,
+                );
+                DB::table('credits')->insert($data);
+                session()->forget('walletAmount');
+                return redirect('user-account')->with('message','Your Transaction was successful !!!');
+            }
+    
+            else {
+                return redirect('user-account')->with('error','Error ocurred !!!');
+            }
+        }
+        else {
+            die('No reference supplied');
+        }
     }
 }

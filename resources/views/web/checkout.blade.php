@@ -173,13 +173,12 @@
                                 <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
                                 {{-- <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$charges}}</span></p> --}}
                                 <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
-                                <i class="icofont-info-circle"></i>
-                                </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
+                                    <i class="icofont-info-circle"></i>
+                                    </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
                                 </p>
                                 <p class="mb-1 text-success">Total
-                                <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span>
-                                </p>
-                                <hr />
+                                    <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span>
+                                </p>                        
                                 <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span></h6>
                             </div>
                         </form>
@@ -194,6 +193,11 @@
             <div class="form-group col-md-12 mb-0">
                 <form method="POST" action="{{URL::TO('transaction')}}">
                     @csrf
+
+                    <div>
+                        <label>Pay From Wallet</label>
+                        <input type="checkbox" name="wallet" value="1">
+                    </div>
                     <button type="submit" class="btn btn-warning btn-block btn-lg">PAY &#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}
                         <i class="icofont-long-arrow-right"></i></a>
                     </button>

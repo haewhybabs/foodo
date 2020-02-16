@@ -114,10 +114,31 @@ class Vendors extends Controller
         ->where('vendors.idvendors',$id)
         ->get();
 
+        $stock_categories=DB::table('stockcategories')
+        ->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
+        ->where('stockcategories.vendor_id',$id)->get();
+
+        $stock_list = DB::table('stockdetails')->select('stockdetails.*','stockcategories.idstockcategories')
+        ->join('stockcategories','stockcategories.idstockcategories','=','stockdetails.stock_category_id')
+        ->where('stockcategories.vendor_id',$id)->get();
+        
+        
+
         $data=array(
             'status'=>true,
-            'data'=>$vendors
+            'vendor'=>$vendors,
         );
+
+        foreach($stock_categories as $stock_category){
+            $lists = DB::table('stockdetails')->where('stock_category_id',$stock_category->idstockcategories)->get();
+            
+            $data['stock_list'][]=[$stock_category->name=>$lists];
+        }
+
+        // $data['stock_list']=json_decode(json_encode($return));
+
+
+       
         return response($data,200)->header('content-Type','application/json');
     }
 

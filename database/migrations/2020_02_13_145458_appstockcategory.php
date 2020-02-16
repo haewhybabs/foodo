@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVendorgalleryTable extends Migration
+class Appstockcategory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateVendorgalleryTable extends Migration
      */
     public function up()
     {
-        Schema::create('vendorgallery', function (Blueprint $table) {
-            $table->increments('idvendorgallery');
-            $table->integer('vendor_id')->unsigned();
-            $table->foreign('vendor_id')->references('idvendors')->on('vendors');
-            $table->string('images');
+        Schema::create('appstockcategory', function (Blueprint $table) {
+            $table->increments('idappstockcategory');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateVendorgalleryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vendorgallery');
+        
     }
 }

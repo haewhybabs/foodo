@@ -66,7 +66,7 @@
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="POST" action="{{URL::TO('payout')}}">
+            <form method="POST" action="{{URL::TO('payout')}}" id="withdrawform">
                 @csrf
                 <div class="modal-body">
 
@@ -85,7 +85,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
-                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning">SUBMIT</button>
+                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning" id="withdrawsubmit">SUBMIT</button>
                 </div>
             </form>
 
@@ -112,24 +112,6 @@
                 <div class="modal-body">
 
                     <div class="form-row">
-
-                        {{-- <div class="form-group col-md-12">
-                            <label>Store Name
-                            </label>
-                            <input type="text" value="{{$user->store_name}}" class="form-control" name="name" required>
-                        </div>
-                        <div class="form-group col-md-12">
-                            <label>Phone number
-                            </label>
-                            <input type="text" value="{{$user->phone_number}}" class="form-control" name="phone_number" required>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label>Address
-                            </label>
-                            <input type="text" value="{{$user->address}}" class="form-control" required name="address">
-                        </div> --}}
-
                         <div class="form-group col-md-12">
                             <select name="bank_code">
                                 @if($bankdetails)
@@ -308,9 +290,9 @@
 
             if(x<cat_fields){
                 x++;
-                $('#input-show').append('<div class="input-group"><input type="text" required class="form-control" placeholder="Stock Category Name" name="category_name[]"></div>' +
+                $('#input-show').append('<div class="input-group"><input type="text" required class="form-control" placeholder="Stock Category Name" name="category_name[]">' +
 
-                    '<a href="#" id="remove-item"><i class="fa fa-times"></a>'
+                    '<a href="#" id="remove-item"><i class="fa fa-times"></a></div>'
                 );
             }
 
@@ -330,9 +312,9 @@
                 j++;
                 $('#stock-show').append(
 
-                    '<div class="row"><div class="form-group col-sm-6"><label for="inputPassword4">Stock Name</label><div class="input-group"><input type="text" class="form-control" placeholder="Stock Name" name="stock_name[]"></div></div><div class="form-group col-sm-6"><label for="inputPassword4">Stock Price</label><div class="input-group"><input type="number" class="form-control" placeholder="Stock Price" name="stock_price[]"></div></div></div>' +
+                    '<div class="row"><div class="form-group col-sm-6"><label for="inputPassword4">Stock Name</label><div class="input-group"><input type="text" class="form-control" placeholder="Stock Name" name="stock_name[]"></div></div><div class="form-group col-sm-6"><label for="inputPassword4">Stock Price</label><div class="input-group"><input type="number" class="form-control" placeholder="Stock Price" name="stock_price[]"></div></div>' +
 
-                    '<a href="#" id="remove-stock-item"><i class="fa fa-times"></a>'
+                    '<a href="#" id="remove-stock-item"><i class="fa fa-times"></a></div>'
                 );
             }
 
@@ -342,9 +324,13 @@
         $('#stock-show').on("click","#remove-stock-item", function(e){
             e.preventDefault();
             $(this).parent('div').remove(); j--;
-        })
-
-
+        });
 
     });
+
+
+        $("#withdrawform").submit(function (e) {
+            $("#withdrawsubmit").attr("disabled", true);
+            return true;
+        });
 </script>

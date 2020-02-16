@@ -1,5 +1,6 @@
 @extends('layouts.main')
 @section('content')
+<link href="{{ asset('web/css/detailview.css')}}" rel="stylesheet">
 <section class="restaurant-detailed-banner">
     <div class="text-center">
     <img class="img-fluid cover" src="https://askbootstrap.com/preview/osahan-eat/img/mall-dedicated-banner.png">
@@ -295,7 +296,7 @@
                                         <div class="gold-members p-2 border-bottom">
                                             <p class="text-gray mb-0 float-right ml-2"></p>
                                             <span class="count-number float-right">
-                                            <input class="count-number-input" type="text" value="{{$detail['quantity']}}" name="quantity[]">
+                                            <input class="quantityUpdate" data-id="{{$id}}" type="number" value="{{$detail['quantity']}}" name="quantity[]">
                                             <input type="hidden" value="{{$id}}" name="id[]">
                                             </span>
                                             <div class="media">
@@ -309,7 +310,7 @@
                                 </div>
                                 <div class="mb-2 bg-white rounded p-2 clearfix">
                                     <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
-                                <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
+                                    <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
                                     <p class="seven-color mb-1 text-right">Extra charges may apply</p>
 
                                 </div>
@@ -321,52 +322,7 @@
                     </div>
                 </div>
 
-                <div class="filters shadow-sm rounded bg-white">
-                    <div class="filters-header border-bottom pl-4 pr-4 pt-3 pb-3">
-                        <h5 class="m-0">Filter By</h5>
-                    </div>
-                    <div class="filters-body">
-                        <div id="accordion">
-                            <div class="filters-card border-bottom p-4">
-                                <div class="filters-card-header" id="headingOne">
-                                    <h6 class="mb-0">
-                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Categories <i class="icofont-arrow-down float-right"></i>
-                                    </a>
-                                    </h6>
-                                </div>
-                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                    <div class="filters-card-body card-shop-filters">
-                                    @foreach ($categories as $category)
-                                        <div class="custom-control custom-checkbox">
-                                            <a href="{{URL::TO('category')}}/{{ $category->name }}" style="color:black;"class="custom-control-label">{{$category->name}}</a>
-                                        </div>
-                                    @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="filters-card border-bottom p-4">
-                                <div class="filters-card-header" id="headingTwo">
-                                    <h6 class="mb-0">
-                                    <a href="#" class="btn-link" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="true" aria-controls="collapsetwo">
-                                        Regions
-                                        <i class="icofont-arrow-down float-right"></i>
-                                    </a>
-                                    </h6>
-                                </div>
-                                <div id="collapsetwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordion">
-                                    <div class="filters-card-body card-shop-filters">
-                                    @foreach ($regions as $region)
-                                        <div class="custom-control custom-checkbox">
-                                            <a href="{{URL::TO('region-filter')}}/{{ $region->idregions }}" style="color:black;"class="custom-control-label">{{$region->name}}</a>
-                                        </div>
-                                    @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
             </div>
         </div>
@@ -378,6 +334,7 @@
 <script type="text/javascript">
     var ratedIndex=-1; uID=0;
     $("#review-message").hide();
+
     function cwRating(id,type,target){
 
         $.ajax({
@@ -457,8 +414,6 @@
 
         $('.likess').on('click',function(e){
             e.preventDefault();
-
-
         })
 
 
@@ -518,7 +473,6 @@
 
     $(document).ready(function(){
 
-
         $(".cartadd").click( function(e) {
             e.preventDefault();
             var id =$(this).attr('data-id');
@@ -548,45 +502,75 @@
             });
         });
 
+        
+
 
         $(function(){
-        $(document).on('click','.removecart',function(e){
-            e.preventDefault();
-            var id =$(this).attr('data-id');
-            $.ajax({
-                url:"{{URL::TO('remove-cart')}}",
-                type:"POST",
-                dataType:'json',
-                data:{
-                    id:id,
-                    "_token": "{{ csrf_token() }}"
-                },
-                success:function(response){
+            $(document).on('click','.removecart',function(e){
+                e.preventDefault();
+                var id =$(this).attr('data-id');
+                $.ajax({
+                    url:"{{URL::TO('remove-cart')}}",
+                    type:"POST",
+                    dataType:'json',
+                    data:{
+                        id:id,
+                        "_token": "{{ csrf_token() }}"
+                    },
+                    success:function(response){
 
 
-                    $('.jquerycartshow').html(response.html);
+                        $('.jquerycartshow').html(response.html);
 
-                    // $("#cartshow").show();
-                    $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
-                    $('#cartshow').delay(500).show(10,function(){
-                        $(this).delay(1000).hide(10,function(){
-                            $('#cartview').remove();
+                        // $("#cartshow").show();
+                        $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
+                        $('#cartshow').delay(500).show(10,function(){
+                            $(this).delay(1000).hide(10,function(){
+                                $('#cartview').remove();
+                            });
                         });
-                    });
 
-                }
+                    }
 
 
+                });
             });
         });
+
+
+
+        $(function(){
+            $(document).on('input','.quantityUpdate',function(){
+                clearTimeout(this.delay);
+                this.delay = setTimeout(function(){
+                    $(this).trigger('search');
+                }.bind(this), 800);
+                }).on('search', '.quantityUpdate', function(){
+                if(this.value){
+                    var id =$(this).attr('data-id');
+                    var quantity = this.value;
+                    $.ajax({
+                        url:"{{URL::TO('update-cart')}}",
+                        type:"GET",
+                        dataType:'json',
+                        data:{
+                            id:id,
+                            quantity:quantity
+                        },
+                        success:function(response){
+                            $('.jquerycartshow').html(response.html);
+                        }
+
+
+                    });
+                    
+                
+                }
+            });
+
+        });
+        
     });
-    });
-
-
-
-
-
-
 </script>
 @endsection
 

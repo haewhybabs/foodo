@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 
 class CartController extends Controller
 {
@@ -123,13 +125,25 @@ class CartController extends Controller
 
             $cart = session()->get('cart');
 
-            for($i=0; $i<count($request->id); $i++){
+            // for($i=0; $i<count($request->id); $i++){
 
-                $cart[$request->id[$i]]['quantity']=$request->quantity[$i];
+            //     $cart[$request->id[$i]]['quantity']=$request->quantity[$i];
 
-                session()->put('cart',$cart);
-            }
+            //     session()->put('cart',$cart);
+            // }
+
+            $cart[$request->id]['quantity'] = $request->quantity;
+            session()->put('cart',$cart);
+            $amount =$this->cartAmount();
+
+            $view = view("jquery.cartshow")->render();
+
+            $data['html']=$view;
+            $data['message']='cart updated successfully';
+            $data['status']=true;
+            return response()->json($data);
         }
+
 
     }
 
@@ -153,7 +167,6 @@ class CartController extends Controller
                 }
             }
             $view = view("jquery.cartshow")->render();
-
             $data['html']=$view;
             $data['message']='cart updated successfully';
             $data['status']=true;
@@ -164,11 +177,53 @@ class CartController extends Controller
     }
 
     public function test(){
+
         // var_dump(session('cart'));
         // &#8358
         // print_r($this->cartAmount());
         // print_r(session()->get('cartAmount'));
-        session()->flush();
+        // session()->flush();
+
+        // $id=$this->user()->idvendors;
+        // $vendors=DB::table('vendors')
+        // ->join('regions','regions.idregions','=','vendors.region_id')
+        // ->join('categories','categories.idcategories','=','vendors.category_id')
+        // ->where('vendors.idvendors',$id)
+        // ->get();
+
+        // $stock_categories=DB::table('stockcategories')->where('vendor_id',$id)->get();
+        // $stock_details = array();
+
+        // foreach($stock_categories as $stock_category){
+        //     $lists = DB::table('stockdetails')->where('stock_category_id',$stock_category->idstockcategories)->get();
+        //     $test = json_decode(json_encode($lists));
+            
+        //     $view[]=[$stock_category->name=>$lists];
+        //     $show=json_decode(json_encode($view));
+        // }
+
+        // for($i=0; $i<count($show); $i++){
+        //     foreach($show[$i] as $value=>$t){
+        //         echo $value;
+        //         for($j=0; $j<count($t); $j++){
+        //             echo '<br>'.$t[$j]->name;
+        //         }
+        //         echo'<br><br>';
+        //     }
+            
+
+        // }
+        // $data=array();
+
+
+        // Mail::send('mails.welcome',$data, function($message){
+        //     $message->from('foodxyme@gmail.com','Welcome Note');
+        //     $message->to('babalolaisaac@gmail.com');
+        // });
+        // return view('mails.welcome');
+
+        echo url('');
+    
     }
 
 

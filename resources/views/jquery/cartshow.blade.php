@@ -4,7 +4,7 @@
         <p class="mb-4 text-white">0 ITEMS</p>
     @else
 
-        <form method="POST" action="{{URL::TO('checkout')}}">
+        <form method="get" action="{{URL::TO('checkout')}}">
             @csrf
             <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
             <div class="bg-white rounded shadow-sm mb-2">
@@ -13,7 +13,7 @@
                     <div class="gold-members p-2 border-bottom">
                         <p class="text-gray mb-0 float-right ml-2"></p>
                         <span class="count-number float-right">
-                        <input class="count-number-input" type="number" min="1" value="{{$detail['quantity']}}" name="quantity[]">
+                        <input class="quantityUpdate" data-id="{{$id}}" type="number" value="{{$detail['quantity']}}" name="quantity[]">
                         <input type="hidden" value="{{$id}}" name="id[]">
                         </span>
                         <div class="media">

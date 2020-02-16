@@ -16,6 +16,11 @@ abstract class Controller
      */
     protected $middleware = [];
 
+    public $secret="FLWSECK_TEST-13ca0b1d665990d2efadb818a6ffbc8b-X";
+    public $public="FLWPUBK_TEST-5406e801d01e00866fa150108da3d1f5-X";
+    public $currency="NGN";
+    public $url='http://127.0.0.1:8000/';
+
     /**
      * Register middleware on the controller.
      *
@@ -121,14 +126,13 @@ abstract class Controller
     }
 
 
-    public function flutterwave($email,$amount,$ref)
+    public function flutterwave($email,$amount,$ref,$redirect_url)
     {
 
 
-        $currency = "NGN";
+        $currency =$this->currency;
         $txref = $ref; // ensure you generate unique references per transaction.
-        $PBFPubKey = "FLWPUBK_TEST-5406e801d01e00866fa150108da3d1f5-X"; // get your public key from the dashboard.FLWPUBK-9982b10d6e06736ec658f580293dad17-X
-        $redirect_url = "http://127.0.0.1:8000/payment-verification";
+        $PBFPubKey = $this->public; // get your public key from the dashboard.FLWPUBK-9982b10d6e06736ec658f580293dad17-X
 
         $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -161,6 +165,16 @@ abstract class Controller
 
         $transaction = json_decode($response);
 
+        return $transaction;
+
+        
+
+    }
+
+    public function userPayment($email,$amount,$ref,$redirect_url)
+    {
+        // $redirect_url= "http://127.0.0.1:8000/payment-verification";
+        $transaction=$this->flutterwave($email,$amount,$ref,$redirect_url);
         if(!$transaction->data && !$transaction->data->link){
 
             return redirect()->back()->with('error',$transaction->message);
@@ -170,13 +184,12 @@ abstract class Controller
 
     }
 
-    public function verify($amount,$ref)
+    public function flutterwaveVerify($amount,$ref)
     {
-        $currency = "NGN";
-
+       
         $query = array(
 
-            "SECKEY" => "FLWSECK_TEST-13ca0b1d665990d2efadb818a6ffbc8b-X",
+            "SECKEY" => $this->secret,
             "txref" => $ref
         );
 
@@ -208,24 +221,30 @@ abstract class Controller
         $chargeResponsecode = $resp['data']['chargecode'];
         $chargeAmount = $resp['data']['amount'];
         $chargeCurrency = $resp['data']['currency'];
+        $data=array(
+            'paymentStatus'=>$paymentStatus,
+            'chargeResponsecode'=>$chargeResponsecode,
+            'chargeAmount'=>$chargeAmount,
+            'chargeCurrency'=>$chargeCurrency,
+            
+        );
 
-        if (($chargeResponsecode == "00" || $chargeResponsecode == "0") && ($chargeAmount == $amount)  && ($chargeCurrency == $currency)) {
-            DB::table('transactions')->where('reference',$ref)->update(['status'=>1]);
-
-            DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
-            ->where('transactions.reference',$ref)->update(['ordersummaries.status'=>1]);
-
-            session()->forget('vendor_id');
-            session()->forget('cart');
-            session()->forget('cartAmount');
-            session()->forget('AmountToPay');
-
-            return redirect('thankyou/'.$ref);
+        if (($data['chargeResponsecode'] == "00" || $data['chargeResponsecode'] == "0") && ($data['chargeAmount'] == $amount)  && ($data['chargeCurrency'] == $this->currency)) {
+           return true;
         }
 
         else {
-            return redirect('/')->with('error','Error ocurred !!!');
+            return false;
         }
+        
+
+    }
+
+    public function paymentVerifyFlutterwave($amount,$ref)
+    {
+    
+
+        
 
 
     }
@@ -249,4 +268,27 @@ abstract class Controller
         return $credit;
 
     }
+
+    public function walletMoney()
+    {
+        $user_id = Auth::user()->id;
+        $credits= DB::table('credits')->where('user_id',$user_id)->get();
+        $withdrawals = DB::table('withdrawals')->where('user_id',$user_id)->get();
+
+        $amount=0;
+        $withdraw=0;
+        foreach($credits as $credit)
+        {
+            $amount=$amount+$credit->amount;
+        }
+        foreach($withdrawals as $withdrawal)
+        {
+            $withdraw =$withdraw+$withdrawal->amount;
+        }
+
+        $credit=$amount-$withdraw;
+
+        return $credit;
+    }
+
 }

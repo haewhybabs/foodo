@@ -1,5 +1,5 @@
-<div class="tab-pane fade" id="withdrawal" role="tabpanel" aria-labelledby="withdrawal-tab">
-    <h4 class="font-weight-bold mt-0 mb-4">Withdrawal</h4>
+<div class="tab-pane fade" id="wallet" role="tabpanel" aria-labelledby="wallet-tab">
+    <h4 class="font-weight-bold mt-0 mb-4">Previos Credits</h4>
     <div class="row">
         <div class="col-md-12">
             <table class="table">
@@ -10,15 +10,15 @@
                         <th>Date</th>
                         <th>Reference</th>
                         <tbody><?php $x = 1;?>
-                            @foreach($withdrawals as $withdraw)
+                            @foreach($credits as $credit)
                                 <tr>
                                     <td>{{$x}}</td>
 
-                                    <td> &#8358 {{$withdraw->amount}}</td>
+                                    <td> &#8358 {{$credit->amount}}</td>
 
-                                    <td>{{$withdraw->created_at}}</td>
+                                    <td>{{$credit->created_at}}</td>
 
-                                    <td>{{$withdraw->reference}}</td>
+                                    <td>{{$credit->reference}}</td>
 
                                 </tr><?php $x++;?>
 
@@ -29,7 +29,7 @@
                 </thead>
             </table>
             <div class="text-center">
-                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#withdraw">Withdraw</a>
+                <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#credit">Credit</a>
             </div>
         </div>
 

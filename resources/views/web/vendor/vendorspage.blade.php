@@ -17,7 +17,7 @@
                                 <h6 class="mb-2">{{$user->store_name}}</h6>
                                 <p class="mb-1">{{$user->phone_number}}</p>
                                 <p>{{Auth::user()->email}}</p>
-                                <p ><a href="#" style="color:green;">&#8358 {{$vendorMoney}}</a></p>
+                                <p ><a href="#" data-toggle="modal" data-target="#withdraw" style="color:green;">&#8358 {{number_format($vendorMoney,2)}}</a></p>
                                     <p class="mb-0 text-black font-weight-bold"><a class="text-primary mr-3" data-toggle="modal" data-target="#edit-profile-modal" href="#"><i class="icofont-ui-edit"></i>Bank Update</a></p>
                                 </div>
                             </div>
@@ -34,11 +34,11 @@
                             <a class="nav-link" id="credits-tab" data-toggle="tab" href="#credits" role="tab" aria-controls="credits" aria-selected="false"><i class="icofont-heart"></i>Credits</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="payments-tab" data-toggle="tab" href="#payments" role="tab" aria-controls="payments" aria-selected="false"><i class="icofont-credit-card"></i>Withdrawal</a>
+                            <a class="nav-link" id="withdrawal-tab" data-toggle="tab" href="#withdrawal" role="tab" aria-controls="withdrawal" aria-selected="false"><i class="icofont-credit-card"></i>Withdrawal</a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" id="addresses-tab" data-toggle="tab" href="#addresses" role="tab" aria-controls="addresses" aria-selected="false"><i class="icofont-location-pin"></i> Addresses</a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>

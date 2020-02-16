@@ -57,18 +57,20 @@ class CheckoutController extends Controller
                 $amount=array(
                     'charges'=>$charges,
                     'delivery_fee'=>$delivery_fee,
-                    'total'=>session()->get('cartAmount')+$charges+$delivery_fee
+                    'total'=>$this->cartAmount()+$charges+$delivery_fee
                 );
-                session()->put('AmountToPay',$amount);
+                
             }
             else{
+
                 $amount=array(
-                    'charges'=>0,
-                    'delivery_fee'=>0,
-                    'total'=>session()->get('cartAmount')+$charges+$delivery_fee
+                    'charges'=>$charges,
+                    'delivery_fee'=>$charges,
+                    'total'=>$this->cartAmount()+$charges+$delivery_fee
                 );
-                session()->put('AmountToPay',$amount);
+                
             }
+            session()->put('AmountToPay',$amount);
        }
 
 
@@ -117,12 +119,14 @@ class CheckoutController extends Controller
 
         }
         else{
+
             $subregion=DB::table('subregions')->where('name','like',$region.'%')->first();
             if($subregion){
                 $region_id=$subregion->region_id;
             }
 
         }
+
         if($region_id==0){
             return redirect('checkout')->with('error','Sorry!! We could not locate your Area, You could check up later or Enter a popular area');
         }
@@ -165,8 +169,15 @@ class CheckoutController extends Controller
     }
 
     public function transaction(Request $request){
+        $amount=session()->get('AmountToPay')['total'];
 
         #Validation
+
+        if($request->wallet==1){
+            if($this->walletAmount<$amount){
+                #Cancel
+            }
+        }
 
         $user_id=Auth::user()->id;
         $address=DB::table('address')->where('user_id',$user_id)->where('active',1)->first();
@@ -192,11 +203,27 @@ class CheckoutController extends Controller
         $userAddress=DB::table('address')->where('user_id',Auth::user()->id)->where('active',1)->first();
         $userRegion=$userAddress->region_id;
 
-        $vendorAmount=session()->get('cartAmount');
+        $cartAmount=$this->cartAmount();
 
-        $vendor_percentage = DB::table('vendorpercentage')->where('vendor_id',$vendor_id)->where('minAmount','<=',$vendorAmount)
-        ->where('maxAmount','>=',$vendorAmount)->first();
-        $percentage = ($vendor_percentage->percentage/100)*$vendorAmount;
+
+
+        $vendor_percentage = DB::table('vendorpercentage')->where('vendor_id',$vendor_id)->where('minAmount','<=',$cartAmount)
+        ->where('maxAmount','>=',$cartAmount)->first();
+        if($vendor_percentage){
+            $percentage = ($vendor_percentage->percentage/100)*$cartAmount;
+            $vendor_fee =$cartAmount-$percentage;
+            $service_charge=0;
+        }
+        else{
+            $general_setting = DB::table('general_settings')->where('minAmount','<=',$cartAmount)
+            ->where('maxAmount','>=',$cartAmount)->first();
+            if($general_setting){
+                $percentage = ($general_setting->service_charge/100) * $cartAmount;
+                $vendor_fee=$this->cartAmount();
+                $service_charge = $percentage;
+            }
+        }
+        
 
         $orderSummaryData=array(
             'vendor_id'=>$vendor_id,
@@ -205,8 +232,13 @@ class CheckoutController extends Controller
             'to_region_id'=>$vendorRegion,
             'status'=>0,
             'total_amount'=>session()->get('AmountToPay')['total'],
-            'vendor_fee'=>session()->get('cartAmount')-$percentage,
+            'vendor_fee'=>$vendor_fee,
+            'service_charge'=>$service_charge
         );
+
+        if($request->wallet==1){
+            
+        }
 
         #insert to Order Summary
         $orderSummary=DB::table('ordersummaries')->insertGetId($orderSummaryData);
@@ -242,7 +274,9 @@ class CheckoutController extends Controller
         $email=Auth::user()->email;
         $amount=session()->get('AmountToPay')['total'];
         $ref=$reference;
-        return $this->flutterwave($email,$amount,$ref);
+        $redirect_url= $this->url."payment-verification";
+
+        return $this->userPayment($email,$amount,$ref,$redirect_url);
     }
 
     public function paymentVerification()
@@ -252,7 +286,37 @@ class CheckoutController extends Controller
         if (isset($_GET['txref'])) {
             $ref=$_GET['txref'];
 
-            return $this->verify($amount,$ref);
+            // return $this->paymentVerifyFlutterwave($amount,$ref);
+
+            if($this->flutterwaveVerify($amount,$ref)==true){
+
+                DB::table('transactions')->where('reference',$ref)->update(['status'=>1]);
+    
+                DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+                ->where('transactions.reference',$ref)->update(['ordersummaries.status'=>1]);
+                
+
+                $transaction=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+                ->where('transactions.reference',$ref)->first();
+
+                $favourites=array(
+                    'customer_id'=>$this->user()->idcustomers,
+                    'vendor_id'=>$transaction->vendor_id
+                );
+
+                DB::table('favourites')->insert($favourites);
+    
+                session()->forget('vendor_id');
+                session()->forget('cart');
+                session()->forget('cartAmount');
+                session()->forget('AmountToPay');
+    
+                return redirect('thankyou/'.$ref);
+            }
+    
+            else {
+                return redirect('/')->with('error','Error ocurred !!!');
+            }
         }
         else {
             die('No reference supplied');

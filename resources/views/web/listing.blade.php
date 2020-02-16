@@ -74,56 +74,114 @@
 
                </div>
                <div class="col-md-9">
-                    <div class="owl-carousel owl-carousel-category owl-theme">
+                     <div class="owl-carousel owl-carousel-category owl-theme">
                         @foreach($categories as $category)
                         <div class="item">
-                            <div class="osahan-category-item">
-                                <a href="{{URL::TO('category')}}/{{ $category->name }}">
+                              <div class="osahan-category-item">
+                                 <a href="{{URL::TO('category')}}/{{ $category->name }}">
                                     <img class="img-fluid" src="{{ $category->icon }}" alt="">
                                     <h6>{{ $category->name }}</h6>
                                     <?php $count=count(DB::table('vendors')->where('category_id',$category->idcategories)->get());?>
-                                <p>{{$count}}</p>
-                                </a>
-                            </div>
+                                 <p>{{$count}}</p>
+                                 </a>
+                              </div>
                         </div>
                         @endforeach
-                    </div>
-                    <div class="row">
-                        <?php $now= time()+3600; $time=(int)date('H',$now);?>
-                        @foreach($vendors as $vendor)
-                            <div class="col-md-4 col-sm-6 mb-4 pb-2">
-                                <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                                <div class="list-card-image">
-                                    <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
-                                    <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
-                                    <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                    @if($time>=$vendor->open_at and $time<=$vendor->close_at+12)
-                                        <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
-                                            <img src="{{ $vendor->logo }}" class="img-fluid item-img">
-                                        </a>
-                                    @else
-                                        <a>
-                                            <img src="{{ asset('web/img/icons/closed.jpeg') }}" class="img-fluid item-img">
-                                        </a>
-                                    @endif
-                                </div>
-                                <div class="p-3 position-relative">
-                                    <div class="list-card-body">
-                                        <h6 class="mb-1"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{ $vendor->store_name }}</a></h6>
-                                        <p class="text-gray mb-3">{{ $vendor->description }}</p>
-                                    <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{$vendor->open_at}}am</span> <span class="float-right text-black-50">closes at {{$vendor->close_at}}pm</span></p>
+                     </div>
+                     <div class="loadmoreshow">
+                        @if(Request::segment(2)=='Restaurants')
+                        <div class="text-center" id="spinnerloader">
+                           <div class="spinner-border text-warning" role="status">
+                              <span class="sr-only">Loading...</span>
+                           </div>
+                        </div>
+                           <div class="">
+                              <button class="btn btn-warning btn-block btn-lg loadmore">Load More</button>
+                           </div>
+                        @else
+                           <div class="row">
+                              <?php $now= time()+3600; $time=(int)date('H',$now);?>
+                              @foreach($vendors as $vendor)
+                                    <div class="col-md-4 col-sm-6 mb-4 pb-2">
+                                       <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                                       <div class="list-card-image">
+                                          <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
+                                          <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
+                                          <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
+                                          @if($time>=$vendor->open_at and $time<=$vendor->close_at+12)
+                                                <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
+                                                   <img src="{{ $vendor->logo }}" class="img-fluid item-img">
+                                                </a>
+                                          @else
+                                                <a>
+                                                   <img src="{{ asset('web/img/icons/closed.jpeg') }}" class="img-fluid item-img">
+                                                </a>
+                                          @endif
+                                       </div>
+                                       <div class="p-3 position-relative">
+                                          <div class="list-card-body">
+                                                <h6 class="mb-1"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{ $vendor->store_name }}</a></h6>
+                                                <p class="text-gray mb-3">{{ $vendor->description }}</p>
+                                          <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{$vendor->open_at}}am</span> <span class="float-right text-black-50">closes at {{$vendor->close_at}}pm</span></p>
+                                          </div>
+                                          <div class="list-card-badge">
+                                                {{--  <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>  --}}
+                                          </div>
+                                       </div>
+                                       </div>
                                     </div>
-                                    <div class="list-card-badge">
-                                        {{--  <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>  --}}
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
+                              @endforeach 
+                           </div>
+                        @endif      
+                     </div>
+               </div>
             </div>
          </div>
       </section>
 
 @endsection
+
+<script src="http://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script src="{{asset('web/js/webscript.js')}}"></script>
+
+@if(Request::segment(2)=='Restaurants')
+   <script type="text/javascript">
+
+      $(document).ready(function(){
+
+         load_more('');
+
+         function load_more(id=""){
+            $.ajax({
+               url:"{{URL::TO('loadmore')}}",
+               type:"POST",
+               dataType:'json',
+               data:{
+                     id:id,
+                     "_token": "{{ csrf_token() }}"
+               },
+               success:function(response){
+                  $('#spinnerloader').remove();
+                  $('.loadmore').remove();
+                  $('.loadmoreshow').append(response.html);
+                  
+               },error:function(){
+
+                  $(".loadmore").html('<b>No Data Found!!!</b>');
+                  $(".loadmore").attr("disabled", true);
+                  return true;
+               }
+            });
+
+         }
+
+
+         $(document).on('click','.loadmore', function(e){  
+            $('.loadmore').html('<b>Loading....</b>');
+            var id =$(this).attr('data-id');
+            load_more(id);
+         });
+      });
+
+   </script>
+@endif

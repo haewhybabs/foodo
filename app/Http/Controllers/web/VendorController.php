@@ -20,7 +20,9 @@ class VendorController extends Controller
     public function index()
     {
         $vendor_id=$this->user()->idvendors;
-        $stock_category=DB::table('stockcategories')->where('vendor_id',$vendor_id)->get();
+        $stock_category=DB::table('stockcategories')
+        ->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
+        ->where('stockcategories.vendor_id',$vendor_id)->get();
         $user=$this->user();
 
         $credits = DB::table('ordersummaries')->join('transactions','transactions.order_summaries_id','=','ordersummaries.idordersummaries')
@@ -41,6 +43,8 @@ class VendorController extends Controller
         ->join('bankcodes','bankcodes.bank_codes','=','bankdetails.bank_code')
         ->where('vendor_id',$vendor_id)->first();
 
+        $getWithdrawal = DB::table('withdrawals')->where('user_id',Auth::user()->id)->get();
+
 
 
 
@@ -54,12 +58,15 @@ class VendorController extends Controller
             'credits'=>$credits,
             'bankcodes'=>$bankcodes,
             'bankdetails'=>$bankDetails,
+            'withdrawals'=>$getWithdrawal,
         );
         return view('web.vendor.vendorspage')->with($data);
 
     }
+    
 
-    public function stockCategory(Request $request)
+    #Stock Category
+    /*public function stockCategory(Request $request)
     {
 
         if($request->category_name[0]==null){
@@ -81,7 +88,7 @@ class VendorController extends Controller
         return redirect('vendor-account')->with('message','Stock categories created successfully');
 
 
-    }
+    }*/
 
     public function stockCreate(Request $request)
     {
@@ -112,18 +119,33 @@ class VendorController extends Controller
         return redirect('vendor-account')->with('message','Stock added successfully');
     }
 
-    public function stockStatus($id,$status){
+    public function stockStatus(Request $request){
+        $id =$request->id;
+        $status = $request->status;
 
-        if($status=='available'){
+        $vendor_id=$this->user()->idvendors;
+        $stockcategories=DB::table('stockcategories')
+        ->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
+        ->where('stockcategories.vendor_id',$vendor_id)->get();
+
+        if($status==1){
             DB::table('stockdetails')->where('idstockdetails',$id)->update(['status'=>'Available']);
         }
 
-        elseif($status=='finish'){
+        elseif($status==0){
 
             DB::table('stockdetails')->where('idstockdetails',$id)->update(['status'=>'Finished']);
         }
 
-        return redirect('vendor-account')->with('message','Stock updated successfully');
+        $view = view("jquery.stockupdate", compact('stockcategories','vendor_id'))->render();
+        $data['html']=$view;
+        $data['message']='cart updated successfully';
+        $data['status']=true;
+        return response()->json($data);
+
+        
+
+        // return redirect('vendor-account')->with('message','Stock updated successfully');
 
     }
 
@@ -232,5 +254,16 @@ class VendorController extends Controller
 
 
 
+    }
+
+    public function editStock(Request $request)
+    {
+        $id = $request->stock_id;
+        $data =array(
+            'name' =>$request->stock_name,
+        );
+
+        DB::table('stockdetails')->where('idstockdetails',$id)->update($data);
+        return redirect('vendor-account')->with('message','Stock updated Successfully');
     }
 }
