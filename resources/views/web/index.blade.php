@@ -6,8 +6,8 @@
     <div class="row d-flex align-items-center">
         <div class="col-md-8">
             <div class="homepage-search-title">
-                <h1 class="mb-2 font-weight-normal"><span class="font-weight-bold">Order It</span> Get It Straight UP</h1>
-                <h5 class="mb-5 text-secondary font-weight-normal">Lists of top restaurants, pharmacy, supermarket, and bars, based on trends</h5>
+                <h1 class="mb-2 font-weight-normal"><span class="font-weight-bold">Order It</span> Get It at your doorstep</h1>
+                <h5 class="mb-5 text-secondary font-weight-normal">Lists of top restaurants, pharmacy, supermarket, and bars, in your area</h5>
             </div>
             <div class="homepage-search-form">
                 <form class="form-noborder" method="get" action="{{URL::TO('vendor-search')}}">
@@ -17,7 +17,7 @@
                         <div class="location-dropdown">
                             <i class="icofont-location-arrow"></i>
                             <select class="custom-select form-control-lg">
-                                <option>Select City</option>
+                                {{-- <option>Select City</option> --}}
                                 @foreach($cities as $city)
                                     <option href="{{$city->idcities}}">{{$city->name}} </option>
                                 @endforeach
@@ -42,8 +42,8 @@
                         <a href="{{URL::TO('category')}}/{{ $category->name }}">
                             <img class="img-fluid" src="{{ $category->icon }}" alt="">
                             <h6>{{ $category->name }}</h6>
-                            <?php $count=count(DB::table('vendors')->where('category_id',$category->idcategories)->get());?>
-                        <p>{{$count}}</p>
+                            
+                        
                         </a>
                     </div>
                 </div>
@@ -56,15 +56,15 @@
         <div class="col-md-4">
             <div class="osahan-slider pl-4 pt-3">
                 <div class="owl-carousel homepage-ad owl-theme">
-                <div class="item">
-                    <a ><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
-                </div>
-                <div class="item">
-                    <a><img class="img-fluid rounded" src="{{ asset('web/img/febgreetings.jpg') }}"></a>
-                </div>
-                <div class="item">
-                    <a><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
-                </div>
+                    <div class="item">
+                        <a ><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
+                    </div>
+                    <div class="item">
+                        <a><img class="img-fluid rounded" src="{{ asset('web/img/febgreetings.jpg') }}"></a>
+                    </div>
+                    <div class="item">
+                        <a><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
+                    </div>
                 </div>
             </div>
         </div>

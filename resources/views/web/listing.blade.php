@@ -8,7 +8,7 @@
          <div class="container">
             <div class="row d-none-m">
                <div class="col-md-12">
-                  <div class="dropdown float-right">
+                  {{--  <div class="dropdown float-right">
                      <a class="btn btn-outline-info dropdown-toggle btn-sm border-white-btn" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                      Sort by: <span class="text-theme">Distance</span> &nbsp;&nbsp;
                      </a>
@@ -17,7 +17,7 @@
                         <a class="dropdown-item" href="#">No Of Offers</a>
                         <a class="dropdown-item" href="#">Rating</a>
                      </div>
-                  </div>
+                  </div>  --}}
                   <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">{{count($vendors)}} {{$category_name}}
                      </small>
                   </h4>
@@ -42,8 +42,11 @@
                               <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                  <div class="filters-card-body card-shop-filters">
                                     @foreach ($categories as $category)
-                                        <div class="custom-control custom-checkbox">
-                                            <a href="{{URL::TO('category')}}/{{ $category->name }}" style="color:black;"class="custom-control-label">{{$category->name}}</a>
+                                        <div class="custom-control custom-checkbox checked">
+                                            
+                                          <li>
+                                             <a href="{{URL::TO('category')}}/{{ $category->name }}" class="custom">{{$category->name}}</a>
+                                          </li>
                                         </div>
                                     @endforeach
                                  </div>
@@ -62,7 +65,9 @@
                                  <div class="filters-card-body card-shop-filters">
                                     @foreach ($regions as $region)
                                         <div class="custom-control custom-checkbox">
-                                            <a href="{{URL::TO('region-filter')}}/{{ $region->idregions }}" style="color:black;"class="custom-control-label">{{$region->name}}</a>
+                                             <li>
+                                               <a href="{{URL::TO('region-filter')}}/{{ $region->idregions }}">{{$region->name}}</a>
+                                             </li>
                                         </div>
                                     @endforeach
                                  </div>
@@ -81,25 +86,34 @@
                                  <a href="{{URL::TO('category')}}/{{ $category->name }}">
                                     <img class="img-fluid" src="{{ $category->icon }}" alt="">
                                     <h6>{{ $category->name }}</h6>
-                                    <?php $count=count(DB::table('vendors')->where('category_id',$category->idcategories)->get());?>
-                                 <p>{{$count}}</p>
                                  </a>
                               </div>
                         </div>
                         @endforeach
-                     </div>
+                     </div><br>
                      <div class="loadmoreshow">
                         @if(Request::segment(2)=='Restaurants')
-                        <div class="text-center" id="spinnerloader">
-                           <div class="spinner-border text-warning" role="status">
-                              <span class="sr-only">Loading...</span>
-                           </div>
-                        </div>
-                           <div class="">
-                              <button class="btn btn-warning btn-block btn-lg loadmore">Load More</button>
+                           <div class="text-center" id="spinnerloader">
+                              <div class="spinner-border text-warning" role="status">
+                                 <span class="sr-only">Loading...</span>
+                              </div>
                            </div>
                         @else
                            <div class="row">
+                              @if(count($vendors)==0)
+                                 <div class="col-md-12">
+                                    {{-- <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
+                                       <div class="list-card-body">
+                                          <p class="text-gray mb-3">No {{$category_name}} Listed Yet!! Kindly check back later</p>
+                                       </div>
+
+                                    </div> --}}
+                                    <div class="well" style="color:red;">
+                                       No {{$category_name}} listed  Yet!!! Kindly check back later
+                                    </div>
+
+                                 </div>
+                              @endif
                               <?php $now= time()+3600; $time=(int)date('H',$now);?>
                               @foreach($vendors as $vendor)
                                     <div class="col-md-4 col-sm-6 mb-4 pb-2">
@@ -108,7 +122,7 @@
                                           <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
                                           <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
                                           <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                          @if($time>=$vendor->open_at and $time<=$vendor->close_at+12)
+                                          @if($time>=$vendor->open_at and $time<=$vendor->close_at+12 and $vendor->close_status==0)
                                                 <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
                                                    <img src="{{ $vendor->logo }}" class="img-fluid item-img">
                                                 </a>
@@ -141,8 +155,8 @@
 
 @endsection
 
-<script src="http://code.jquery.com/jquery-3.4.0.min.js"></script>
-<script src="{{asset('web/js/webscript.js')}}"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+
 
 @if(Request::segment(2)=='Restaurants')
    <script type="text/javascript">

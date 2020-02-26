@@ -7,7 +7,7 @@
             <img class="img-fluid mb-5" src="https://askbootstrap.com/preview/osahan-eat/img/thanks.png" alt="404">
             <h1 class="mt-2 mb-2 text-success">Congratulations!</h1>
             <p class="mb-5">You have successfully placed your order</p>
-            <a class="btn btn-warning btn-lg" href="{{URL::TO('user-account')}}">View Order :)</a>
+            <a class="btn btn-warning btn-lg" href="{{URL::TO('user-account')}}">Track Order :)</a>
          </div>
       </div>
    </div>

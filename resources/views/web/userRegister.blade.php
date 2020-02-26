@@ -64,7 +64,12 @@
                      <div class="row">
 
                         <div class="col-md-9 col-lg-8 mx-auto pl-5 pr-5">
-                           <h3 class="login-heading mb-4">Welcome back!</h3>
+                           <div class="text-center">
+                              <a class="navbar-brand" href="{{ URL::TO('/') }}">
+                                 <img style="width:90px;" src="{{asset('web/img/icons/foodxyme1.png')}}">
+                              </a>
+                           </div><br>
+                           <h3 class="login-heading mb-4">Create Account</h3>
                            <form method="post" action="{{ URL::TO('register')}}">
                            @csrf
                               <div class="form-label-group">
@@ -98,12 +103,13 @@
                                  <label class="custom-control-label" for="customCheck1">Remember password</label>
                               </div>
                               <button type="submit" class="btn btn-lg btn-outline-warning btn-block btn-login text-uppercase font-weight-bold mb-2">Register</button>
-                              {{--  <div class="text-center pt-3">
-                                 Don’t have an account? <a class="font-weight-bold" href="{{URL::TO('register')}}" style="color:#ffb200;">Sign Up</a>
-                              </div>  --}}
+                              <div class="text-center pt-3">
+                                 Already have an account? <a class="font-weight-bold" href="{{URL::TO('login')}}" style="color:#ffb200;">Sign in</a>
+                                 
+                              </div>
                            </form>
                            <hr class="my-4">
-                           <p class="text-center">Register WITH</p>
+                           {{-- <p class="text-center">Register WITH</p>
                            <div class="row">
                               <div class="col pr-2">
                                  <button class="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase" type="submit" style="background:#ffb200;"><i class="fab fa-google mr-2"></i> Google</button>
@@ -111,7 +117,7 @@
                               <div class="col pl-2">
                                  <button class="btn pl-1 pr-1 btn-lg btn-facebook font-weight-normal text-white btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Facebook</button>
                               </div>
-                           </div>
+                           </div> --}}
                         </div>
                      </div>
                   </div>

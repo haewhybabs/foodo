@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\web\BaseController;
 use App\Events\NewOrder;
 
 class VendorController extends Controller
 {
+    use BaseController;
 
     public function __construct()
     {
@@ -209,7 +211,7 @@ class VendorController extends Controller
             'currency'=>'NGN',
             'narration'=>'Foodxyme Payment',
             'beneficiary_name'=>$bankdetails->beneficiary_name,
-            'seckey'=>"FLWSECK_TEST-13ca0b1d665990d2efadb818a6ffbc8b-X",
+            'seckey'=>$this->secret,
             'amount'=>$amount,
 
         );

@@ -63,6 +63,11 @@
                     @endif
                      <div class="row">
                         <div class="col-md-9 col-lg-8 mx-auto pl-5 pr-5">
+                            <div class="text-center">
+                                <a class="navbar-brand" href="{{ URL::TO('/') }}">
+                                   <img style="width:90px;" src="{{asset('web/img/icons/foodxyme1.png')}}">
+                                </a>
+                             </div><br>
                            <h3 class="login-heading mb-4">Vendor Registration!</h3>
                            <form method="post" action="{{ URL::TO('vendor-register')}}">
                             @csrf

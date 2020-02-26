@@ -98,14 +98,73 @@
                                     @foreach($stocks as $stock)
                                         <div class="gold-members p-3 border-bottom">
                                             @if($close==false)
-                                            <a class="btn btn-outline-secondary btn-sm  float-right cartadd" href="{{URL::TO('add-to-cart')}}" data-id="{{$stock->idstockdetails}}">ADD</a>
+                                                @if($stockcategory->idappstockcategory==$soupCategory)
+                                                    <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
+                                                    
+                                                @elseif($stockcategory->idappstockcategory==$mainMeal)
+                                                    <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
+                                                @else
+                                                    <button class="btn btn-outline-secondary btn-sm  float-right cartadd" data-id="{{$stock->idstockdetails}}">ADD</button>
+                                                @endif
                                                 {{-- {{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}} --}}
+
+                                                <div class="modal fade" id="protein{{$stock->idstockdetails}}" tabindex="-1" role="dialog" aria-labelledby="protein" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="add-address">Select the proteins you want for this soup</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <form method="POST" action="{{URL::TO('protein-soup')}}" id="proteinSoup">
+                                                                @csrf
+                                                                <div class="modal-body">
+                                                                    @if(count($stock_proteins) !=0)
+                                                                        @foreach($stock_proteins as $stock_protein)
+                                                                            <div class="row">    
+                                                                                <div class="col-sm-12">
+                                                                                    <div class="row">
+                                                                                        <div class="checkbox col-4">
+                                                                                            <label>
+                                                                                                <input type="hidden" name="id" value="{{$stock->idstockdetails}}">
+                                                                                                <input type="checkbox" value="{{$stock_protein->idstockdetails}}" name="stock_protein[]">
+                                                                                                    {{$stock_protein->name}}
+                                                                                                
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="quantity col-4">
+                                                                                            <input type="number" min="1" max="9" step="1" value="1" name="quantity[]">
+                                                                                        </div>
+                                                                                        <div class="col-4">
+                                                                                            <p> &#8358 {{$stock_protein->stockprice}}</p>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    
+                                                                                </div> 
+                                                                            </div>
+                                                                        @endforeach
+                                                                    @endif
+                     
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
+                                                                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning" id="withdrawsubmit">SUBMIT</button>
+                                                                </div>
+                                                            </form>
+                                                
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endif
                                             <div class="media">
                                                 <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
                                                 <div class="media-body">
                                                 <h6 class="mb-1">{{$stock->name}}</h6>
-                                                <p class="text-gray mb-0">&#8358 {{$stock->stockprice}}</p>
+                                                @if($stockcategory->idappstockcategory!=5)
+                                                    <p class="text-gray mb-0">&#8358 {{$stock->stockprice}}</p>
+                                                @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -220,7 +279,7 @@
                             @foreach($reviews as $review)
                                 <div class="reviews-members pt-4 pb-4">
                                     <div class="media">
-                                    <a href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/1.png" class="mr-3 rounded-pill"></a>
+                                    {{--  <a href="#"><img alt="Generic placeholder image" src="https://askbootstrap.com/preview/osahan-eat/img/user/1.png" class="mr-3 rounded-pill"></a>  --}}
                                     <div class="media-body">
                                         <div class="reviews-members-header">
                                             <span class="star-rating float-right">
@@ -243,7 +302,7 @@
                                                 @endif
 
 
-                                                <a class="total-like dislikes"  id="{{$review->idvendorsreviews}}"><i class="icofont-thumbs-down"></i>{{$review->dislikes}}</a>
+                                                {{--  <a class="total-like dislikes"  id="{{$review->idvendorsreviews}}"><i class="icofont-thumbs-down"></i>{{$review->dislikes}}</a>  --}}
                                             </div>
                                         @endauth
                                     </div>
@@ -279,7 +338,7 @@
             <div class="col-md-4">
 
 
-                <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
+                <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item" style="position: fixed; bottom: 0; right: 0;">
                     <h5 class="mb-1 text-white">Your Order</h5>
                     <div class="jquerycartshow">
 
@@ -300,9 +359,14 @@
                                             <input type="hidden" value="{{$id}}" name="id[]">
                                             </span>
                                             <div class="media">
-                                            <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-times"></i></a></div>
+                                            <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-trash-alt"></i></a></div>
                                                 <div class="media-body">
                                                     <p class="mt-1 mb-0 text-black">{{$detail['name']}}</p>
+                                                    @if(count($detail['proteins']) !=0)
+                                                        @foreach($detail['proteins'] as $protein)
+                                                            <p>{{$protein['name']}}</p>
+                                                        @endforeach
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -314,7 +378,7 @@
                                     <p class="seven-color mb-1 text-right">Extra charges may apply</p>
 
                                 </div>
-                                    <button type ="submit" class="btn btn-success btn-xs">Checkout <i class="icofont-long-arrow-right"></i></button>
+                                    <button type ="submit" class="btn btn-success btn-block btn-lg">Checkout<i id="spinnercart" class="spinner-border" role="status"></i></button>
                                 </div>
                             </form>
 
@@ -473,8 +537,14 @@
 
     $(document).ready(function(){
 
+        $('#spinnercart').hide();
+
         $(".cartadd").click( function(e) {
             e.preventDefault();
+            $('#spinnercart').show();
+            $(".cartadd").attr("disabled", true);
+           
+            
             var id =$(this).attr('data-id');
             $.ajax({
                 url:"{{URL::TO('add-to-cart')}}",
@@ -485,17 +555,23 @@
                     "_token": "{{ csrf_token() }}"
                 },
                 success:function(response){
-
+                    $(".cartadd").attr("disabled", false);
+                    
 
                     $('.jquerycartshow').html(response.html);
+                    $('#headercart').html(response.headercart);
+
+                    $('#spinnercart').hide();
 
                     // $("#cartshow").show();
-                    $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
-                    $('#cartshow').delay(500).show(10,function(){
-                        $(this).delay(1000).hide(10,function(){
-                            $('#cartview').remove();
-                        });
-                    })
+                    // $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
+                    // $('#cartshow').delay(500).show(10,function(){
+                    //     $(this).delay(1000).hide(10,function(){
+                    //         $('#cartview').remove();
+                    //     });
+                    // })
+
+                    
 
                 }
 
@@ -508,6 +584,7 @@
         $(function(){
             $(document).on('click','.removecart',function(e){
                 e.preventDefault();
+                $('#spinnercart').show();
                 var id =$(this).attr('data-id');
                 $.ajax({
                     url:"{{URL::TO('remove-cart')}}",
@@ -521,14 +598,17 @@
 
 
                         $('.jquerycartshow').html(response.html);
+                        $('#headercart').html(response.headercart);
+
+                        $('#spinnercart').hide();
 
                         // $("#cartshow").show();
-                        $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
-                        $('#cartshow').delay(500).show(10,function(){
-                            $(this).delay(1000).hide(10,function(){
-                                $('#cartview').remove();
-                            });
-                        });
+                        // $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
+                        // $('#cartshow').delay(500).show(10,function(){
+                        //     $(this).delay(1000).hide(10,function(){
+                        //         $('#cartview').remove();
+                        //     });
+                        // });
 
                     }
 
@@ -559,6 +639,8 @@
                         },
                         success:function(response){
                             $('.jquerycartshow').html(response.html);
+                            $('#headercart').html(response.headercart);
+                            $('#spinnercart').hide();
                         }
 
 
@@ -570,6 +652,40 @@
 
         });
         
+    });
+
+
+    jQuery('<div class="quantity-nav"><div class="quantity-button quantity-up">+</div><div class="quantity-button quantity-down">-</div></div>').insertAfter('.quantity input');
+    jQuery('.quantity').each(function() {
+      var spinner = jQuery(this),
+        input = spinner.find('input[type="number"]'),
+        btnUp = spinner.find('.quantity-up'),
+        btnDown = spinner.find('.quantity-down'),
+        min = input.attr('min'),
+        max = input.attr('max');
+
+      btnUp.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue >= max) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue + 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
+      btnDown.click(function() {
+        var oldValue = parseFloat(input.val());
+        if (oldValue <= min) {
+          var newVal = oldValue;
+        } else {
+          var newVal = oldValue - 1;
+        }
+        spinner.find("input").val(newVal);
+        spinner.find("input").trigger("change");
+      });
+
     });
 </script>
 @endsection

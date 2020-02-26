@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\web;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\web\BaseController;
 use App\Events\NewOrder;
 
 class CheckoutController extends Controller
 {
+    use BaseController;
 
     public function index(Request $request)
     {
@@ -43,6 +46,7 @@ class CheckoutController extends Controller
         $charges=0;
         $delivery_fee=0;
         $userAddress=DB::table('address')->where('user_id',Auth::user()->id)->where('active',1)->first();
+        $regions = DB::table('regions')->get();
 
         if($userAddress){
             $userRegion=$userAddress->region_id;
@@ -93,7 +97,8 @@ class CheckoutController extends Controller
            'address'=>$address,
            'activeStatus'=>$activeStatus,
            'charges'=>$charges,
-           'delivery_fee'=>$delivery_fee
+           'delivery_fee'=>$delivery_fee,
+           'regions'=>$regions,
        );
 
        return view('web.checkout')->with($data);
@@ -103,38 +108,19 @@ class CheckoutController extends Controller
     {
         $validatedData= $request->validate([
 
-            'region'=>'required',
+            'region_id'=>'required',
             'complete_address'=>'required',
             'city_id'=>'required',
         ]);
         $city_id=$request->city_id;
 
-        $region=$request->region;
-        $region_id=0;
-        $checkregion=DB::table('regions')->where('name','like',$region.'%')->where('city_id',$city_id)->first();
-        if($checkregion){
-
-            $region_id=$checkregion->idregions;
-
-
-        }
-        else{
-
-            $subregion=DB::table('subregions')->where('name','like',$region.'%')->first();
-            if($subregion){
-                $region_id=$subregion->region_id;
-            }
-
-        }
-
-        if($region_id==0){
-            return redirect('checkout')->with('error','Sorry!! We could not locate your Area, You could check up later or Enter a popular area');
-        }
+        $region_id=$request->region_id;
+        
 
         #Check if the address is not greater than 3
         $address=DB::table('address')->where('user_id',Auth::user()->id)->get();
         if(count($address)>2){
-            return redirect('checkout')->with('error','Sorry!! Your Address cannot be greater than 3');
+            return redirect('checkout')->with(['alert-type'=>'error','message'=>'Sorry!! Your Address cannot be greater than 3']);
         }
 
         $addressData=array(
@@ -145,7 +131,11 @@ class CheckoutController extends Controller
             'active'=>0,
         );
         DB::table('address')->insert($addressData);
-        return redirect('checkout')->with('message','Your address is successfully saved');
+        $data=array(
+            'message'=>'Your address is successfully saved',
+            'alert-type'=>'info',
+        );
+        return redirect('checkout')->with($data);
 
     }
 
@@ -153,41 +143,73 @@ class CheckoutController extends Controller
     {
         DB::table('address')->where('user_id',Auth::user()->id)->update(['active'=>0]);
         DB::table('address')->where('idaddress',$id)->update(['active'=>1]);
-        return redirect('checkout')->with('message','Delivery address selected');
+        $data=array(
+
+            'message'=>'Delivery address selected',
+            'alert-type'=>'info',
+        );
+        return redirect('checkout')->with($data);
     }
 
     public function removeAddress($id)
     {
         DB::table('address')->where('idaddress',$id)->delete();
-        return redirect('checkout')->with('message','Delivery address removed');
+       $data=array(
+            
+            'message'=>'Delivery address removed',
+            'alert-type'=>'info',
+        );
+        return redirect('checkout')->with($data);
     }
 
     public function changeAddress($id)
     {
         DB::table('address')->where('user_id',Auth::user()->id)->update(['active'=>0]);
-        return redirect('checkout')->with('message','Okay!! Select a new Address');
+        $data=array(
+            
+            'message'=>'okay!! select a new address',
+            'alert-type'=>'info',
+        );
+        return redirect('checkout')->with($data);
     }
 
     public function transaction(Request $request){
+
         $amount=session()->get('AmountToPay')['total'];
 
         #Validation
-
         if($request->wallet==1){
-            if($this->walletAmount<$amount){
-                #Cancel
+            if($this->walletMoney()<$amount){
+                
+                $reply=array(
+            
+                    'message'=>'Insufficient Balance!!!! Kindly Recharge your balance',
+                    'alert-type'=>'error',
+                );
+                return redirect('checkout')->with($reply);
             }
         }
 
         $user_id=Auth::user()->id;
         $address=DB::table('address')->where('user_id',$user_id)->where('active',1)->first();
         if(!$address){
-            return redirect('checkout')->with('error','Please tell us your address!!!!');
+            
+            $reply=array(
+            
+                'message'=>'Please tell us your address',
+                'alert-type'=>'error',
+            );
+            return redirect('checkout')->with($reply);
         }
 
-        if(session()->get('AmountToPay')['delivery_fee']==0 or session()->get('AmountToPay')['charges']==0){
+        if(session()->get('AmountToPay')['delivery_fee']==0){
 
-            return redirect('checkout')->with('error','Sorry!! We could not locate your Area, You could check up later or Enter a popular area');
+            $reply=array(
+            
+                'message'=>'Sorry!! We could not locate your Area, You could check up later or Enter a popular area',
+                'alert-type'=>'error',
+            );
+            return redirect('checkout')->with($reply);
         }
 
         #Insertion
@@ -236,9 +258,7 @@ class CheckoutController extends Controller
             'service_charge'=>$service_charge
         );
 
-        if($request->wallet==1){
-            
-        }
+        
 
         #insert to Order Summary
         $orderSummary=DB::table('ordersummaries')->insertGetId($orderSummaryData);
@@ -270,13 +290,61 @@ class CheckoutController extends Controller
 
         // event(new NewOrder($text));
 
-        #Redirect TO FLutterwave Page
         $email=Auth::user()->email;
         $amount=session()->get('AmountToPay')['total'];
         $ref=$reference;
         $redirect_url= $this->url."payment-verification";
 
-        return $this->userPayment($email,$amount,$ref,$redirect_url);
+        
+        if($request->wallet==1){
+
+            if($this->walletMoney()>$amount)
+            {
+                $withdrawal=array(
+                    'user_id'=>Auth::user()->id,
+                    'amount'=>$amount,
+                    'reference'=>$ref,  
+                );
+                DB::table('withdrawals')->insert($withdrawal);
+
+                #Wallet
+                $wallet = array(
+                    'amount'=>$this->walletMoney(),
+                );
+                $customer_id = $this->user()->idcustomers;
+                DB::table('customers')->where('idcustomers',$customer_id)->update($wallet);
+
+                #Transactions
+                DB::table('transactions')->where('reference',$ref)->update(['status'=>1]);
+                DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+                ->where('transactions.reference',$ref)->update(['ordersummaries.status'=>1]);
+
+                $transaction=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
+                ->where('transactions.reference',$ref)->first();
+
+                $favourites=array(
+                    'customer_id'=>$this->user()->idcustomers,
+                    'vendor_id'=>$transaction->vendor_id
+                );
+                
+                #Favourites
+                DB::table('favourites')->insert($favourites);
+
+                session()->forget('vendor_id');
+                session()->forget('cart');
+                session()->forget('cartAmount');
+                session()->forget('AmountToPay');
+
+                return redirect('thankyou/'.$ref);
+            }
+        }
+        else
+        {
+            #Redirect TO FLutterwave Page
+            return $this->userPayment($email,$amount,$ref,$redirect_url);
+        }
+        
+        
     }
 
     public function paymentVerification()
@@ -285,8 +353,6 @@ class CheckoutController extends Controller
 
         if (isset($_GET['txref'])) {
             $ref=$_GET['txref'];
-
-            // return $this->paymentVerifyFlutterwave($amount,$ref);
 
             if($this->flutterwaveVerify($amount,$ref)==true){
 
@@ -315,14 +381,18 @@ class CheckoutController extends Controller
             }
     
             else {
-                return redirect('/')->with('error','Error ocurred !!!');
+                
+                $reply=array(
+            
+                    'message'=>'Error ocurred!!!',
+                    'alert-type'=>'error',
+                );
+                return redirect('checkout')->with($reply);
             }
         }
         else {
             die('No reference supplied');
         }
 
-
-        // return $this->verify($amount);
     }
 }

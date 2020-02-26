@@ -1,16 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\web;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\web\BaseController;
 use App\User;
 use App\Customer;
 
 class UserAccount extends Controller
 {
+    use BaseController;
+    
     public function __construct()
     {
         $this->middleware('auth');
@@ -19,6 +21,7 @@ class UserAccount extends Controller
     public function index()
     {
         $user_id=Auth::user()->id;
+        $customer_id=$this->user()->idcustomers;
         $transactions=DB::table('transactions')->select('ordersummaries.*','transactions.reference','vendors.store_name')
         ->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
         ->join('users','users.id','=','ordersummaries.user_id')->join('vendors','vendors.idvendors','=','ordersummaries.vendor_id')
@@ -27,16 +30,37 @@ class UserAccount extends Controller
         ->orderBy('ordersummaries.idordersummaries','desc')->paginate(5);
 
         $getCredits = DB::table('credits')->where('user_id',Auth::user()->id)->get();
+        
+        $getFavourites = DB::table('favourites')->where('customer_id',$customer_id)->get();
+        
+        $favourites=array();
+        $favouriteVendors=array();
+
+        foreach($getFavourites as $f)
+        {
+
+            if(!in_array($f->vendor_id,$favourites)){
+                $favourites[] = $f->vendor_id;
+            }
+        }
+
+        foreach($favourites as $favourite ){
+            $favouriteVendors[]=DB::table('vendors')->join('categories','categories.idcategories','=','vendors.category_id')
+            ->where('vendors.idvendors',$favourite)->first();
+        }
 
         $data=array(
+
             'user'=>$this->user(),
             'transactions'=>$transactions,
             'credits'=>$getCredits,
-            'walletAmount'=>$this->walletMoney(),
+            'favouriteVendors'=>$favouriteVendors,
         );
+
+        
         
         return view('web.customer.userspage')->with($data);
-        // print_r($transactions);
+        // print_r(json_encode($favouriteVendors));
     }
     public function confirmDelivery($ref){
 
@@ -102,6 +126,14 @@ class UserAccount extends Controller
                     'reference'=>$ref,
                 );
                 DB::table('credits')->insert($data);
+
+                $wallet = array(
+                    'amount'=>$this->walletMoney(),
+                );
+                $customer_id = $this->user()->idcustomers;
+
+                DB::table('customers')->where('idcustomers',$customer_id)->update($wallet);
+
                 session()->forget('walletAmount');
                 return redirect('user-account')->with('message','Your Transaction was successful !!!');
             }

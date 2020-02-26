@@ -17,7 +17,7 @@
                         <input type="hidden" value="{{$id}}" name="id[]">
                         </span>
                         <div class="media">
-                        <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-times"></i></a></div>
+                        <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-trash-alt"></i></a></div>
                             <div class="media-body">
                                 <p class="mt-1 mb-0 text-black">{{$detail['name']}}</p>
                             </div>
@@ -31,45 +31,10 @@
                 <p class="seven-color mb-1 text-right">Extra charges may apply</p>
 
             </div>
-                <button type ="submit" class="btn btn-success btn-xs">Checkout <i class="icofont-long-arrow-right"></i></button>
+                <button type ="submit" class="btn btn-success btn-block btn-lg">Checkout <i id="spinnercart" class="spinner-border" role="status"></i></button>
             </div>
         </form>
 
     @endif
 </div>
 
-<script>
-
-
-    // $(function(){
-    //     $(document).on('click','.removecart',function(e){
-    //         e.preventDefault();
-    //         var id =$(this).attr('data-id');
-    //         $.ajax({
-    //             url:"{{URL::TO('remove-cart')}}",
-    //             type:"POST",
-    //             dataType:'json',
-    //             data:{
-    //                 id:id,
-    //                 "_token": "{{ csrf_token() }}"
-    //             },
-    //             success:function(response){
-
-
-    //                 $('.jquerycartshow').html(response.html);
-
-    //                 // $("#cartshow").show();
-    //                 $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
-    //                 $('#cartshow').delay(500).show(10,function(){
-    //                     $(this).delay(1000).hide(10,function(){
-    //                         $('#cartview').remove();
-    //                     });
-    //                 });
-
-    //             }
-
-
-    //         });
-    //     });
-    // });
-</script>

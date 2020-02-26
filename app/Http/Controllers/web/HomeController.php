@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\web\BaseController;
 use App\User;
 use App\Customer;
 
 class HomeController extends Controller
 {
+    use BaseController;
+
     public function index()
     {
 
@@ -45,7 +48,7 @@ class HomeController extends Controller
         }
 
         $category=DB::table('categories')->get();
-        $regions=DB::table('regions')->get();
+        $regions = DB::table('vendor_region')->join('regions','regions.idregions','=','vendor_region.region_id')->get();
 
         $vendors=DB::table('vendors')
         ->select('vendors.*','regions.*','categories.name')
@@ -75,7 +78,7 @@ class HomeController extends Controller
 
         $input = $request->search;
         $category=DB::table('categories')->get();
-        $regions=DB::table('regions')->get();
+        $regions = DB::table('vendor_region')->join('regions','regions.idregions','=','vendor_region.region_id')->get();
 
         $vendors=DB::table('vendors')->join('regions','regions.idregions','=','vendors.region_id')
         ->join('categories','categories.idcategories','=','vendors.category_id')
@@ -91,6 +94,17 @@ class HomeController extends Controller
             'category_name'=>'Vendors',
             'regions'=>$regions,
         );
+
+        if(count($vendors)==0){
+            
+            $reply=array(
+            
+                'message'=>'No Vendor Found!!!',
+                'alert-type'=>'error',
+            );
+            return redirect('/')->with($reply);
+            
+        }
 
         return view('web.listing')->with($data);
 
@@ -133,51 +147,13 @@ class HomeController extends Controller
         $data['html']=$view;
         return response()->json($data);
 
-        // $output = '';
-        // $last_id ='';
-        // $now= time()+3600; $time=(int)date('H',$now);
-
-        // if(!$vendors->isEmpty()){
-
-        //     foreach($vendors as $vendor){
-                
-        //         $output .='
-                    
-        //         <div class="col-md-4 col-sm-6 mb-4 pb-2">
-        //             <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                        
-        //                 sdfasdfads
-        //             </div>
-        //         </div>
-                
-        //         ';
-
-        //         $last_id=$vendor->idvendors;
-        //     }
-
-        //     $output .=
-        //     '<div class="">
-        //         <button class="btn btn-warning btn-block btn-lg loadmore" data-id="'.$last_id.'">Load More</button>
-        //     </div>';
-
-        // }
-
-        // else{
-        //     $output .='
-        //     <div class="">
-        //         <button class="btn btn-danger btn-block btn-lg">No Data Found!!!</button>
-        //     </div>
-        //     ';
-        // }
-        // echo $output;
-
     }
 
     public function regionFilter($region_id)
     {
 
         $category=DB::table('categories')->get();
-        $regions=DB::table('regions')->get();
+        $regions = DB::table('vendor_region')->join('regions','regions.idregions','=','vendor_region.region_id')->get();
 
         $vendors=DB::table('vendors')->join('regions','regions.idregions','=','vendors.region_id')
         ->join('categories','categories.idcategories','=','vendors.category_id')
@@ -237,11 +213,18 @@ class HomeController extends Controller
 
         $stock_category=DB::table('stockcategories')->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
         ->where('stockcategories.vendor_id',$id)->get();
+
+        $stock_proteins=DB::table('stockdetails')->join('stockcategories','stockdetails.stock_category_id','=','stockcategories.idstockcategories')
+        ->where('stockcategories.vendor_id',$id)->where('stockcategories.app_category_id',$this->soupProteins)->get();
         
         $close = true;
         $now= time()+3600; $time=(int)date('H',$now);
         if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
             $close= false;
+        }
+
+        if($vendor->close_status==1){
+            $close=true;
         }
 
         $data = array(
@@ -255,7 +238,10 @@ class HomeController extends Controller
             'reviewCount'=>$reviewCount,
             'close'=>$close,
             'categories'=>$category,
-            'regions'=>$regions
+            'regions'=>$regions,
+            'soupCategory'=>$this->soupCategory,
+            'mainMeal'=>$this->mainMealCategory,
+            'stock_proteins'=>$stock_proteins,
         );
 
         return view('web.detail')->with($data);
@@ -277,7 +263,13 @@ class HomeController extends Controller
         ]);
 
         if(!auth()->attempt($loginData)){
-            return redirect('login')->with('error','Invalid Credentials');
+
+            $reply=array(
+            
+                'message'=>'Invalid Credentials !!!',
+                'alert-type'=>'error',
+            );
+            return redirect('login')->with($reply);
         }
         else{
 
@@ -309,10 +301,10 @@ class HomeController extends Controller
         $validatedData= $request->validate([
 
             'address'=>'required',
-            'phone_number'=>'required',
+            'phone_number'=>'required|max:11',
             'name'=>'required',
             'email'=>'email|required|unique:users',
-            'password'=>'required|confirmed',
+            'password'=>'required|confirmed|min:6',
         ]);
 
 
@@ -536,5 +528,28 @@ class HomeController extends Controller
         exit(json_encode($data));
 
 
+    }
+
+    public function newsletter(Request $request)
+    {
+        $validatedData=$request->validate([
+            
+            'email'=>'email|required|unique:newsletter'
+        ]);
+
+        $email=$request->email;
+        $data = array(
+            'email'=>$email,
+        );
+
+        DB::table('newsletter')->insert($data);
+
+        #Email
+
+        $response=array(
+            'status'=>true,
+            'message'=>'You have successfully subscribed for our newsletter!!!'
+        );
+        exit(json_encode($response));
     }
 }

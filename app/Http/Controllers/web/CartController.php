@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\web\BaseController;
 use Illuminate\Support\Facades\Mail;
 
 
 class CartController extends Controller
 {
+    use BaseController;
 
     public function add(Request $request)
     {
@@ -54,8 +56,6 @@ class CartController extends Controller
 
         }
 
-
-
         $cart=session()->get('cart');
 
         if(!$cart){
@@ -70,6 +70,8 @@ class CartController extends Controller
                     "name"=> $stock->name,
                     "quantity" => 1,
                     "price" => $stock->stockprice,
+                    "proteins"=>[],
+                    
                 ]
             ];
 
@@ -78,7 +80,10 @@ class CartController extends Controller
             $amount =$this->cartAmount();
             $view = view("jquery.cartshow")->render();
             $data['html']=$view;
+            $headercart=view("jquery.cart_header")->render();
+            $data['headercart']=$headercart;
             $data['message']='Product added to cart';
+            $data['alert-type']='info';
             $data['status']=true;
             return response()->json($data);
 
@@ -93,8 +98,11 @@ class CartController extends Controller
             session()->put('cart',$cart);
             $amount = $this->cartAmount();
             $view = view("jquery.cartshow")->render();
+            $headercart=view("jquery.cart_header")->render();
+            $data['headercart']=$headercart;
             $data['html']=$view;
             $data['message']='Product added to cart';
+            $data['alert-type']='info';
             $data['status']=true;
             return response()->json($data);
         }
@@ -105,17 +113,105 @@ class CartController extends Controller
             "vendor_id"=>$stock->vendor_id,
             "name"=>$stock->name,
             "quantity"=>1,
-            "price"=>$stock->stockprice
+            "price"=>$stock->stockprice,
+            "proteins"=>[],
         ];
         
         session()->put('cart',$cart);
         $amount =$this->cartAmount();
         $view = view("jquery.cartshow")->render();
+        $headercart=view("jquery.cart_header")->render();
+        $data['headercart']=$headercart;
         $data['html']=$view;
         $data['message']='Product added to cart';
+        $data['alert-type']='info';
         $data['status']=true;
         return response()->json($data);
 
+    }
+
+    public function proteinSoup(Request $request)
+    {
+        if(!$request->stock_protein){
+            $reply=array(
+                'alert-type'=>'error',
+                'message'=>'kindly select a protein before submission'
+            );
+            return redirect()->back()->with($reply);
+        }
+        $id = $request->id;
+        $amount =$this->cartAmount();
+        $data = array(
+            'status'=>false,
+        );
+        $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
+        $currentVendor=session()->get('vendor_id');
+        if(!$currentVendor){
+
+            $currentVendor=$stock->vendor_id;
+        }
+        if($stock->vendor_id!=$currentVendor){
+
+            $data['message'] = 'Error!!! You have not checked out with the previous vendor';
+            return response()->json($data);
+        }
+        if(!$stock){
+
+            abort(404);
+        }
+        $vendor=DB::table('vendors')->where('idvendors',$currentVendor)->first();
+        $now= time()+3600; $time=(int)date('H',$now);
+        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        }
+        else{
+
+            $data['message']='We have closed. Thank you';
+            return response()->json($data);
+        }
+
+        $proteins=array();
+        $proteinsAmount=0;
+
+        for($i=0; $i<count($request->stock_protein); $i++)
+        {
+            $stock_id = $request->stock_protein[$i];
+            $qty = $request->quantity[$i];
+            $stockProteins=DB::table('stockdetails')->where('idstockdetails',$stock_id)->first();
+            $perStockAmount=$stockProteins->stockprice*$qty;
+
+            #Amount
+            $proteinsAmount=$proteinsAmount+$perStockAmount;
+
+            $proteins[]=array(
+
+                'id'=>$stock_id,
+                'qty'=>$qty,
+                'name'=>$stockProteins->name,
+                'price'=>$stockProteins->stockprice,
+            );
+
+
+        }
+
+        $cart=session()->get('cart');
+
+        if(!$cart)
+        {
+            session()->put('vendor_id',$stock->vendor_id);
+        }
+
+        $cart[$id] = [
+            'stock_id'=>$stock->idstockdetails,
+            "vendor_id"=>$stock->vendor_id,
+            "name"=>$stock->name,
+            "quantity"=>1,
+            "price"=>$stock->stockprice+$proteinsAmount,
+            "proteins"=>$proteins
+        ];
+
+        session()->put('cart',$cart);
+
+        return redirect()->back()->with('message','cart updated successfully');
     }
 
     public function update(Request $request)
@@ -139,7 +235,10 @@ class CartController extends Controller
             $view = view("jquery.cartshow")->render();
 
             $data['html']=$view;
+            $headercart=view("jquery.cart_header")->render();
+            $data['headercart']=$headercart;
             $data['message']='cart updated successfully';
+            $data['alert-type']='info';
             $data['status']=true;
             return response()->json($data);
         }
@@ -168,7 +267,10 @@ class CartController extends Controller
             }
             $view = view("jquery.cartshow")->render();
             $data['html']=$view;
+            $headercart=view("jquery.cart_header")->render();
+            $data['headercart']=$headercart;
             $data['message']='cart updated successfully';
+            $data['alert-type']='info';
             $data['status']=true;
             return response()->json($data);
 
@@ -222,7 +324,11 @@ class CartController extends Controller
         // });
         // return view('mails.welcome');
 
-        echo url('');
+        // echo url('');
+        // $redirect_url= route('payment-verification');
+        // echo $redirect_url;
+
+        print_r(session()->get('cart'));
     
     }
 

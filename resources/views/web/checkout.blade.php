@@ -19,35 +19,35 @@
                                 <label>Select City</label>
                                 <select class="form-control" name="city_id">
                                     @foreach($cities as $city)
-                                        <option value="{{$city->idcities}}">Ile-Ife</option>
+                                        <option value="{{$city->idcities}}">{{$city->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group col-md-12">
-                            <label for="inputPassword4">Delivery Area</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Such as Ede Road, Campus, Lagere, Mayfair, OAU-THC, e.t.c" name="region" required>
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="icofont-ui-pointer"></i></button>
-                                </div>
-                            </div>
-                            </div>
-                            <div class="form-group col-md-12">
-                            <label for="inputPassword4">Complete Address
-                            </label>
-                            <input type="text" class="form-control" placeholder="Complete Address e.g. house number, street name, landmark" name="complete_address" required>
+                                <label>Select Region</label>
+                                <select class="form-control" name="region_id">
+                                    <option value="">Select Region</option>
+                                    @foreach($regions as $region)
+                                        <option value="{{$region->idregions}}">{{$region->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group col-md-12">
-                            <label for="inputPassword4">Delivery Instructions(Optional)
-                            </label>
-                            <input type="text" class="form-control" placeholder="Delivery Instructions e.g. Opposite Gold Souk Mall" name="delivery_instruction">
+                                <label for="inputPassword4">Complete Address
+                                </label>
+                                <input type="text" class="form-control" placeholder="Complete Address e.g. house number, street name, landmark" name="complete_address" required>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="inputPassword4">Delivery Instructions(Optional)
+                                </label>
+                                <input type="text" class="form-control" placeholder="Delivery Instructions e.g. Opposite Gold Souk Mall" name="delivery_instruction">
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-primary" data-dismiss="modal">CANCEL
-                        </button> <button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-primary">SUBMIT</button>
+                        <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
+                        </button> <button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning">SUBMIT</button>
                     </div>
                 </form>
             </div>

@@ -44,7 +44,7 @@ Route::get('/vendor-rating','web\HomeController@vendorRating');
 Route::post('/vendor-review','web\HomeController@vendorReview');
 Route::get('/like-review','web\HomeController@likeReview');
 Route::get('/region-filter/{id}','web\HomeController@regionFilter');
-Route::post('/payment-verification','web\checkoutController@paymentVerification');
+Route::post('/payment-verification','web\CheckoutController@paymentVerification');
 Route::get('/user-account','web\UserAccount@index');
 Route::get('/delivery-confirm/{id}','web\UserAccount@confirmDelivery');
 Route::get('/thankyou/{id}','web\UserAccount@thankyou');
@@ -56,7 +56,8 @@ Route::post('/transfer-update','web\VendorController@transferAccountUpdate');
 Route::post('/payout','web\VendorController@payout');
 Route::post('/edit-stock','web\VendorController@editStock');
 Route::post('/loadmore','web\HomeController@loadmore');
-
+Route::post('/newsletter','web\HomeController@newsletter');
+Route::post('/protein-soup','web\CartController@proteinSoup');
 
 Route::get('/test','web\CartController@test');
 
