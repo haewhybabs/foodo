@@ -65,7 +65,8 @@
                                                                         <label for="inputPassword4">Stock Name</label>
                                                                         <div class="input-group">
                                                                             <input type="hidden" name="stock_id" value="{{$stock->idstockdetails}}">
-                                                                        <input type="text" class="form-control" placeholder="Stock Name" name="stock_name" value="{{$stock->name}}">
+                                                                            <input type="text" class="form-control" placeholder="Stock Name" name="stock_name" value="{{$stock->name}}">
+                                                                            <input type="number" class="form-control" name="stockprice" value="{{$stock->stockprice}}">
                                                                             <div class="input-group-append">
                                                                                 <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="icofont-ui-pointer"></i></button>
                                                                             </div>

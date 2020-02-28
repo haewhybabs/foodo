@@ -33,7 +33,7 @@ class CheckoutController extends Controller
         $vendorRegion=$vendor->region_id;
 
         $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
         }
         else{
             return redirect()->back()->with('error','We have closed. Thank you');
@@ -47,8 +47,39 @@ class CheckoutController extends Controller
         $delivery_fee=0;
         $userAddress=DB::table('address')->where('user_id',Auth::user()->id)->where('active',1)->first();
         $regions = DB::table('regions')->get();
+        $service_charge=0;
+        
 
-        if($userAddress){
+        if($userAddress)
+        {
+            #Service Charge
+            $cartAmount=$this->cartAmount();
+
+            $vendor_percentage = DB::table('vendorpercentage')->where('vendor_id',$vendor_id)->where('minAmount','<=',$cartAmount)
+            ->where('maxAmount','>=',$cartAmount)->first();
+            if($vendor_percentage){
+                $percentage = ($vendor_percentage->percentage/100)*$cartAmount;
+                $vendor_fee =$cartAmount-$percentage;
+            }
+            else{
+                $general_setting = DB::table('general_settings')->where('minAmount','<=',$cartAmount)
+                ->where('maxAmount','>=',$cartAmount)->first();
+                if($general_setting){
+                    $percentage = ($general_setting->service_charge/100) * $cartAmount;
+                    $vendor_fee=$this->cartAmount();
+                    $service_charge = $percentage;
+                }
+            }
+
+            $chargesData=array(
+                'vendor_fee'=>$vendor_fee,
+                'service_charge'=>$service_charge,
+            );
+
+            session()->put('chargesData',$chargesData);
+
+            
+
             $userRegion=$userAddress->region_id;
 
             $priceBreakDown=DB::table('pricebreakdowns')->where('from_region_id',$vendorRegion)->where('to_region_id',$userRegion)->first();
@@ -59,25 +90,23 @@ class CheckoutController extends Controller
                 $delivery_fee=$priceBreakDown->delivery_fee;
 
                 $amount=array(
-                    'charges'=>$charges,
+                    'service_charge'=>$service_charge,
                     'delivery_fee'=>$delivery_fee,
-                    'total'=>$this->cartAmount()+$charges+$delivery_fee
+                    'total'=>$this->cartAmount()+$service_charge+$delivery_fee
                 );
                 
             }
             else{
 
                 $amount=array(
-                    'charges'=>$charges,
+                    'service_charge'=>$service_charge,
                     'delivery_fee'=>$charges,
-                    'total'=>$this->cartAmount()+$charges+$delivery_fee
+                    'total'=>$this->cartAmount()+$service_charge+$delivery_fee
                 );
                 
             }
             session()->put('AmountToPay',$amount);
-       }
-
-
+        }
 
        $address=DB::table('address')->join('regions','address.region_id','=','regions.idregions')
        ->where('address.user_id',Auth::user()->id)->get();
@@ -91,12 +120,18 @@ class CheckoutController extends Controller
         }
 
        $cities=DB::table('cities')->get();
+
+       
+       
+
+
        $data=array(
            'cities'=>$cities,
            'activeAddress'=>$activeAddress,
            'address'=>$address,
            'activeStatus'=>$activeStatus,
            'charges'=>$charges,
+           'service_charge'=>$service_charge,
            'delivery_fee'=>$delivery_fee,
            'regions'=>$regions,
        );
@@ -227,25 +262,7 @@ class CheckoutController extends Controller
 
         $cartAmount=$this->cartAmount();
 
-
-
-        $vendor_percentage = DB::table('vendorpercentage')->where('vendor_id',$vendor_id)->where('minAmount','<=',$cartAmount)
-        ->where('maxAmount','>=',$cartAmount)->first();
-        if($vendor_percentage){
-            $percentage = ($vendor_percentage->percentage/100)*$cartAmount;
-            $vendor_fee =$cartAmount-$percentage;
-            $service_charge=0;
-        }
-        else{
-            $general_setting = DB::table('general_settings')->where('minAmount','<=',$cartAmount)
-            ->where('maxAmount','>=',$cartAmount)->first();
-            if($general_setting){
-                $percentage = ($general_setting->service_charge/100) * $cartAmount;
-                $vendor_fee=$this->cartAmount();
-                $service_charge = $percentage;
-            }
-        }
-        
+        $chargesData = session()->get('chargesData');
 
         $orderSummaryData=array(
             'vendor_id'=>$vendor_id,
@@ -254,8 +271,8 @@ class CheckoutController extends Controller
             'to_region_id'=>$vendorRegion,
             'status'=>0,
             'total_amount'=>session()->get('AmountToPay')['total'],
-            'vendor_fee'=>$vendor_fee,
-            'service_charge'=>$service_charge
+            'vendor_fee'=>$chargesData['vendor_fee'],
+            'service_charge'=>$chargesData['service_charge']
         );
 
         
@@ -268,10 +285,26 @@ class CheckoutController extends Controller
             $orderDetailData=array(
                 'order_summaries_id'=>$orderSummary,
                 'stock_details_id'=>$detail['stock_id'],
-                'qty'=>$detail['quantity']
+                'qty'=>$detail['quantity'],
+                'price'=>$detail['price'],
             );
+            $stock_detail_id = DB::table('orderdetails')->insertGetId($orderDetailData);
 
-            DB::table('orderdetails')->insert($orderDetailData);
+            if(count($detail['proteins']) !=0){
+                
+                #Insert Protein 
+                foreach($detail['proteins'] as $protein)
+                {
+                    $proteinData=array(
+                        'stock_id'=>$id,
+                        'qty'=>$protein['qty'],
+                        'price'=>$protein['price'],
+                        'order_detail_id'=>$stock_detail_id
+                    );
+
+                    DB::table('orderprotein')->insert($proteinData);
+                }
+            }
         }
 
         #Insert To Transaction

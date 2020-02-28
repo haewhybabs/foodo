@@ -260,9 +260,16 @@ class VendorController extends Controller
 
     public function editStock(Request $request)
     {
+        $validatedData = $request->validate([
+            'stock_name'=>'required',
+            'stockprice'=>'required',
+        ]);
+
         $id = $request->stock_id;
         $data =array(
+
             'name' =>$request->stock_name,
+            'stockprice'=>$request->stockprice,
         );
 
         DB::table('stockdetails')->where('idstockdetails',$id)->update($data);

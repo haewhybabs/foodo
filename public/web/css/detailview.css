@@ -24,6 +24,11 @@ input[type=number] {
     border: 1px solid #eee;
 }
 
+.quantify input {
+    width: 55px;
+    border: 1px solid #eee
+}
+
 .quantity input:focus {
     outline: 0;
 }

@@ -122,7 +122,7 @@
                                           <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
                                           <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
                                           <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                                          @if($time>=$vendor->open_at and $time<=$vendor->close_at+12 and $vendor->close_status==0)
+                                          @if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at and $vendor->close_status==0)
                                                 <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
                                                    <img src="{{ $vendor->logo }}" class="img-fluid item-img">
                                                 </a>

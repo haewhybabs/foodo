@@ -171,15 +171,17 @@
                             <div class="mb-2 bg-white rounded p-2 clearfix">
                                 <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
                                 <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
-                                {{-- <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$charges}}</span></p> --}}
+                                @if($service_charge !=0)
+                                    <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$service_charge}}</span></p>
+                                @endif
                                 <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
                                     <i class="icofont-info-circle"></i>
                                     </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
                                 </p>
                                 <p class="mb-1 text-success">Total
-                                    <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span>
+                                    <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span>
                                 </p>                        
-                                <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">&#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}</span></h6>
+                                <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span></h6>
                             </div>
                         </form>
 

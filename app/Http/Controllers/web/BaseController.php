@@ -14,9 +14,9 @@ trait BaseController
     public $public="FLWPUBK_TEST-5406e801d01e00866fa150108da3d1f5-X";
     public $currency="NGN";
     public $url='http://foodxyme.com/test/';
-    public $soupCategory=5;
-    public $mainMealCategory=2;
-    public $soupProteins=7;
+    public $soupCategory=3;
+    public $mainMealCategory=1;
+    public $soupProteins=11;
 
 
     public function audit($task,$user_id){

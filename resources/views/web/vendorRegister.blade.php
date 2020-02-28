@@ -74,7 +74,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="text" id="inputName" name="name" class="form-control" placeholder="Full Name" value="{{ old('name') }}" required>
+                                            <input type="text" id="inputName" name="store_name" class="form-control" placeholder="Full Name" value="{{ old('store_name') }}" required>
                                             <label for="inputName">Store Name</label>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-label-group">
-                                            <input type="text" id="inputpasswordconf" name="password_confirmation" class="form-control" placeholder="Password Confirmation" required>
+                                            <input type="password" id="inputpasswordconf" name="password_confirmation" class="form-control" placeholder="Password Confirmation" required>
                                             <label for="inputpasswordconf">Password Confirmation</label>
                                         </div>
                                     </div>
@@ -125,7 +125,7 @@
                                 </div>
 
                                 <div class="form-label-group">
-                                    <input type="text" id="inputdescription" name="description" class="form-control" placeholder="Brief Description" value="{{ old('description') }}" required>
+                                    <input type="text" id="inputdescription" name="description" class="form-control" placeholder="Brief Description" value="{{ old('description') }}">
                                     <label for="inputdescription">Description</label>
                                 </div>
 
@@ -148,7 +148,7 @@
 
                                 <div class="form-group">
                                     <label for="region_id">Select a region closer to you</label>
-                                    <select class="form-control" id="region" required>
+                                    <select class="form-control" id="region" required name="region">
                                         <option value="">Select Region</option>
                                         @foreach($regions as $region)
                                             <option value="{{ $region->idregions }}">{{ $region->name }}</option>
@@ -158,7 +158,7 @@
 
                                 <div class="form-group">
                                     <label for="category_id">Select a category you belong to</label>
-                                    <select class="form-control" id="category">
+                                    <select class="form-control" id="category" name="category">
                                         <option value="">Select Category</option>
                                         @foreach($categories as $category)
                                             <option value="{{ $category->idcategories }}">{{ $category->name }}</option>

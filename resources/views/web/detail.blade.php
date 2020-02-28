@@ -87,91 +87,93 @@
                         <div id="cartshow"></div>
 
                         @foreach($stockcategories as $stockcategory)
-                        <?php $stocks=DB::table('stockdetails')->where('stock_category_id',$stockcategory->idstockcategories)
-                        ->where('vendor_id',$id)->where('status','Available')->get(); $x=1; $count=count($stocks);?>
+                            @if($stockcategory->app_category_id !=$soupProteins)
+                                <?php $stocks=DB::table('stockdetails')->where('stock_category_id',$stockcategory->idstockcategories)
+                                ->where('vendor_id',$id)->where('status','Available')->get(); $x=1; $count=count($stocks);?>
 
-                        <div class="row">
-                        <h5 class="mb-4 mt-3 col-md-12">{{$stockcategory->name}} <small class="h6 text-black-50"> {{$count}} ITEMS</small></h5>
-                            <div class="col-md-12">
-                                <div class="bg-white rounded border shadow-sm mb-4">
+                                <div class="row">
+                                    <h5 class="mb-4 mt-3 col-md-12">{{$stockcategory->name}} <small class="h6 text-black-50"> {{$count}} ITEMS</small></h5>
+                                    <div class="col-md-12">
+                                        <div class="bg-white rounded border shadow-sm mb-4">
 
-                                    @foreach($stocks as $stock)
-                                        <div class="gold-members p-3 border-bottom">
-                                            @if($close==false)
-                                                @if($stockcategory->idappstockcategory==$soupCategory)
-                                                    <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
-                                                    
-                                                @elseif($stockcategory->idappstockcategory==$mainMeal)
-                                                    <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
-                                                @else
-                                                    <button class="btn btn-outline-secondary btn-sm  float-right cartadd" data-id="{{$stock->idstockdetails}}">ADD</button>
-                                                @endif
-                                                {{-- {{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}} --}}
+                                            @foreach($stocks as $stock)
+                                                <div class="gold-members p-3 border-bottom">
+                                                    @if($close==false)
+                                                        @if($stockcategory->idappstockcategory==$soupCategory)
+                                                            <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
+                                                            
+                                                        @elseif($stockcategory->idappstockcategory==$mainMeal)
+                                                            <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}">ADD</a>
+                                                        @else
+                                                            <button class="btn btn-outline-secondary btn-sm  float-right cartadd" data-id="{{$stock->idstockdetails}}">ADD</button>
+                                                        @endif
+                                                        {{-- {{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}} --}}
 
-                                                <div class="modal fade" id="protein{{$stock->idstockdetails}}" tabindex="-1" role="dialog" aria-labelledby="protein" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="add-address">Select the proteins you want for this soup</h5>
-                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                                </button>
-                                                            </div>
-                                                            <form method="POST" action="{{URL::TO('protein-soup')}}" id="proteinSoup">
-                                                                @csrf
-                                                                <div class="modal-body">
-                                                                    @if(count($stock_proteins) !=0)
-                                                                        @foreach($stock_proteins as $stock_protein)
-                                                                            <div class="row">    
-                                                                                <div class="col-sm-12">
-                                                                                    <div class="row">
-                                                                                        <div class="checkbox col-4">
-                                                                                            <label>
-                                                                                                <input type="hidden" name="id" value="{{$stock->idstockdetails}}">
-                                                                                                <input type="checkbox" value="{{$stock_protein->idstockdetails}}" name="stock_protein[]">
-                                                                                                    {{$stock_protein->name}}
-                                                                                                
-                                                                                            </label>
-                                                                                        </div>
-                                                                                        <div class="quantity col-4">
-                                                                                            <input type="number" min="1" max="9" step="1" value="1" name="quantity[]">
-                                                                                        </div>
-                                                                                        <div class="col-4">
-                                                                                            <p> &#8358 {{$stock_protein->stockprice}}</p>
-                                                                                        </div>
+                                                        <div class="modal fade" id="protein{{$stock->idstockdetails}}" tabindex="-1" role="dialog" aria-labelledby="protein" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="add-address">Select the supplements you want for this package</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form method="POST" action="{{URL::TO('protein-soup')}}" id="proteinSoup">
+                                                                        @csrf
+                                                                        <div class="modal-body">
+                                                                            @if(count($stock_proteins) !=0)
+                                                                                @foreach($stock_proteins as $stock_protein)
+                                                                                    <div class="row">    
+                                                                                        <div class="col-sm-12">
+                                                                                            <div class="row">
+                                                                                                <div class="checkbox col-4">
+                                                                                                    <label>
+                                                                                                        <input type="hidden" name="id" value="{{$stock->idstockdetails}}">
+                                                                                                        <input type="checkbox" value="{{$stock_protein->idstockdetails}}" name="stock_protein[]">
+                                                                                                            {{$stock_protein->name}}
+                                                                                                        
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                                <div class="quantity col-4">
+                                                                                                    <input type="number" min="1" max="3" step="1" value="1" name="quantity[]">
+                                                                                                </div>
+                                                                                                <div class="col-4">
+                                                                                                    <p> &#8358 {{$stock_protein->stockprice}}</p>
+                                                                                                </div>
 
+                                                                                            </div>
+                                                                                            
+                                                                                        </div> 
                                                                                     </div>
-                                                                                    
-                                                                                </div> 
-                                                                            </div>
-                                                                        @endforeach
-                                                                    @endif
-                     
+                                                                                @endforeach
+                                                                            @endif
+                            
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
+                                                                            </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning" id="withdrawsubmit">SUBMIT</button>
+                                                                        </div>
+                                                                    </form>
+                                                        
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
-                                                                    </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning" id="withdrawsubmit">SUBMIT</button>
-                                                                </div>
-                                                            </form>
-                                                
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    <div class="media">
+                                                        <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                                        <div class="media-body">
+                                                        <h6 class="mb-1">{{$stock->name}}</h6>
+                                                        
+                                                            <p class="text-gray mb-0">&#8358 {{$stock->stockprice}}</p>
+                                                    
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @endif
-                                            <div class="media">
-                                                <div class="mr-3"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                                <div class="media-body">
-                                                <h6 class="mb-1">{{$stock->name}}</h6>
-                                                @if($stockcategory->idappstockcategory!=5)
-                                                    <p class="text-gray mb-0">&#8358 {{$stock->stockprice}}</p>
-                                                @endif
-                                                </div>
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            @endif
                         @endforeach
                     </div>
                     <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab">
@@ -355,8 +357,10 @@
                                         <div class="gold-members p-2 border-bottom">
                                             <p class="text-gray mb-0 float-right ml-2"></p>
                                             <span class="count-number float-right">
-                                            <input class="quantityUpdate" data-id="{{$id}}" type="number" value="{{$detail['quantity']}}" name="quantity[]">
-                                            <input type="hidden" value="{{$id}}" name="id[]">
+                                            <div class="quantify">
+                                                <input class="quantityUpdate" data-id="{{$id}}" type="number" value="{{$detail['quantity']}}" name="quantity[]">
+                                            </div>
+                                                <input type="hidden" value="{{$id}}" name="id[]">
                                             </span>
                                             <div class="media">
                                             <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-trash-alt"></i></a></div>

@@ -47,7 +47,7 @@ class CartController extends Controller
 
 
         $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
         }
         else{
 
@@ -132,13 +132,14 @@ class CartController extends Controller
 
     public function proteinSoup(Request $request)
     {
-        if(!$request->stock_protein){
-            $reply=array(
-                'alert-type'=>'error',
-                'message'=>'kindly select a protein before submission'
-            );
-            return redirect()->back()->with($reply);
-        }
+        // if(!$request->stock_protein){
+        //     $reply=array(
+        //         'alert-type'=>'error',
+        //         'message'=>'kindly select a protein before submission'
+        //     );
+        //     return redirect()->back()->with($reply);
+        // }
+
         $id = $request->id;
         $amount =$this->cartAmount();
         $data = array(
@@ -161,7 +162,7 @@ class CartController extends Controller
         }
         $vendor=DB::table('vendors')->where('idvendors',$currentVendor)->first();
         $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
         }
         else{
 
@@ -172,25 +173,28 @@ class CartController extends Controller
         $proteins=array();
         $proteinsAmount=0;
 
-        for($i=0; $i<count($request->stock_protein); $i++)
-        {
-            $stock_id = $request->stock_protein[$i];
-            $qty = $request->quantity[$i];
-            $stockProteins=DB::table('stockdetails')->where('idstockdetails',$stock_id)->first();
-            $perStockAmount=$stockProteins->stockprice*$qty;
+        if($request->stock_protein){
 
-            #Amount
-            $proteinsAmount=$proteinsAmount+$perStockAmount;
+            for($i=0; $i<count($request->stock_protein); $i++)
+            {
+                $stock_id = $request->stock_protein[$i];
+                $qty = $request->quantity[$i];
+                $stockProteins=DB::table('stockdetails')->where('idstockdetails',$stock_id)->first();
+                $perStockAmount=$stockProteins->stockprice*$qty;
 
-            $proteins[]=array(
+                #Amount
+                $proteinsAmount=$proteinsAmount+$perStockAmount;
 
-                'id'=>$stock_id,
-                'qty'=>$qty,
-                'name'=>$stockProteins->name,
-                'price'=>$stockProteins->stockprice,
-            );
+                $proteins[]=array(
+
+                    'id'=>$stock_id,
+                    'qty'=>$qty,
+                    'name'=>$stockProteins->name,
+                    'price'=>$stockProteins->stockprice,
+                );
 
 
+            }
         }
 
         $cart=session()->get('cart');

@@ -219,7 +219,7 @@ class HomeController extends Controller
         
         $close = true;
         $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=$vendor->open_at and $time<=$vendor->close_at+12){
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
             $close= false;
         }
 
@@ -241,10 +241,12 @@ class HomeController extends Controller
             'regions'=>$regions,
             'soupCategory'=>$this->soupCategory,
             'mainMeal'=>$this->mainMealCategory,
+            'soupProteins'=>$this->soupProteins,
             'stock_proteins'=>$stock_proteins,
         );
 
         return view('web.detail')->with($data);
+       
 
     }
 
@@ -360,14 +362,12 @@ class HomeController extends Controller
 
             'email'=>'email|required|unique:users',
             'password'=>'required|confirmed',
-
             'manager_name'=>'required',
             'store_name'=>'required',
             'address'=>'required',
             'phone_number'=>'required',
-            'description'=>'required',
-            'category_id'=>'required',
-            'region_id'=>'required',
+            'category'=>'required',
+            'region'=>'required',
             'open_at'=>'required',
             'close_at'=>'required',
         ]);
@@ -390,14 +390,20 @@ class HomeController extends Controller
             'status'=>1, #Pending
             'description'=>$request->description,
             'user_id'=>$user->id,
-            'category_id'=>$request->category_id,
-            'region_id'=>$request->region_id,
+            'category_id'=>$request->category,
+            'region_id'=>$request->region,
             'open_at'=>$request->open_at,
             'close_at'=>$request->close_at,
         );
 
 
         $vendor=DB::table('vendors')->insert($vendorData);
+
+        $reply=array(
+            'alert-type'=>'success',
+            'message'=>'Your application will be processed. We will contact you as soon as possible. Kindly check your mail for updates. Regards!!!'
+        );
+        return redirect()->back()->with($reply);
     }
 
 

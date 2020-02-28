@@ -140,6 +140,20 @@
        <p class="mt-0 mb-0">© Copyright {{date('Y')}} ProXyme All Rights Reserved</p>
     </div>
  </footer>
+
+ <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+   (function(){
+   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+   s1.async=true;
+   s1.src='https://embed.tawk.to/5e580c66a89cda5a18884ef8/default';
+   s1.charset='UTF-8';
+   s1.setAttribute('crossorigin','*');
+   s0.parentNode.insertBefore(s1,s0);
+   })();
+</script>
+   <!--End of Tawk.to Script-->
  <!-- jQuery -->
  <script src="{{asset('web/js/jquery-3.3.1.slim.min.js')}}"></script>
  <!-- Bootstrap core JavaScript-->
