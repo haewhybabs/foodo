@@ -9,7 +9,7 @@
                     <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                     @if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at and $vendor->close_status==0)
                         <a href="{{ URL::TO('') }}/{{ $category->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
-                            <img src="{{ $vendor->logo }}" class="img-fluid item-img">
+                            <img src="{{asset('vendorimages')}}/{{$vendor->logo}}" class="img-fluid item-img">
                         </a>
                     @else
                         <a>
@@ -21,7 +21,7 @@
                     <div class="list-card-body">
                         <h6 class="mb-1"><a href="{{ URL::TO('') }}/{{ $category->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{ $vendor->store_name }}</a></h6>
                         <p class="text-gray mb-3">{{ $vendor->description }}</p>
-                    <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{$vendor->open_at}}am</span> <span class="float-right text-black-50">closes at {{$vendor->close_at}}pm</span></p>
+                        <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{date('h:i A', strtotime($vendor->open_at))}}</span> <span class="float-right text-black-50">closes at {{date('h:i A', strtotime($vendor->close_at))}}</span></p>
                     </div>
                     <div class="list-card-badge">
                         {{--  <span class="badge badge-success">OFFER</span> <small>65% off | Use Coupon OSAHAN50</small>  --}}
@@ -29,8 +29,8 @@
                 </div>
             </div>
         </div>
-        <?php $last_id =$vendor->idvendors;?>
-    @endforeach 
+    @endforeach
+    <?php $last_id =$vendor->arrangement;?> 
  </div>
  <div class="">
     <button class="btn btn-warning btn-block btn-lg loadmore" data-id="{{$last_id}}">Load More</button>

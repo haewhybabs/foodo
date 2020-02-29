@@ -29,6 +29,7 @@ body {
     background: #f3f7f8;
     font-size: 13px;
     font-weight: 500;
+    font-family: 'poppins';
 }
 
 button,
@@ -88,7 +89,7 @@ h6 {
 }
 
 .dropdown-cart-top {
-    border-top: 2px solid #ffb200;
+    border-top: 2px solid #ff3008;
     min-width: 340px;
 }
 
@@ -145,7 +146,7 @@ h6 {
 }
 
 .bg-image {
-    background-image: url('https://user-images.githubusercontent.com/17219534/71550967-64dd7380-29dc-11ea-9746-ccd96acd215e.jpg');
+    background-image: url('../img/login-bg.png');
     background-size: cover;
     background-position: center;
 }
@@ -239,8 +240,84 @@ h6 {
 
 /* Homepage Search Block */
 
+.homepage-service {
+    margin-top: 100px;
+}
+
+.order-header {
+    color: white;
+    font-size: 25px;
+    background-color: #6b9b2b;
+    margin: 0 auto;
+    width: 70%;
+    border-radius: 20px;
+    padding: 7px;
+}
+
+.order-heading {
+    color: white;
+    font-size: 25px;
+}
+
+.process-heading {
+    font-size: 32px;
+    text-transform: uppercase;
+    font-weight: bolder;
+    color: #34323b;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: 800;
+    font-stretch: normal;
+    line-height: 1;
+    font-family: "Open Sans", sans-serif;
+    margin-bottom: 40px;
+}
+
+.process-intro {
+    font-size: 17px;
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+    line-height: 1.9rem;
+}
+
+.become-subheading {
+    color: #fff;
+    font-size: 20px;
+}
+
+.add-button {
+    font-size: 36px;
+    color: #ffb200;
+}
+
+.add-button:hover {
+    cursor: pointer;
+}
+
+.is-hidden-desktop {
+    visibility: hidden;
+    background-color: rgb(32, 172, 118);
+    height: 60px;
+    color: white;
+    position: sticky;
+    width: 100%;
+    bottom: 0px;
+}
+
+.is-flex {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
 .homepage-search-block {
-    background-color: #eef0ef;
+    background-color: #fff;
+    height: 70vh;
 }
 
 .homepage-search-form .form-control {
@@ -561,7 +638,7 @@ small {
 }
 
 .dropdown-item:focus {
-    background-color: #ffb200;
+    background-color: #ff3008;
     color: #fff;
 }
 
@@ -680,11 +757,9 @@ small {
 }
 
 .generator-bg {
-    background: #ffb200;
-    background: -moz-linear-gradient(-45deg, #ffb300e8 1%, #ffb200 100%);
-    background: -webkit-linear-gradient(-45deg, #ffb200 1%, #ffb200 100%);
-    background: linear-gradient(135deg, #ff9100 1%, #ffb200 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffb200', endColorstr='#ff9100', GradientType=1);
+    background-color: #fff;
+    box-shadow: 4px 3px 4px 0 rgba(0, 0, 0, .08), -4px 3px 4px 0 rgba(0, 0, 0, .08);
+    ;
 }
 
 .restaurant-detailed-banner {
@@ -722,11 +797,11 @@ small {
 }
 
 .red-generator-bg {
-    background: #ffb200;
-    background: -moz-linear-gradient(-45deg, #ffb300e8 1%, #ffb200 100%);
-    background: -webkit-linear-gradient(-45deg, #ffb200 1%, #ffb200 100%);
-    background: linear-gradient(135deg, #ff9100 1%, #ffb200 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffb200', endColorstr='#ff9100', GradientType=1);
+    background: #ff3371;
+    background: -moz-linear-gradient(-45deg, #ff3371 1%, #fe6753 100%);
+    background: -webkit-linear-gradient(-45deg, #ff3371 1%, #fe6753 100%);
+    background: linear-gradient(135deg, #ff3371 1%, #fe6753 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff3371', endColorstr='#fe6753', GradientType=1);
 }
 
 .border-btn {
@@ -796,14 +871,14 @@ small {
 
 .mall-category-item small {
     background: #ececec;
-    color: #ffb200;
+    color: #f32129;
     padding: 1px 6px;
     border-radius: 2px;
     font-size: 10px;
 }
 
 .mall-category-item:hover small {
-    background: #ffb200;
+    background: #f32129;
     color: #ffffff;
 }
 
@@ -1162,7 +1237,7 @@ small {
     padding-bottom: 50%;
     pointer-events: none;
     background-color: rgba(225, 48, 8, .2);
-    border: 1px solid #ffb200;
+    border: 1px solid #ff3008;
 }
 
 
@@ -1213,8 +1288,38 @@ footer {
 /* Extra small devices (portrait phones, less than 576px) */
 
 @media (max-width: 575.98px) {
+    .header-img {
+        display: none;
+    }
+    .order-header {
+        width: 100%;
+    }
+    .order-heading {
+        font-size: 13px;
+    }
+    .process-heading {
+        font-size: 33px;
+    }
+    .homepage-service {
+        margin-top: 0;
+    }
+    .process-intro {
+        width: 100%;
+    }
+    .become-subheading {
+        font-size: 15px;
+    }
+    .order-summary {
+        display: none;
+    }
+    .is-hidden-desktop {
+        visibility: visible;
+    }
     .m-none {
         display: none;
+    }
+    .homepage-search-block {
+        height: 100%;
     }
     .homepage-search-title {
         text-align: center;
@@ -1418,6 +1523,31 @@ footer {
     .homepage-add-section .col-md-3.col-6 {
         padding: 2px 2px;
     }
+    .homepage-service {
+        margin: 0;
+    }
+    .header-img {
+        display: none;
+    }
+    .order-header {
+        font-size: 15px;
+        width: 95%;
+    }
+    .process-heading {
+        font-size: 33px;
+    }
+    .process-image {
+        width: 70%;
+    }
+    .become-subheading {
+        font-size: 15px;
+    }
+    .is-hidden-desktop {
+        visibility: visible;
+    }
+    .homepage-search-block {
+        height: 100%;
+    }
     .homepage-search-title {
         text-align: center;
     }
@@ -1569,6 +1699,32 @@ footer {
 /* Medium devices (tablets, 768px and up) */
 
 @media (min-width: 768px) and (max-width: 991.98px) {
+    .homepage-service {
+        margin: 0;
+        width: 100%;
+    }
+    .header-img {
+        display: none;
+    }
+    .order-header {
+        font-size: 15px;
+        width: 95%;
+    }
+    .process-heading {
+        font-size: 33px;
+    }
+    .process-image {
+        width: 70%;
+    }
+    .become-subheading {
+        font-size: 15px;
+    }
+    .is-hidden-desktop {
+        visibility: visible;
+    }
+    .homepage-search-block {
+        height: 100%;
+    }
     .container {
         max-width: 100%;
     }
@@ -1687,6 +1843,9 @@ footer {
 @media (min-width: 992px) and (max-width: 1199.98px) {
     .container {
         max-width: 100%;
+    }
+    .homepage-search-block {
+        height: 70%;
     }
 }
 

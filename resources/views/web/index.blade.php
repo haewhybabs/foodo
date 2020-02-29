@@ -1,41 +1,45 @@
 @extends('layouts.main')
 @section('content')
-<section class="pt-5 pb-5 homepage-search-block position-relative">
-    <div class="banner-overlay"></div>
-    <div class="container">
-    <div class="row d-flex align-items-center">
-        <div class="col-md-8">
-            <div class="homepage-search-title">
+
+
+<section class="homepage-search-block position-relative">
+    <div>
+       <div style="display: flex; justify-content: space-between;">
+          <div class="header-img">
+             <img src="{{asset('web/img/jumiafood-homepage-left-splash-services.jpg')}}" alt="">
+          </div>
+          <div class="col-md-11 col-lg-6 homepage-service">
+             <div class="homepage-search-title">
                 <h1 class="mb-2 font-weight-normal"><span class="font-weight-bold">Order It</span> Get It at your doorstep</h1>
-                <h5 class="mb-5 text-secondary font-weight-normal">Lists of top restaurants, pharmacy, supermarket, and bars, in your area</h5>
-            </div>
-            <div class="homepage-search-form">
+                <h5 class="mb-5 text-secondary font-weight-normal">Lists of top restaurants, pharmacy, supermarket, and bars, based on trends</h5>
+             </div>
+             <div class="homepage-search-form">
                 <form class="form-noborder" method="get" action="{{URL::TO('vendor-search')}}">
                     @csrf
-                <div class="form-row">
-                    <div class="col-lg-3 col-md-3 col-sm-12 form-group">
-                        <div class="location-dropdown">
-                            <i class="icofont-location-arrow"></i>
-                            <select class="custom-select form-control-lg">
-                                {{-- <option>Select City</option> --}}
-                                @foreach($cities as $city)
-                                    <option href="{{$city->idcities}}">{{$city->name}} </option>
-                                @endforeach
-                            </select>
+                    <div class="form-row">
+                        <div class="col-lg-3 col-md-3 col-sm-12 form-group">
+                            <div class="location-dropdown">
+                                <i class="icofont-location-arrow"></i>
+                                <select class="custom-select form-control-lg">
+                                    {{-- <option>Select City</option> --}}
+                                    @foreach($cities as $city)
+                                        <option href="{{$city->idcities}}">{{$city->name}} </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12 form-group">
+                            <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg" name="search">
+                            <!-- <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a> -->
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-12 form-group">
+                            <button type="submit" class="btn btn-warning btn-block btn-lg btn-gradient">Search</button>
                         </div>
                     </div>
-                    <div class="col-lg-7 col-md-7 col-sm-12 form-group">
-                        <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg" name="search">
-                        <!-- <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a> -->
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-12 form-group">
-                        <button type="submit" class="btn btn-warning btn-block btn-lg btn-gradient">Search</button>
-                    </div>
-                </div>
                 </form>
-            </div>
-            <h6 class="mt-4 text-shadow font-weight-normal">Choose a Service</h6>
-            <div class="owl-carousel owl-carousel-category owl-theme">
+             </div>
+             <h6 class="mt-4 text-shadow font-weight-normal">Choose a Service</h6>
+             <div class="owl-carousel owl-carousel-category owl-theme">
                 @foreach($categories as $category)
                 <div class="item">
                     <div class="osahan-category-item">
@@ -48,105 +52,111 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
-        </div>
+             </div>
+          </div>
+          <div class="header-img">
+             <img src="{{asset('web/img/jumiafood-homepage-right-splash-services.jpg')}}" alt="">
+          </div>
 
-        <!-- Advertisment -->
+          <!-- Advertisment -->
 
-        <div class="col-md-4">
-            <div class="osahan-slider pl-4 pt-3">
+          <!-- <div class="col-md-4">
+             <div class="osahan-slider pl-4 pt-3">
                 <div class="owl-carousel homepage-ad owl-theme">
-                    <div class="item">
-                        <a ><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
-                    </div>
-                    <div class="item">
-                        <a><img class="img-fluid rounded" src="{{ asset('web/img/febgreetings.jpg') }}"></a>
-                    </div>
-                    <div class="item">
-                        <a><img class="img-fluid rounded" src="{{ asset('web/img/foodxymepub1.jpg') }}"></a>
-                    </div>
+                   <div class="item">
+                      <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
+                   </div>
+                   <div class="item">
+                      <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider1.png"></a>
+                   </div>
+                   <div class="item">
+                      <a href="https://askbootstrap.com/preview/osahan-eat/listing.html"><img class="img-fluid rounded" src="https://askbootstrap.com/preview/osahan-eat/img/slider.png"></a>
+                   </div>
                 </div>
-            </div>
-        </div>
+             </div>
+          </div> -->
+       </div>
     </div>
-    </div>
-</section>
-<!-- Advertisement -->
+ </section>
+ <!-- Advertisement -->
 
-<section class="section pt-5 pb-5 bg-white homepage-add-section">
+
+ <section class="section pt-5 pb-5 bg-white homepage-add-section">
+    <!-- <div class="container">
+       <div class="text-center order-header">
+          <h2 class="order-heading">Order for food from your desired restaurant</h2>
+       </div>
+       <div style="margin-top: 20px;">
+          <h2 class="text-center process-heading">JUST <span style="color: #ffb200; font-size: 70px; font-weight: bold;">3</span>Clicks</h2>
+       </div>
+       <div class="row" style="margin-top: 40px;">
+          <div class="col-sm-4">
+             <div class="text-center">
+                <img class="process-image" src="./img/first icon.png">
+             </div>
+          </div>
+          <div class="col-sm-4">
+             <div class="text-center">
+                <img class="process-image" src="img/second icon.png"><br>
+             </div>
+          </div>
+          <div class="col-sm-4">
+             <div class="text-center">
+                <img class="process-image" src="img/third-icon.png"><br>
+             </div>
+          </div>              
+       </div>
+    </div> -->
+
     <div class="container">
-    <div class="row">
-        <div class="col-md-3 col-6">
-            <div class="products-box">
-            <a href="{{URL::TO('category/Bar')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro1.jpg" class="img-fluid rounded"></a>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="products-box">
-                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro2.jpg" class="img-fluid rounded"></a>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="products-box">
-                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro3.jpg" class="img-fluid rounded"></a>
-            </div>
-        </div>
-        <div class="col-md-3 col-6">
-            <div class="products-box">
-                <a href="{{URL::TO('category/Restaurants')}}"><img alt="" src="https://askbootstrap.com/preview/osahan-eat/img/pro4.jpg" class="img-fluid rounded"></a>
-            </div>
-        </div>
-    </div>
-    </div>
-</section>
-
-<section class="section pt-5 pb-5 bg-white homepage-add-section">
-    <div class="container">
-    <div class="section-header text-center">
-        <h2>How It Works</h2>
-        <span class="line"></span>
-    </div>
-    <div class="row">
-
-        <div class="col-sm-4">
-            <div class="text-center">
-                <img src="{{ asset('web/img/icons/desktop-48.png')}}" style="height:60px; width:70px; margin-bottom:20px;">
-                <h3>Make an Order</h3>
+       <div class="section-header text-center">
+          <h2 class="process-heading">How It Works</h2>
+          <span class="line" style="background-color: #ffb200 !important;"></span>
+          <p class="process-intro">Foodxyme is an Online Platform (Website and Mobile app) that delivers Healthy food without Stress,
+             from your favorite Restaurant within your locality and delivered at your doorstep within 20-25mins after your order, 
+             with our fast delivery system in place.</p>
+       </div>
+       <div class="row mt-5">
+          <div class="col-sm-4">
+             <div class="text-center">
+                <!-- <img src="img/icons/cart.png" style="height:60px; width:70px; margin-bottom:20px; color: #ffb200;"> -->
+                <i class="icofont-prestashop text-warning" style="font-size: 55px;"></i>
+                <h4 style="color: #34323b; margin: 13px 0; font-weight: 400;">Make an Order</h4>
                 <p>Order for your desired food</p>
-            </div>
-        </div>
+             </div>
+          </div>
 
-        <div class="col-sm-4">
-            <div class="text-center">
-                <img src="{{ asset('web/img/icons/location_yellow.png')}}" style="height:60px; width:70px; margin-bottom:20px;"><br>
-                <h3>Set Delivery Location</h3>
+          <div class="col-sm-4">
+             <div class="text-center">
+                <!-- <img src="img/icons/location_yellow.png" style="height:60px; width:70px; margin-bottom:20px;"><br> -->
+                <i class="icofont-location-pin text-warning" style="font-size: 55px;"></i>
+                <h4 style="color: #34323b; margin: 13px 0; font-weight: 400;">Set Delivery Location</h4>
                 <p>Select the location where you want us to deliver</p>
-            </div>
-        </div>
+             </div>
+          </div>
 
-        <div class="col-sm-4">
-            <div class="text-center">
-                <img src="{{ asset('web/img/icons/motorcycle.png')}}" style="height:60px; width:70px; margin-bottom:20px;"><br>
-                <h3>Get it at your location</h3>
+          <div class="col-sm-4">
+             <div class="text-center">
+                <!-- <img src="img/icons/motorcycle.png" style="height:60px; width:70px; margin-bottom:20px;"><br> -->
+                <i class="icofont-motor-bike-alt text-warning" style="font-size: 55px;"></i>
+                <h4 style="color: #34323b; margin: 13px 0; font-weight: 400;">Get it at your location</h4>
                 <p>Your order is delivered to you straight up</p>
-            </div>
-        </div>
-
+             </div>
+          </div>
+          
+       </div>
     </div>
-    </div>
+ </section>
 
-</section>
-
-
-<section class="section pt-5 pb-5 products-section">
+ <section class="section pt-5 pb-5 products-section">
     <div class="container">
-    <div class="section-header text-center">
-        <h2>Popular Vendors</h2>
-        <p>Top restaurants, cafes, pubs, and bars in your area, based on trends</p>
-        <span class="line"></span>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+       <div class="section-header text-center">
+          <h2>Popular Vendors</h2>
+          <p>Top restaurants, cafes, pubs, and bars in your area, based on trends</p>
+          <span class="line"></span>
+       </div>
+       <div class="row">
+          <div class="col-md-12">
             <div class="owl-carousel owl-carousel-four owl-theme">
                 @foreach($vendors as $vendor)
                     <div class="item">
@@ -156,7 +166,7 @@
                                 <div class="favourite-heart text-danger position-absolute"> <a href="{{ URL::TO('') }}/{{ $vendor->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
                                 <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                                 <a href="{{ URL::TO('') }}/{{ $vendor->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
-                                <img src="{{$vendor->logo}}" class="img-fluid item-img">
+                                <img src="{{asset('vendorimages')}}/{{$vendor->logo}}" class="img-fluid item-img">
                                 </a>
                             </div>
                             <div class="p-3 position-relative">
@@ -173,10 +183,10 @@
                     </div>
                 @endforeach
             </div>
-        </div>
+          </div>
+       </div>
     </div>
-    </div>
-</section>
+ </section>
 
 
 @endsection

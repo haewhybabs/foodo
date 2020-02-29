@@ -22,6 +22,7 @@ class CartController extends Controller
 
         $data = array(
             'status'=>false,
+            'newVendor'=>0
         );
 
 
@@ -36,6 +37,7 @@ class CartController extends Controller
         if($stock->vendor_id!=$currentVendor){
 
             $data['message'] = 'Error!!! You have not checked out with the previous vendor';
+            $data['newVendor']=1;
             return response()->json($data);
         }
 
@@ -77,6 +79,9 @@ class CartController extends Controller
 
             session()->put('cart',$cart);
 
+            $count=count(session()->get('cart'));
+            $data['count']=$count;
+
             $amount =$this->cartAmount();
             $view = view("jquery.cartshow")->render();
             $data['html']=$view;
@@ -85,6 +90,7 @@ class CartController extends Controller
             $data['message']='Product added to cart';
             $data['alert-type']='info';
             $data['status']=true;
+            $data['amount']=$amount;
             return response()->json($data);
 
 
@@ -94,6 +100,9 @@ class CartController extends Controller
         {
 
             $cart[$id]['quantity']++;
+            $count=count(session()->get('cart'));
+            $data['count']=$count;
+            
 
             session()->put('cart',$cart);
             $amount = $this->cartAmount();
@@ -104,6 +113,7 @@ class CartController extends Controller
             $data['message']='Product added to cart';
             $data['alert-type']='info';
             $data['status']=true;
+            $data['amount']=$amount;
             return response()->json($data);
         }
 
@@ -126,6 +136,9 @@ class CartController extends Controller
         $data['message']='Product added to cart';
         $data['alert-type']='info';
         $data['status']=true;
+        $count=count(session()->get('cart'));
+        $data['count']=$count;
+        $data['amount']=$amount;
         return response()->json($data);
 
     }
@@ -144,6 +157,7 @@ class CartController extends Controller
         $amount =$this->cartAmount();
         $data = array(
             'status'=>false,
+            'newVendor'=>0
         );
         $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
         $currentVendor=session()->get('vendor_id');
@@ -154,7 +168,9 @@ class CartController extends Controller
         if($stock->vendor_id!=$currentVendor){
 
             $data['message'] = 'Error!!! You have not checked out with the previous vendor';
-            return response()->json($data);
+            $data['newVendor']=1;
+            // return response()->json($data);
+            return redirect()->back()->with(['message'=>'Error!!! You have not checked out with the previous vendor','alert-type'=>'error']);
         }
         if(!$stock){
 
@@ -235,6 +251,7 @@ class CartController extends Controller
             $cart[$request->id]['quantity'] = $request->quantity;
             session()->put('cart',$cart);
             $amount =$this->cartAmount();
+            $data['amount']=$amount;
 
             $view = view("jquery.cartshow")->render();
 
@@ -244,6 +261,9 @@ class CartController extends Controller
             $data['message']='cart updated successfully';
             $data['alert-type']='info';
             $data['status']=true;
+            $count=count(session()->get('cart'));
+            $data['count']=$count;
+            $data['amount']=$amount;
             return response()->json($data);
         }
 
@@ -276,6 +296,8 @@ class CartController extends Controller
             $data['message']='cart updated successfully';
             $data['alert-type']='info';
             $data['status']=true;
+            
+            $data['amount']=$amount;
             return response()->json($data);
 
             // return redirect()->back()->with('cartSuccess','cart updated successfully');

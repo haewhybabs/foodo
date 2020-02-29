@@ -25,8 +25,7 @@ class HomeController extends Controller
 
         ->join('categories','categories.idcategories','=','vendors.category_id')
         ->where('vendors.status',2)
-        // ->where('categories.name',$name)
-        ->inRandomOrder()
+        ->where('vendors.popular_vendor',1)
         ->get(5);
 
 
@@ -56,7 +55,7 @@ class HomeController extends Controller
         ->join('categories','categories.idcategories','=','vendors.category_id')
         ->where('vendors.status',2)
         ->where('categories.name',$name)
-        ->orderBy('vendors.idvendors','desc')
+        ->orderBy('vendors.arrangement','asc')
         ->limit(3)
         ->get();
 
@@ -85,7 +84,7 @@ class HomeController extends Controller
         ->select('vendors.*','regions.*','categories.name')
         ->where('vendors.store_name','like','%'.$input.'%')
         ->where('vendors.status',2)
-        ->orderBy('vendors.rating','desc')
+        ->orderBy('vendors.arrangement','asc')
         ->get();
 
         $data = array(
@@ -125,8 +124,8 @@ class HomeController extends Controller
             ->join('categories','categories.idcategories','=','vendors.category_id')
             ->where('vendors.status',2)
             ->where('categories.idcategories',$category->idcategories)
-            ->where('vendors.idvendors', '<', $last_id)
-            ->orderBy('vendors.idvendors','desc')
+            ->where('vendors.arrangement', '>', $last_id)
+            ->orderBy('vendors.arrangement','asc')
             ->limit(3)
             ->get();
         }
@@ -138,7 +137,7 @@ class HomeController extends Controller
             ->join('categories','categories.idcategories','=','vendors.category_id')
             ->where('vendors.status',2)
             ->where('categories.idcategories',$category->idcategories)
-            ->orderBy('vendors.idvendors','desc')
+            ->orderBy('vendors.arrangement','asc')
             ->limit(3)
             ->get();
         }
@@ -160,9 +159,9 @@ class HomeController extends Controller
         ->select('vendors.*','regions.*','categories.name')
         ->where('vendors.region_id',$region_id)
         ->where('vendors.status',2)
-        ->orderBy('vendors.rating','desc')
+        ->orderBy('vendors.arrangement','asc')
         ->get();
-
+        // ->orderBy('vendors.rating','desc')
         $data = array(
             'vendors'=>$vendors,
             'categories'=>$category,
@@ -171,6 +170,76 @@ class HomeController extends Controller
         );
 
         return view('web.listing')->with($data);
+
+    }
+
+    public function vendorStock(Request $request){
+
+        $id=$request->id;
+
+        $like=false;
+        $user_id=false;
+
+        if(Auth::check()){
+
+            $user_id=Auth::user()->id;
+
+        }
+        
+        $vendor=DB::table('vendors')
+        ->join('regions','regions.idregions','=','vendors.region_id')
+        ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->join('users','users.id','=','vendors.user_id')
+        ->where('vendors.idvendors',$id)
+        ->first();
+
+        $vendorGallery=DB::table('vendorgallery')->where('vendor_id',$id)->get();
+        $reviewCount=count(DB::table('vendorsreviews')->where('vendor_id',$id)->get());
+
+        $vendorReview=DB::table('vendorsreviews')->join('customers','customers.idcustomers','=','vendorsreviews.customer_id')->where('vendorsreviews.vendor_id',$id)
+        ->orderBy('rating','desc')
+        ->limit(3)->get();
+
+        $existCheck=DB::table('vendorslikes')->where('user_id',$user_id)->where('vendor_review_id',$id)->first();
+        if($existCheck){
+            $like=true;
+        }
+
+        $stock_category=DB::table('stockcategories')->join('appstockcategory','appstockcategory.idappstockcategory','=','stockcategories.app_category_id')
+        ->where('stockcategories.vendor_id',$id)->get();
+
+        $stock_proteins=DB::table('stockdetails')->join('stockcategories','stockdetails.stock_category_id','=','stockcategories.idstockcategories')
+        ->where('stockcategories.vendor_id',$id)->where('stockcategories.app_category_id',$this->soupProteins)->get();
+        
+        $close = true;
+        $now= time()+3600; $time=(int)date('H',$now);
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
+            $close= false;
+        }
+
+        if($vendor->close_status==1){
+            $close=true;
+        }
+
+        $data = array(
+            'vendor'=>$vendor,
+            'stockcategories'=>$stock_category,
+            'reviews'=>$vendorReview,
+            'like'=>$like,
+            'galleries'=>$vendorGallery,
+            'reviewCount'=>$reviewCount,
+            'close'=>$close,
+            'soupCategory'=>$this->soupCategory,
+            'mainMeal'=>$this->mainMealCategory,
+            'soupProteins'=>$this->soupProteins,
+            'stock_proteins'=>$stock_proteins,
+            'id'=>$id
+        );
+
+        $view=view("jquery.stocklist",with($data))->render();
+        $data['html']=$view;
+        return response()->json($data);
+
 
     }
 

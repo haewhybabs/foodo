@@ -44,6 +44,8 @@ Route::get('/vendor-rating','web\HomeController@vendorRating');
 Route::post('/vendor-review','web\HomeController@vendorReview');
 Route::get('/like-review','web\HomeController@likeReview');
 Route::get('/region-filter/{id}','web\HomeController@regionFilter');
+Route::post('/loadstock','web\HomeController@vendorStock');
+
 Route::post('/payment-verification','web\CheckoutController@paymentVerification');
 Route::get('/user-account','web\UserAccount@index');
 Route::get('/delivery-confirm/{id}','web\UserAccount@confirmDelivery');

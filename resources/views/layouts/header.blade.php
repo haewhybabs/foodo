@@ -5,11 +5,13 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="FoodXyme">
+        <meta name="description" content="Online Food Delivery System">
+        <meta name="description" content="Order for your desired food from your desired restaurant and get it delivered to your door step">
+        <meta name="description" content="Food'Oclock Think FoodXyme">
         <meta name="author" content="FoodXyme">
         <title>FoodXyme - Online Food Ordering Website</title>
         <!-- Favicon Icon -->
-        <link rel="icon" type="image/png" href="{{asset('web/img/icons/foodxymeicon.png')}}">
+        <link rel="icon" type="image/png" href="{{asset('web/img/favicon.png')}}">
         <!-- Bootstrap core CSS-->
         <link href="{{ asset('web/css/bootstrap.min.css')}}" rel="stylesheet">
         <!-- Font Awesome-->
@@ -33,11 +35,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.css">
         <script src="{{asset('web/js/jquery-3.4.1.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     </head>
    <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-light osahan-nav shadow-sm">
          <div class="container">
-         <a class="navbar-brand" href="{{ URL::TO('/') }}"><img style="width:90px;" src="{{asset('web/img/icons/foodxyme1.png')}}"></a>
+         <a class="navbar-brand" href="{{ URL::TO('/') }}"><img style="width:130px;" src="{{asset('web/img/icons/foodxyme1.png')}}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -50,11 +53,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ URL::TO('category/Restaurants') }}">Restaurants</a>
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ URL::TO('category/Logistics') }}">Logistics</a>
-                    </li>
-
                     <li class="nav-item dropdown">
 
                         @auth

@@ -7,34 +7,55 @@
         <form method="get" action="{{URL::TO('checkout')}}">
             @csrf
             <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
-            <div class="bg-white rounded shadow-sm mb-2">
+            
+            @foreach(session()->get('cart') as $id=>$detail)
+                <div class="dropdown-divider"></div>
+                <div>
+                    <span>
+                    <p class="float-right" style="color: black; font-weight: bold;">&#8358 {{$detail['price']}}</p>
+                        <div>
+                        <p style="color: black; font-weight: bold;">{{$detail['name']}}</p>
+                        </div>
+                    </span>
 
-                @foreach(session()->get('cart') as $id=>$detail)
-                    <div class="gold-members p-2 border-bottom">
-                        <p class="text-gray mb-0 float-right ml-2"></p>
-                        <span class="count-number float-right">
-                        <input class="quantityUpdate" data-id="{{$id}}" type="number" value="{{$detail['quantity']}}" name="quantity[]">
-                        <input type="hidden" value="{{$id}}" name="id[]">
-                        </span>
-                        <div class="media">
-                        <div class="mr-2"><a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-trash-alt"></i></a></div>
-                            <div class="media-body">
-                                <p class="mt-1 mb-0 text-black">{{$detail['name']}}</p>
+                    @if(count($detail['proteins']) !=0)
+                        @foreach($detail['proteins'] as $protein)
+                        <span>
+                            <p class="float-right">{{$protein['qty']}}</p>
+                            <div>
+                                <p>{{$protein['name']}}</p>
                             </div>
+                        </span>
+                        @endforeach
+                    @endif
+
+                
+                    <div class="float-right">
+                        <div class="media">
+                            <p>{{$detail['quantity']}}</p>
+                            <input class="quantityUpdate" style="width: 40px; margin-left: 5px;" data-id="{{$id}}" type="text" value="{{$detail['quantity']}}" name="quantity[]">
                         </div>
                     </div>
-                @endforeach
-            </div>
+                    <div class="media">
+                        <div class="mr-2"><i class="icofont-ui-delete text-danger"></i></div>
+                        <div class="media-body">
+                            <a href="#"><p class="mb-0 text-black removecart" data-id="{{$id}}">Remove</p></a>
+                           
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            
             <div class="mb-2 bg-white rounded p-2 clearfix">
                 <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
-            <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
+                <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
                 <p class="seven-color mb-1 text-right">Extra charges may apply</p>
-
+                
             </div>
-                <button type ="submit" class="btn btn-success btn-block btn-lg">Checkout <i id="spinnercart" class="spinner-border" role="status"></i></button>
-            </div>
+            {{-- <a href="https://askbootstrap.com/preview/osahan-eat/checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a> --}}
+            <button type ="submit" class="btn btn-success btn-block btn-lg" id="spin">Checkout</button>
         </form>
-
     @endif
 </div>
 

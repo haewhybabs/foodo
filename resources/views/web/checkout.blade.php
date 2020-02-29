@@ -141,51 +141,78 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="generator-bg rounded shadow-sm mb-4 p-4 osahan-cart-item">
-                        <h5 class="mb-1 text-white">Your Order</h5>
-
-                        @if(!session()->get('cart'))
-                            <p class="mb-4 text-white">0 ITEMS</p>
-                        @else
-                        <form method="POST" action="{{URL::TO('update-cart')}}">
-                            @csrf
-                            <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
-                            <div class="bg-white rounded shadow-sm mb-2">
-
-                                @foreach(session()->get('cart') as $id=>$detail)
-                                    <div class="gold-members p-2 border-bottom">
-                                        <p class="text-gray mb-0 float-right ml-2">&#8358 {{$detail['price'] * $detail['quantity']}}</p>
-                                        <span class="count-number float-right">
-                                        <input class="count-number-input" type="number" min="1" value="{{$detail['quantity']}}" name="quantity[]" readonly>
-                                        <input type="hidden" value="{{$id}}" name="id[]">
-                                        </span>
-                                        <div class="media">
-                                        <div class="mr-2"></div>
-                                            <div class="media-body">
-                                                <p class="mt-1 mb-0 text-black">{{$detail['name']}}</p>
+                    <div class="generator-bg rounded  mb-4 p-4 osahan-cart-item">
+                        <h5 class="mb-1">Your Order</h5>
+                        <div class="jquerycartshow">
+    
+                            @if(!session()->get('cart'))
+                                <p class="mb-4 text-white">0 ITEMS</p>
+                            @else
+                                <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
+                                <form method="get" action="{{URL::TO('checkout')}}">
+                                    @csrf
+                                    
+                                    
+                                    @foreach(session()->get('cart') as $id=>$detail)
+                                        <div class="dropdown-divider"></div>
+                                        <div>
+                                            <span>
+                                            <p class="float-right" style="color: black; font-weight: bold;">&#8358 {{$detail['price']}}</p>
+                                                <div>
+                                                <p style="color: black; font-weight: bold;">{{$detail['name']}}</p>
+                                                </div>
+                                            </span>
+    
+                                            @if(count($detail['proteins']) !=0)
+                                                @foreach($detail['proteins'] as $protein)
+                                                <span>
+                                                    <p class="float-right">{{$protein['qty']}}</p>
+                                                    <div>
+                                                        <p>{{$protein['name']}}</p>
+                                                    </div>
+                                                </span>
+                                                @endforeach
+                                            @endif
+    
+                                        
+                                            <div class="float-right">
+                                                <div class="media">
+                                                    
+                                                    <input class="quantityUpdate" style="width: 40px; margin-left: 5px;" readonly data-id="{{$id}}" type="text" value="{{$detail['quantity']}}" name="quantity[]">
+                                                </div>
+                                            </div>
+                                            <div class="media">
+                                                <div class="mr-2"></div>
+                                                <div class="media-body">
+                                                    {{-- <a href="#" class="mb-0 text-black removecart" data-id="{{$id}}">Remove</a> --}}
+                                                    {{-- <a href="#" class="removecart" data-id="{{$id}}"><i class="fa fa-trash-alt"></i></a> --}}
+                                                </div>
                                             </div>
                                         </div>
+                                    @endforeach
+    
+                                    
+                                    <div class="mb-2 bg-white rounded p-2 clearfix">
+                                        <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
+                                        <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
+                                        @if($service_charge !=0)
+                                            <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$service_charge}}</span></p>
+                                        @endif
+                                        <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
+                                            <i class="icofont-info-circle"></i>
+                                            </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
+                                        </p>
+                                        <p class="mb-1 text-success">Total
+                                            <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span>
+                                        </p>                        
+                                        <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span></h6>
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="mb-2 bg-white rounded p-2 clearfix">
-                                <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
-                                <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
-                                @if($service_charge !=0)
-                                    <p class="mb-1">Charges <span class="float-right text-dark">&#8358 {{$service_charge}}</span></p>
-                                @endif
-                                <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top" title="Total discount breakup">
-                                    <i class="icofont-info-circle"></i>
-                                    </span> <span class="float-right text-dark">&#8358 {{$delivery_fee + $charges}}</span>
-                                </p>
-                                <p class="mb-1 text-success">Total
-                                    <span class="float-right text-success">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span>
-                                </p>                        
-                                <h6 class="font-weight-bold mb-0">TO PAY  <span class="float-right">&#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}</span></h6>
-                            </div>
-                        </form>
-
-                        @endif
+                                    {{-- <a href="https://askbootstrap.com/preview/osahan-eat/checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a> --}}
+                                    {{-- <button type ="submit" class="btn btn-success btn-block btn-lg">Checkout</button> --}}
+                                </form>
+                            @endif
+                        </div>
+                       
                     </div>
                     <div class="pt-2"></div>
                 </div>
@@ -200,7 +227,7 @@
                         <label>Pay From Wallet</label>
                         <input type="checkbox" name="wallet" value="1">
                     </div>
-                    <button type="submit" class="btn btn-warning btn-block btn-lg">PAY &#8358 {{session()->get('cartAmount') + $charges+$delivery_fee}}
+                    <button type="submit" class="btn btn-warning btn-block btn-lg">PAY &#8358 {{session()->get('cartAmount') + $service_charge+$delivery_fee}}
                         <i class="icofont-long-arrow-right"></i></a>
                     </button>
                 </form>
