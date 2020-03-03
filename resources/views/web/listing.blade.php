@@ -8,16 +8,7 @@
          <div class="container">
             <div class="row d-none-m">
                <div class="col-md-12">
-                  {{--  <div class="dropdown float-right">
-                     <a class="btn btn-outline-info dropdown-toggle btn-sm border-white-btn" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                     Sort by: <span class="text-theme">Distance</span> &nbsp;&nbsp;
-                     </a>
-                     <div class="dropdown-menu dropdown-menu-right shadow-sm border-0 ">
-                        <a class="dropdown-item" href="#">Distance</a>
-                        <a class="dropdown-item" href="#">No Of Offers</a>
-                        <a class="dropdown-item" href="#">Rating</a>
-                     </div>
-                  </div>  --}}
+                 
                   <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">{{count($vendors)}} {{$category_name}}
                      </small>
                   </h4>
@@ -120,7 +111,7 @@
                                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                                        <div class="list-card-image">
                                           <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
-                                          <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
+                                          <div class="favourite-heart text-danger position-absolute"><a href="#" data-id="{{$vendor->idvendors}}" class="favourite"><i class="icofont-heart"></i></a></div>
                                           <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                                           @if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at and $vendor->close_status==0)
                                                 <a href="{{ URL::TO('') }}/{{ $category_name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
@@ -155,7 +146,40 @@
 
 @endsection
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<script>
+   $(function(){
+      $(document).on('click','.favourite',function(e){
+            e.preventDefault();
+            
+            var id =$(this).attr('data-id');
+            $.ajax({
+               url:"{{URL::TO('favourite')}}",
+               type:"POST",
+               dataType:'json',
+               data:{
+                  vendor_id:id,
+                  "_token": "{{ csrf_token() }}"
+               },
+               success:function(response){
+
+                  if(response.status=='false'){
+                     toastr.error(response.message);
+                  }
+                  else{
+                     toastr.success(response.message);
+                  }
+                 
+
+
+               }
+
+
+            });
+      });
+   });
+</script>
 
 
 @if(Request::segment(2)=='Restaurants')
@@ -181,7 +205,7 @@
                   
                },error:function(){
 
-                  $(".loadmore").html('<b>No Data Found!!!</b>');
+                  $(".loadmore").html('<b>Check Back Later!!!</b>');
                   $(".loadmore").attr("disabled", true);
                   return true;
                }

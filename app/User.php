@@ -50,4 +50,14 @@ class User extends Authenticatable
     public function customer(){
         $this-> hasOne(Customer::class);
     }
+
+    public static function checkAccount($email){
+        $check_account = User::where('email',$email)->first();
+        if ($check_account) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

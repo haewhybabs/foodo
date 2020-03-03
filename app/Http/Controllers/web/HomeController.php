@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\web;
+use App\Mail\RegistrationMail;
+use App\Mail\ForgotPasswordMail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +20,6 @@ class HomeController extends Controller
 
     public function index()
     {
-
         $category=DB::table('categories')->get();
         $city=DB::table('cities')->get();
 
@@ -209,7 +212,9 @@ class HomeController extends Controller
         ->where('stockcategories.vendor_id',$id)->get();
 
         $stock_proteins=DB::table('stockdetails')->join('stockcategories','stockdetails.stock_category_id','=','stockcategories.idstockcategories')
-        ->where('stockcategories.vendor_id',$id)->where('stockcategories.app_category_id',$this->soupProteins)->get();
+        ->where('stockcategories.vendor_id',$id)
+        ->where('stockdetails.status','Available')
+        ->where('stockcategories.app_category_id',$this->soupProteins)->get();
         
         $close = true;
         $now= time()+3600; $time=(int)date('H',$now);
@@ -284,7 +289,9 @@ class HomeController extends Controller
         ->where('stockcategories.vendor_id',$id)->get();
 
         $stock_proteins=DB::table('stockdetails')->join('stockcategories','stockdetails.stock_category_id','=','stockcategories.idstockcategories')
-        ->where('stockcategories.vendor_id',$id)->where('stockcategories.app_category_id',$this->soupProteins)->get();
+        ->where('stockcategories.vendor_id',$id)->where('stockcategories.app_category_id',$this->soupProteins)
+        ->where('stockdetails.status','Available')
+        ->get();
         
         $close = true;
         $now= time()+3600; $time=(int)date('H',$now);
@@ -294,7 +301,11 @@ class HomeController extends Controller
 
         if($vendor->close_status==1){
             $close=true;
+            
+            
         }
+
+        
 
         $data = array(
             'vendor'=>$vendor,
@@ -314,8 +325,13 @@ class HomeController extends Controller
             'stock_proteins'=>$stock_proteins,
         );
 
+        if($close==true){
+
+            $data['message']='We have closed currently';
+        }
+
         return view('web.detail')->with($data);
-       
+    //    print_r($data);
 
     }
 
@@ -399,13 +415,44 @@ class HomeController extends Controller
 
         DB::table('customers')->insert($userData);
 
+        $emailData = array(
+            'email' => $user->email,
+            'name'=>$request->name,
+            'address'=>$request->address,
+            'phone_number'=>$request->phone_number,
+            'user_id'=>$user->id,
+        );
+
+       
+
         $task=$userData['name'].' just created a user account with FoodXyme';
         $this->audit($task,$user->id);
+        Mail::to($user->email)->send(new RegistrationMail($emailData));
 
         return redirect('login')->with('message','Registration Successful!! Kindly login!');
+    }
 
+    public function resetPassword(Request $request){
+        $check_user = User::checkAccount($request->email);
+        if ($check_user) {
+            $user = DB::table('users')->join('customers','users.id','=','customers.user_id')
+            ->where('users.email',$request->email)->first();
+            Mail::to($user->email)->send(new ForgotPasswordMail($user));
+            return redirect()->back()->with('message', 'Kindly check your mail to reset your password');
+        }
+        else{
+            return redirect()->back()->with('error', "email does not exit");
+        }
+    }
 
-
+    public function confirmResetPassword($password){
+        $confirm_user = DB::table('users')->where('password',$password)->first();
+        if($confirm_user){
+            return view('web.change-password', compact('confirm_user'));
+        }
+        else{
+            return redirect('register')->with('error', 'Account Verification Failed');
+        }
     }
 
     public function logout()
@@ -626,5 +673,49 @@ class HomeController extends Controller
             'message'=>'You have successfully subscribed for our newsletter!!!'
         );
         exit(json_encode($response));
+    }
+
+    public function favourite(Request $request)
+    {
+        $vendor_id = $request->vendor_id;
+        if(Auth::check()){
+
+            $user_id=Auth::user()->id;
+            $customer_id = $this->user()->idcustomers;
+
+            $favouriteData = array(
+                'customer_id'=>$customer_id,
+                'vendor_id'=>$vendor_id,
+            );
+
+            $check = DB::table('favourites')->where('customer_id',$customer_id)->where('vendor_id',$vendor_id)
+            ->first();
+
+            if($check){
+
+                $data=array(
+                    'status'=>'false',
+                    'message'=>'Vendor already added'
+                );
+            }
+
+            else{
+
+                DB::table('favourites')->insert($favouriteData);
+
+                $data=array(
+                    'status'=>'true',
+                    'message'=>'Vendor added as favourite'
+                );
+            }
+
+
+        }
+        else{
+            $data['message']='You need to login to your account or kindly register with us!!';
+            $data['status']='false';
+        }
+
+        return response()->json($data);
     }
 }

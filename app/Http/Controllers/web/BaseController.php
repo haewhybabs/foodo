@@ -10,10 +10,10 @@ use App\Customer;
 
 trait BaseController
 {
-    public $secret="FLWSECK_TEST-13ca0b1d665990d2efadb818a6ffbc8b-X";
-    public $public="FLWPUBK_TEST-5406e801d01e00866fa150108da3d1f5-X";
+    public $secret="FLWSECK-a69efe1a1b4af5d37673a67088b1693e-X";
+    public $public="FLWPUBK-2bd9bd3d2f1e0250715973e476561a47-X";
     public $currency="NGN";
-    public $url='http://foodxyme.com/test/';
+    public $url='https://foodxyme.com/';
     public $soupCategory=3;
     public $mainMealCategory=1;
     public $soupProteins=11;

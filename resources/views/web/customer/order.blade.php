@@ -19,22 +19,54 @@
                                     <th>S/N</th>
                                     <th>Item</th>
                                     <th>Quantity</th>
-                                    <th>Price</th>
+                                    <th>Total Price</th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 <?php $x=1; $details= DB::table('orderdetails')
                                 ->join('ordersummaries','orderdetails.order_summaries_id','=','ordersummaries.idordersummaries')->join('stockdetails','orderdetails.stock_details_id','=','stockdetails.idstockdetails')
-                                ->where('orderdetails.order_summaries_id',$trans->idordersummaries)->get();?>
+                                ->where('orderdetails.order_summaries_id',$trans->idordersummaries)
+                                ->select('orderdetails.*','stockdetails.name')
+                                ->get();?>
 
                                 @foreach($details as $detail)
+
+                                    <?php $proteins = DB::table('orderprotein')->join('stockdetails','stockdetails.idstockdetails','=','orderprotein.stock_id')
+                                    ->join('orderdetails','orderdetails.idorderdetails','=','orderprotein.order_detail_id')
+                                    ->where('orderprotein.order_detail_id',$detail->idorderdetails)
+                                    ->select('orderprotein.*','stockdetails.name')
+                                    ->get();?>
                                 <tr>
-                                    <td>{{$x}}</td>
-                                    <td>{{$detail->name}}</td>
-                                    <td>{{$detail->qty}}</td>
-                                    <td>{{$detail->stockprice * $detail->qty}}</td>
+                                    <td><strong>{{$x}}</strong></td>
+                                    <td><strong>{{$detail->name}}</strong></td>
+                                    <td><strong>{{$detail->qty}}</strong></td>
+                                    <td><strong> ₦ {{$detail->price * $detail->qty}}</strong></td>
+                                    
+                                    
+                                                     
                                 </tr>
+                                @if(count($proteins)>0)
+                                <?php $j=1;?>
+                                       
+                                    
+                                    @foreach($proteins as $protein)
+                                        <tr>
+                                            <td>
+                                               
+                                            </td>
+                                            <td>
+                                                {{$protein->name}}  
+                                            </td>
+                                            <td>
+                                                {{$protein->qty}}
+                                            </td>
+                                            <td> </td>
+                                        </tr>
+                                        <?php $j++;?>
+                                    @endforeach
+
+                                @endif
                                 <?php $x++;?>
                                 @endforeach
                             </tbody>

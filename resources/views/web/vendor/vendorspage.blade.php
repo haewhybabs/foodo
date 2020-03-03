@@ -53,7 +53,7 @@
 
                         @include('web.vendor.withdrawal')
                         
-                        <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                        {{-- <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
                             <h4 class="font-weight-bold mt-0 mb-4">Manage Addresses</h4>
                             <div class="row">
                                 <div class="col-md-6">
@@ -151,7 +151,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

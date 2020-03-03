@@ -72,37 +72,23 @@
                                  <img style="width:90px;" src="{{asset('web/img/icons/foodxyme1.png')}}">
                               </a>
                            </div><br>
-                           <h3 class="login-heading mb-4">Welcome back!</h3>
-                           <form method="post" action="{{ URL::TO('login')}}">
+                           <h3 class="login-heading mb-4">Reset Password</h3>
+                           <form method="post" action="{{ URL::TO('final-password-reset')}}">
                            @csrf
                               <div class="form-label-group">
-                                 <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required>
-                                 <label for="inputEmail">Email address</label>
+                                 <input type="password" id="inputEmail" name="password" class="form-control" placeholder="New Password" required>
+                                 <label for="inputEmail">New Password</label>
                               </div>
                               <div class="form-label-group">
-                                 <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+                                 <input type="password" id="inputPassword" name="password_confirmation" class="form-control" placeholder="Password" required>
                                  <label for="inputPassword">Password</label>
-                              </div>
-                              <div class="custom-control custom-checkbox mb-3">
-                                 <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                 <label class="custom-control-label" for="customCheck1">Remember password</label>
                               </div>
                               <button type="submit" class="btn btn-lg btn-outline-warning btn-block btn-login text-uppercase font-weight-bold mb-2">Sign in</button>
                               <div class="text-center pt-3">
-                                 Don’t have an account? <a class="font-weight-bold" href="{{URL::TO('register')}}" style="color:#ffb200;">Sign Up</a>
-                                 or <a href="#" data-target="#forgotpassword" data-toggle="modal">Forgot Password</a>
+                                 Already have an account? <a class="font-weight-bold" href="{{URL::TO('login')}}" style="color:#ffb200;">Sign In</a>
                               </div>
                            </form>
                            <hr class="my-4">
-                           {{-- <p class="text-center">LOGIN WITH</p>
-                           <div class="row">
-                              <div class="col pr-2">
-                                 <button class="btn pl-1 pr-1 btn-lg btn-google font-weight-normal text-white btn-block text-uppercase" type="submit" style="background:#ffb200;"><i class="fab fa-google mr-2"></i> Google</button>
-                              </div>
-                              <div class="col pl-2">
-                                 <button class="btn pl-1 pr-1 btn-lg btn-facebook font-weight-normal text-white btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Facebook</button>
-                              </div>
-                           </div> --}}
                         </div>
                      </div>
                   </div>
@@ -110,38 +96,6 @@
             </div>
          </div>
       </div>
-
-
-
-      {{-- Modal --}}
-      <div id="forgotpassword" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-       
-           <!-- Modal content-->
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Reset Password</h4>
-               </div>
-               <div class="modal-body">
-               <form method="get" action="{{Route('reset-password')}}">
-                  
-                     <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" name="email" placeholder="Email">
-                     </div>
-                     <button type="submit" class="btn btn-warning">submit</button>
-                  </form>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-               </div>
-            </div>
-       
-         </div>
-      </div>
-
-
       <!-- jQuery -->
       <script src="https://askbootstrap.com/preview/osahan-eat/vendor/jquery/jquery-3.3.1.slim.min.js"></script>
       <!-- Bootstrap core JavaScript-->

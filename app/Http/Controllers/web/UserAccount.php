@@ -31,30 +31,32 @@ class UserAccount extends Controller
 
         $getCredits = DB::table('credits')->where('user_id',Auth::user()->id)->get();
         
-        $getFavourites = DB::table('favourites')->where('customer_id',$customer_id)->get();
+        $getFavourites = DB::table('favourites')->join('vendors','vendors.idvendors','=','favourites.vendor_id')
+        ->join('categories','categories.idcategories','=','vendors.category_id')
+        ->where('favourites.customer_id',$customer_id)->get();
         
-        $favourites=array();
-        $favouriteVendors=array();
+        // $favourites=array();
+        // $favouriteVendors=array();
 
-        foreach($getFavourites as $f)
-        {
+        // foreach($getFavourites as $f)
+        // {
 
-            if(!in_array($f->vendor_id,$favourites)){
-                $favourites[] = $f->vendor_id;
-            }
-        }
+        //     if(!in_array($f->vendor_id,$favourites)){
+        //         $favourites[] = $f->vendor_id;
+        //     }
+        // }
 
-        foreach($favourites as $favourite ){
-            $favouriteVendors[]=DB::table('vendors')->join('categories','categories.idcategories','=','vendors.category_id')
-            ->where('vendors.idvendors',$favourite)->first();
-        }
+        // foreach($favourites as $favourite ){
+        //     $favouriteVendors[]=DB::table('vendors')->join('categories','categories.idcategories','=','vendors.category_id')
+        //     ->where('vendors.idvendors',$favourite)->first();
+        // }
 
         $data=array(
 
             'user'=>$this->user(),
             'transactions'=>$transactions,
             'credits'=>$getCredits,
-            'favouriteVendors'=>$favouriteVendors,
+            'favouriteVendors'=>$getFavourites,
         );
 
         
@@ -107,7 +109,6 @@ class UserAccount extends Controller
 
         return $this->userPayment($email,$amount,$ref,$redirect_url);
 
-
     }
 
     public function walletVerify()
@@ -126,14 +127,13 @@ class UserAccount extends Controller
                     'reference'=>$ref,
                 );
                 DB::table('credits')->insert($data);
-
                 $wallet = array(
                     'amount'=>$this->walletMoney(),
                 );
+                
                 $customer_id = $this->user()->idcustomers;
 
                 DB::table('customers')->where('idcustomers',$customer_id)->update($wallet);
-
                 session()->forget('walletAmount');
                 return redirect('user-account')->with('message','Your Transaction was successful !!!');
             }

@@ -5,7 +5,7 @@
             <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
                 <div class="list-card-image">
                     <div class="star position-absolute"><span class="badge badge-warning"><i class="icofont-star"></i> {{$vendor->rating}}</span></div>
-                    <div class="favourite-heart text-danger position-absolute"><a href="{{ URL::TO('') }}/{{ $category->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}"><i class="icofont-heart"></i></a></div>
+                    <div class="favourite-heart text-danger position-absolute"><a href="#" data-id="{{$vendor->idvendors}}" class="favourite"><i class="icofont-heart"></i></a></div>
                     <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
                     @if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at and $vendor->close_status==0)
                         <a href="{{ URL::TO('') }}/{{ $category->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">

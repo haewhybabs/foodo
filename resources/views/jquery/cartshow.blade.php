@@ -37,9 +37,9 @@
                         </div>
                     </div>
                     <div class="media">
-                        <div class="mr-2"><i class="icofont-ui-delete text-danger"></i></div>
+                        <div class="mr-2"></div>
                         <div class="media-body">
-                            <a href="#"><p class="mb-0 text-black removecart" data-id="{{$id}}">Remove</p></a>
+                            <a href="#"><p class="mb-0 text-black removecart" data-id="{{$id}}"><i class="icofont-ui-delete text-danger"></i>Remove</p></a>
                            
                         </div>
                     </div>

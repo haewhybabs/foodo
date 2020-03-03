@@ -154,7 +154,7 @@
             </form>
        </div>
     </div>
- </div>
+</div>
  {{--  <!-- Modal --> Stock Category  --}}
  <div class="modal fade" id="add-stockcategory-modal" tabindex="-1" role="dialog" aria-labelledby="add-stockcategory" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

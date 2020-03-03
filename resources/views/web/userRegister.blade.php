@@ -5,12 +5,15 @@
 <head>
       <!-- Required meta tags -->
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <meta name="description" content="Askbootstrap">
-      <meta name="author" content="Askbootstrap">
-      <title>FoodXyme - Online Food Ordering Website</title>
-      <!-- Favicon Icon -->
-      <link rel="icon" type="image/png" href="https://askbootstrap.com/preview/osahan-eat/img/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Online Food Delivery System">
+        <meta name="description" content="Order for your desired food from your desired restaurant and get it delivered to your door step">
+        <meta name="description" content="Food'Oclock Think FoodXyme">
+        <meta name="author" content="FoodXyme">
+        <title>FoodXyme - Online Food Ordering Website</title>
+        <!-- Favicon Icon -->
+        <link rel="icon" type="image/png" href="{{asset('web/img/favicon.png')}}">
+        <!-- Bootstrap core CSS-->
       <!-- Bootstrap core CSS-->
       <link href="{{ asset('web/css/bootstrap.min.css')}}" rel="stylesheet">
       <!-- Font Awesome-->

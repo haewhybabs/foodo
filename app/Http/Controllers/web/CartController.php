@@ -80,12 +80,16 @@ class CartController extends Controller
             session()->put('cart',$cart);
 
             $count=count(session()->get('cart'));
-            $data['count']=$count;
+            $data['count']='<p>'.$count.'</p>';
 
             $amount =$this->cartAmount();
             $view = view("jquery.cartshow")->render();
             $data['html']=$view;
             $headercart=view("jquery.cart_header")->render();
+
+            $mobileView=view("jquery.mobilecart")->render();
+            $data['mobilecart']=$mobileView;
+
             $data['headercart']=$headercart;
             $data['message']='Product added to cart';
             $data['alert-type']='info';
@@ -113,7 +117,8 @@ class CartController extends Controller
             $data['message']='Product added to cart';
             $data['alert-type']='info';
             $data['status']=true;
-            $data['amount']=$amount;
+            $mobileView=view("jquery.mobilecart")->render();
+            $data['mobilecart']=$mobileView;
             return response()->json($data);
         }
 
@@ -129,16 +134,20 @@ class CartController extends Controller
         
         session()->put('cart',$cart);
         $amount =$this->cartAmount();
+
         $view = view("jquery.cartshow")->render();
+
+        $mobileView=view("jquery.mobilecart")->render();
+        $data['mobilecart']=$mobileView;
+
         $headercart=view("jquery.cart_header")->render();
         $data['headercart']=$headercart;
         $data['html']=$view;
+       
         $data['message']='Product added to cart';
         $data['alert-type']='info';
         $data['status']=true;
-        $count=count(session()->get('cart'));
-        $data['count']=$count;
-        $data['amount']=$amount;
+
         return response()->json($data);
 
     }
@@ -157,7 +166,8 @@ class CartController extends Controller
         $amount =$this->cartAmount();
         $data = array(
             'status'=>false,
-            'newVendor'=>0
+            'newVendor'=>0,
+            'close'=>0,
         );
         $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
         $currentVendor=session()->get('vendor_id');
@@ -181,7 +191,7 @@ class CartController extends Controller
         if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
         }
         else{
-
+            $data['close']=1;
             $data['message']='We have closed. Thank you';
             return response()->json($data);
         }
@@ -262,8 +272,7 @@ class CartController extends Controller
             $data['alert-type']='info';
             $data['status']=true;
             $count=count(session()->get('cart'));
-            $data['count']=$count;
-            $data['amount']=$amount;
+            
             return response()->json($data);
         }
 
@@ -296,8 +305,10 @@ class CartController extends Controller
             $data['message']='cart updated successfully';
             $data['alert-type']='info';
             $data['status']=true;
-            
-            $data['amount']=$amount;
+
+            $mobileView=view("jquery.mobilecart")->render();
+            $data['mobilecart']=$mobileView;
+
             return response()->json($data);
 
             // return redirect()->back()->with('cartSuccess','cart updated successfully');

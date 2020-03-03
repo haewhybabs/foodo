@@ -15,6 +15,9 @@
 //     return view('welcome');
 // });
 
+// Route::get('/',function(){
+//     return view('Emails.registration');
+// });
 Route::get('/','web\HomeController@index');
 Route::get('/category/{id}','web\HomeController@category');
 Route::get('{name}/{id}/{vendor}', 'web\HomeController@vendorDetails')->where('name', '[A-Za-z]+');
@@ -43,6 +46,7 @@ Route::get('/vendor-search','web\HomeController@vendorSearch');
 Route::get('/vendor-rating','web\HomeController@vendorRating');
 Route::post('/vendor-review','web\HomeController@vendorReview');
 Route::get('/like-review','web\HomeController@likeReview');
+Route::post('/favourite','web\HomeController@favourite');
 Route::get('/region-filter/{id}','web\HomeController@regionFilter');
 Route::post('/loadstock','web\HomeController@vendorStock');
 
@@ -60,6 +64,9 @@ Route::post('/edit-stock','web\VendorController@editStock');
 Route::post('/loadmore','web\HomeController@loadmore');
 Route::post('/newsletter','web\HomeController@newsletter');
 Route::post('/protein-soup','web\CartController@proteinSoup');
+Route::get('/forgot-password','web\HomeController@resetPassword')->name('reset-password');
+Route::get('/reset-password/{password}','web\HomeController@confirmResetPassword');
+Route::get('/final-password-reset','web\HomeController@finalPasswordReset');
 
 Route::get('/test','web\CartController@test');
 

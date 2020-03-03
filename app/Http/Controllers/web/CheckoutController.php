@@ -296,7 +296,7 @@ class CheckoutController extends Controller
                 foreach($detail['proteins'] as $protein)
                 {
                     $proteinData=array(
-                        'stock_id'=>$id,
+                        'stock_id'=>$protein['id'],
                         'qty'=>$protein['qty'],
                         'price'=>$protein['price'],
                         'order_detail_id'=>$stock_detail_id
@@ -355,14 +355,6 @@ class CheckoutController extends Controller
                 $transaction=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
                 ->where('transactions.reference',$ref)->first();
 
-                $favourites=array(
-                    'customer_id'=>$this->user()->idcustomers,
-                    'vendor_id'=>$transaction->vendor_id
-                );
-                
-                #Favourites
-                DB::table('favourites')->insert($favourites);
-
                 session()->forget('vendor_id');
                 session()->forget('cart');
                 session()->forget('cartAmount');
@@ -398,12 +390,6 @@ class CheckoutController extends Controller
                 $transaction=DB::table('transactions')->join('ordersummaries','ordersummaries.idordersummaries','=','transactions.order_summaries_id')
                 ->where('transactions.reference',$ref)->first();
 
-                $favourites=array(
-                    'customer_id'=>$this->user()->idcustomers,
-                    'vendor_id'=>$transaction->vendor_id
-                );
-
-                DB::table('favourites')->insert($favourites);
     
                 session()->forget('vendor_id');
                 session()->forget('cart');
