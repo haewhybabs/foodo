@@ -315,6 +315,10 @@ h6 {
     padding: 0 10px;
 }
 
+.restaurants-list{
+    height: 350px;
+}
+
 .homepage-search-block {
     background-color: #fff;
     height: 70vh;
@@ -444,7 +448,7 @@ h6 {
     border-radius: 12px;
     display: inline-table;
     height: 4px;
-    margin: 0 0 51px;
+    margin: 35px 0;
     width: 50px;
 }
 

@@ -3,9 +3,6 @@
 namespace Illuminate\Routing;
 
 use BadMethodCallException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-
 
 abstract class Controller
 {
@@ -31,6 +28,7 @@ abstract class Controller
                 'options' => &$options,
             ];
         }
+
         return new ControllerMiddlewareOptions($options);
     }
 

@@ -46,8 +46,8 @@
                         <a href="{{URL::TO('category')}}/{{ $category->name }}">
                             <img class="img-fluid" src="{{ $category->icon }}" alt="">
                             <h6>{{ $category->name }}</h6>
-                            
-                        
+
+
                         </a>
                     </div>
                 </div>
@@ -82,37 +82,27 @@
 
 
 
-<section class="section pt-5 pb-5 products-section" style="background:#ffb200;">
+<section class="section pt-5 pb-5 products-section">
    <div class="container">
       <div class="section-header text-center">
-         <h2 style="color:white;">Popular Vendors</h2>
-         <p style="color:black;">Top restaurants, cafes, pubs, and bars in your area, based on trends</p>
-         <span class="line"></span>
+         <h2 class="process-heading">our restaurants</h2>
+         <p class="process-intro">Top restaurants, cafes, pubs, and bars in your area, based on trends</p>
+         <span class="line" style="background-color: #ffb200 !important;"></span>
       </div>
       <div class="row">
          <div class="col-md-12">
            <div class="owl-carousel owl-carousel-four owl-theme">
                @foreach($vendors as $vendor)
                    <div class="item">
-                       <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm">
-                           <div class="list-card-image">
-                           <div class="star position-absolute"><span class="badge badge-success"><i class="icofont-star"></i>{{$vendor->rating}}</span></div>
-                           <div class="favourite-heart text-danger position-absolute"> <a href="#" data-id="{{$vendor->idvendors}}" class="favourite"><i class="icofont-heart"></i></a></div>
-                               <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span></div>
-                               <a href="{{ URL::TO('') }}/{{ $vendor->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}">
-                               <img src="{{asset('vendorimages')}}/{{$vendor->logo}}" class="img-fluid item-img">
-                               </a>
+                       <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm restaurants-list">
+                           <div class="list-card-image" style="height: 350px">
+                                <img src="{{asset('web/img/vendor_1.png')}}">
                            </div>
-                           <div class="p-3 position-relative">
-                               <div class="list-card-body">
-                               <h6 class="mb-1"> <a href="{{ URL::TO('') }}/{{ $vendor->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{$vendor->store_name}}</a></h6>
-                                   <p class="text-gray mb-3"></p>
-                               <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{date('h:i A', strtotime($vendor->open_at))}}</span> <span class="float-right text-black-50">closes at {{date('h:i A', strtotime($vendor->close_at))}}</span></p>
-                               </div>
-                               <div class="list-card-badge">
-                                   <span class="badge badge-success">Address</span> <small>{{$vendor->address}}</small>
-                               </div>
-                           </div>
+                        </div>
+                        <div style="position: relative; bottom: 120px; margin-left: 17px;">
+                            <h3 style="color: white; font-weight: bold; text-transform: uppercase">Bistrol</h3>
+                            <p style="color: white;">Discover all Intercontinental dishes</p>
+                            <a href="#" style="color: black; font-weight: bold; border-radius: 15px; margin-top: -4px !important; background-color: white; padding: 7px 10px; text-transform: uppercase;">Order Now</a>
                        </div>
                    </div>
                @endforeach
@@ -128,7 +118,7 @@
 
 
 
- 
+
  <!-- Advertisement -->
 
 
@@ -155,7 +145,7 @@
              <div class="text-center">
                 <img class="process-image" src="img/third-icon.png"><br>
              </div>
-          </div>              
+          </div>
        </div>
     </div> -->
 
@@ -164,7 +154,7 @@
           <h2 class="process-heading">How It Works</h2>
           <span class="line" style="background-color: #ffb200 !important;"></span>
           <p class="process-intro">Foodxyme is an Online Platform (Website and Mobile app) that delivers Healthy food without Stress,
-             from your favorite Restaurant within your locality and delivered at your doorstep within 20-25mins after your order, 
+             from your favorite Restaurant within your locality and delivered at your doorstep within 20-25mins after your order,
              with our fast delivery system in place.</p>
        </div>
        <div class="row mt-5">
@@ -194,7 +184,7 @@
                 <p>Your order is delivered to you straight up</p>
              </div>
           </div>
-          
+
        </div>
     </div>
  </section>
@@ -245,7 +235,7 @@
    $(function(){
       $(document).on('click','.favourite',function(e){
             e.preventDefault();
-            
+
             var id =$(this).attr('data-id');
             $.ajax({
                url:"{{URL::TO('favourite')}}",
@@ -263,7 +253,7 @@
                   else{
                      toastr.success(response.message);
                   }
-                 
+
 
 
                }
