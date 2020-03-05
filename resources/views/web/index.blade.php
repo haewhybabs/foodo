@@ -95,9 +95,7 @@
                @foreach($vendors as $vendor)
                    <div class="item">
                        <div class="list-card bg-white h-100 rounded overflow-hidden position-relative shadow-sm restaurants-list">
-                           <div class="list-card-image" style="height: 350px">
-                                <img src="{{asset('web/img/vendor_1.png')}}">
-                           </div>
+                            <img src="{{asset('web/img/vendor_1.png')}}" style="height: 100%; width: 100%" class="img-fluid">
                         </div>
                         <div style="position: relative; bottom: 120px; margin-left: 17px;">
                             <h3 style="color: white; font-weight: bold; text-transform: uppercase">Bistrol</h3>
@@ -212,7 +210,7 @@
                                 <div class="list-card-body">
                                 <h6 class="mb-1"> <a href="{{ URL::TO('') }}/{{ $vendor->name }}/{{ $vendor->idvendors }}/{{ $vendor->store_name }}" class="text-black">{{$vendor->store_name}}</a></h6>
                                     <p class="text-gray mb-3"></p>
-                                <p class="text-gray mb-3 time"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{date('h:i A', strtotime($vendor->open_at))}}</span> <span class="float-right text-black-50">closes at {{date('h:i A', strtotime($vendor->close_at))}}</span></p>
+                                <p class="text-gray mb-3 time" style="font-size: 11px;"><span class="bg-light text-dark rounded-sm pl-2 pb-1 pt-1 pr-2"><i class="icofont-wall-clock"></i>opens at {{date('h:i A', strtotime($vendor->open_at))}}</span> <span class="float-right text-black-50">closes at {{date('h:i A', strtotime($vendor->close_at))}}</span></p>
                                 </div>
                                 <div class="list-card-badge">
                                     <span class="badge badge-success">Address</span> <small>{{$vendor->address}}</small>

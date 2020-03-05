@@ -8,7 +8,7 @@
          <div class="container">
             <div class="row d-none-m">
                <div class="col-md-12">
-                 
+
                   <h4 class="font-weight-bold mt-0 mb-3">OFFERS <small class="h6 mb-0 ml-2">{{count($vendors)}} {{$category_name}}
                      </small>
                   </h4>
@@ -34,7 +34,7 @@
                                  <div class="filters-card-body card-shop-filters">
                                     @foreach ($categories as $category)
                                         <div class="custom-control custom-checkbox checked">
-                                            
+
                                           <li>
                                              <a href="{{URL::TO('category')}}/{{ $category->name }}" class="custom">{{$category->name}}</a>
                                           </li>
@@ -102,7 +102,6 @@
                                     <div class="well" style="color:red;">
                                        No {{$category_name}} listed  Yet!!! Kindly check back later
                                     </div>
-
                                  </div>
                               @endif
                               <?php $now= time()+3600; $time=(int)date('H',$now);?>
@@ -135,9 +134,9 @@
                                        </div>
                                        </div>
                                     </div>
-                              @endforeach 
+                              @endforeach
                            </div>
-                        @endif      
+                        @endif
                      </div>
                </div>
             </div>
@@ -152,7 +151,7 @@
    $(function(){
       $(document).on('click','.favourite',function(e){
             e.preventDefault();
-            
+
             var id =$(this).attr('data-id');
             $.ajax({
                url:"{{URL::TO('favourite')}}",
@@ -170,7 +169,7 @@
                   else{
                      toastr.success(response.message);
                   }
-                 
+
 
 
                }
@@ -202,7 +201,7 @@
                   $('#spinnerloader').remove();
                   $('.loadmore').remove();
                   $('.loadmoreshow').append(response.html);
-                  
+
                },error:function(){
 
                   $(".loadmore").html('<b>Check Back Later!!!</b>');
@@ -214,7 +213,7 @@
          }
 
 
-         $(document).on('click','.loadmore', function(e){  
+         $(document).on('click','.loadmore', function(e){
             $('.loadmore').html('<b>Loading....</b>');
             var id =$(this).attr('data-id');
             load_more(id);
