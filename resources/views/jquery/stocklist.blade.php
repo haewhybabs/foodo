@@ -1,4 +1,4 @@
-            
+
     @foreach($stockcategories as $stockcategory)
         {{Request::segment('2')}}
         @if($stockcategory->app_category_id !=$soupProteins)
@@ -14,12 +14,12 @@
                             <div class="gold-members p-3 border-bottom">
                                 @if($close==false)
                                     @if($stockcategory->idappstockcategory==$soupCategory)
-                                        <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></a>
-                                        
+                                        <a href="#" class="float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></a>
+
                                     @elseif($stockcategory->idappstockcategory==$mainMeal)
-                                        <a href="#" class="btn btn-outline-secondary btn-sm  float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></a>
+                                        <a href="#" class="float-right" data-toggle="modal" data-target="#protein{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></a>
                                     @else
-                                        <button class="btn btn-outline-secondary btn-sm  float-right cartadd" data-id="{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></button>
+                                        <button class="float-right cartadd" style="border: none; background: transparent" data-id="{{$stock->idstockdetails}}"><i class="icofont-plus-square add-button"></i></button>
                                     @endif
                                     {{-- {{URL::TO('add-to-cart')}}/{{$stock->idstockdetails}} --}}
 
@@ -37,7 +37,7 @@
                                                     <div class="modal-body">
                                                         @if(count($stock_proteins) !=0)
                                                             @foreach($stock_proteins as $stock_protein)
-                                                                <div class="row">    
+                                                                <div class="row">
                                                                     <div class="col-sm-12">
                                                                         <div class="row">
                                                                             <div class="checkbox col-4">
@@ -45,7 +45,7 @@
                                                                                     <input type="hidden" name="id" value="{{$stock->idstockdetails}}">
                                                                                     <input type="checkbox" value="{{$stock_protein->idstockdetails}}" name="stock_protein[]">
                                                                                         {{$stock_protein->name}}
-                                                                                    
+
                                                                                 </label>
                                                                             </div>
                                                                             <div class="quantity col-4">
@@ -56,19 +56,19 @@
                                                                             </div>
 
                                                                         </div>
-                                                                        
-                                                                    </div> 
+
+                                                                    </div>
                                                                 </div>
                                                             @endforeach
                                                         @endif
-        
+
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL
                                                         </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning" id="withdrawsubmit">SUBMIT</button>
                                                     </div>
                                                 </form>
-                                    
+
                                             </div>
                                         </div>
                                     </div>
@@ -77,9 +77,7 @@
                                     <div class="mr-3"><i class="icofont-food-basket" style="font-size: 36px; color: #3ecf8e;"></i></div>
                                     <div class="media-body">
                                     <h6 class="mb-1">{{$stock->name}}</h6>
-                                    
                                         <p class="text-gray mb-0">&#8358 {{$stock->stockprice}}</p>
-                                
                                     </div>
                                 </div>
                             </div>
@@ -92,14 +90,14 @@
 
 
 <script>
-    $(document).ready(function(){ 
+    $(document).ready(function(){
         $(".cartadd").click( function(e) {
             $('#spin').append('<i id="spinnercart" class="spinner-border" role="status"></i>');
             e.preventDefault();
             $('#spinnercart').show();
             $(".cartadd").attr("disabled", true);
-           
-            
+
+
             var id =$(this).attr('data-id');
             $.ajax({
                 url:"{{URL::TO('add-to-cart')}}",
@@ -126,7 +124,7 @@
 
                         toastr.error(response.message);
                     }
-                    
+
 
                     // $("#cartshow").show();
                     // $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
@@ -136,7 +134,7 @@
                     //     });
                     // })
 
-                    
+
 
                 }
 

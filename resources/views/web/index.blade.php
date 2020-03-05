@@ -29,7 +29,7 @@
                             </div>
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-12 form-group">
-                            <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg" name="search">
+                            <input type="text" placeholder="Search for Restaurant,Bar,Pharmacy,Supermarket" class="form-control form-control-lg" name="search" required>
                             <!-- <a class="locate-me" href="#"><i class="icofont-ui-pointer"></i> Locate Me</a> -->
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 form-group">
@@ -109,18 +109,16 @@
            </div>
 
            <div class="text-center" style="margin-top:40px;">
-               <a href="#" class="btn btn-success">Get Started</a>
+            <a href="{{URL::TO('vendor-register')}}" class="btn btn-lg" style="border: 1px solid #ffb200; color: #ffb200;">
+                more restaurant <i class="fa fa-chevron-circle-right"></i>
+                </a>
            </div>
          </div>
       </div>
    </div>
 </section>
 
-
-
-
  <!-- Advertisement -->
-
 
  <section class="section pt-5 pb-5 bg-white homepage-add-section">
     <!-- <div class="container">

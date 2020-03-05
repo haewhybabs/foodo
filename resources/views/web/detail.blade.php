@@ -81,28 +81,25 @@
 
         <div class="row">
             <div class="col-md-8">
-                
-
-
 
                 <div class="offer-dedicated-body-left">
                     <div class="tab-content" id="pills-tabContent">
                         {{-- <div class="stocklistshow"></div> --}}
                     <div class="tab-pane fade show active stocklistshow" id="pills-order-online" role="tabpanel" aria-labelledby="pills-order-online-tab">
 
-                    </div>   
-                
+                    </div>
+
                     <div class="tab-pane fade" id="pills-gallery" role="tabpanel" aria-labelledby="pills-gallery-tab">
                         <div id="gallery" class="bg-white rounded shadow-sm p-4 mb-4">
                             <div class="restaurant-slider-main position-relative homepage-great-deals-carousel">
                                 <div class="owl-carousel owl-theme homepage-ad">
-                
+
                                     @foreach($galleries as $gallery)
                                         <div class="item">
                                             <img class="img-fluid" src="{{asset('vendorimages')}}/{{$gallery->images}}" style="height: 100%; width: 100%;">
                                         </div>
                                     @endforeach
-                
+
                                 </div>
                                 {{-- <div class="position-absolute restaurant-slider-pics bg-dark text-white">2 of 14 Photos</div> --}}
                                 {{-- <div class="position-absolute restaurant-slider-view-all"><button type="button" class="btn btn-light bg-white">See all Photos</button></div> --}}
@@ -112,9 +109,6 @@
                     <div class="tab-pane fade" id="pills-restaurant-info" role="tabpanel" aria-labelledby="pills-restaurant-info-tab">
                         <div id="restaurant-info" class="bg-white rounded shadow-sm p-4 mb-4">
                             <div class="text-center">
-                
-                
-                
                             <h5 class="mb-4">Restaurant Info</h5>
                             <p class="mb-3">
                                     {{$vendor->address}}
@@ -129,54 +123,14 @@
                                 @endif
                             </p>
                         </div>
-                
+
                         </div>
                     </div>
-                    {{-- <div class="tab-pane fade" id="pills-book" role="tabpanel" aria-labelledby="pills-book-tab">
-                        <div id="book-a-table" class="bg-white rounded shadow-sm p-4 mb-5 rating-review-select-page">
-                            <h5 class="mb-4">Book A Table</h5>
-                            <form>
-                                <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Full Name</label>
-                                        <input class="form-control" type="text" placeholder="Enter Full Name">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Email Address</label>
-                                        <input class="form-control" type="text" placeholder="Enter Email address">
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Mobile number</label>
-                                        <input class="form-control" type="text" placeholder="Enter Mobile number">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Date And Time</label>
-                                        <input class="form-control" type="text" placeholder="Enter Date And Time">
-                                    </div>
-                                </div>
-                                </div>
-                                <div class="form-group text-right">
-                                <button class="btn btn-primary" type="button"> Submit </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div> --}}
-                    
-                    </div>
-                
+
                     <div class="tab-pane fade" id="pills-reviews" role="tabpanel" aria-labelledby="pills-reviews-tab">
                         @auth
                             <div id="ratings-and-reviews" class="bg-white rounded shadow-sm p-4 mb-4 clearfix restaurant-detailed-star-rating">
-                
+
                                 <span class="star-rating float-right">
                                     <i class="fa fa-star fa-2x"  data-index="0" ></i>
                                     <i class="fa fa-star fa-2x"  data-index="1" ></i>
@@ -185,11 +139,11 @@
                                     <i class="fa fa-star fa-2x"  data-index="4" ></i>
                                 </span>
                                 <h5 class="mb-0 pt-1">Rate this Place</h5>
-                
-                
+
+
                             </div>
                         @endauth
-                
+
                         <div class="bg-white rounded shadow-sm p-4 mb-4 restaurant-detailed-ratings-and-reviews">
                             <a href="#" class="btn btn-outline-primary btn-sm float-right">Top Rated</a>
                             <h5 class="mb-1">All Ratings and Reviews</h5>
@@ -217,8 +171,8 @@
                                                 @else
                                                     <a class="total-like likes" id="like_count{{$review->idvendorsreviews}}" onClick="cwRating({{$review->idvendorsreviews}},1,'like_count{{$review->idvendorsreviews}}')"><i class="icofont-thumbs-up"></i> {{$review->likes}}</a>
                                                 @endif
-                
-                
+
+
                                                 {{--  <a class="total-like dislikes"  id="{{$review->idvendorsreviews}}"><i class="icofont-thumbs-down"></i>{{$review->dislikes}}</a>  --}}
                                             </div>
                                         @endauth
@@ -227,7 +181,7 @@
                                 </div>
                                 <hr>
                             @endforeach
-                
+
                             <a class="text-center w-100 d-block mt-4 font-weight-bold" href="#">See All Reviews</a>
                         </div>
                         <div class="alert alert-success alert-dismissible" id="review-message"></div>
@@ -245,20 +199,20 @@
                                         <button class="btn btn-warning btn-sm" type="submit"> Submit Review </button>
                                     </div>
                                 </form>
-                
+
                             </div>
                         @endauth
                     </div>
                     </div>
                 </div>
-                
+
             </div>
 
 
             {{-- New --}}
 
             <div class="col-md-4 order-summary">
-                <div class="generator-bg rounded  mb-4 p-4 osahan-cart-item" style="position: fixed; bottom: 0; right: 30px; width: 300px;">
+                <div class="generator-bg rounded  mb-4 p-4 osahan-cart-item" style="position: fixed; bottom: 0; right: 30px; width: 376px;">
                     <h5 class="mb-1">Your Order</h5>
                     <div class="jquerycartshow">
 
@@ -270,8 +224,8 @@
                             <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
                             <form method="get" action="{{URL::TO('checkout')}}">
                                 @csrf
-                                
-                                
+
+
                                 @foreach(session()->get('cart') as $id=>$detail)
                                     <div class="dropdown-divider"></div>
                                     <div>
@@ -293,7 +247,7 @@
                                             @endforeach
                                         @endif
 
-                                    
+
                                         <div class="float-right">
                                             <div class="media">
                                                 <p>{{$detail['quantity']}}</p>
@@ -310,29 +264,20 @@
                                     </div>
                                 @endforeach
 
-                                
                                 <div class="mb-2 bg-white rounded p-2 clearfix">
                                     <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
                                     <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
                                     <p class="seven-color mb-1 text-right">Extra charges may apply</p>
-                                    
+
                                 </div>
                                 {{-- <a href="https://askbootstrap.com/preview/osahan-eat/checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a> --}}
                                 <button type ="submit" class="btn btn-success btn-block btn-lg spin">Checkout</button>
                             </form>
                         @endif
                     </div>
-                   
+
                 </div>
             </div>
-
-            
-                <div  class="is-hidden-desktop is-flex" id="mobilecart">
-                    <span style="text-transform: uppercase; font-size: 15px;" id="cartCount">{{$count}} items</span>
-                    <span style="font-size: 17px; text-transform: uppercase; font-weight: 500;" data-toggle="modal" id="mobilecart" data-target="#viewcart">View Cart</span>
-                    <span style="font-size: 15px;">&#8358 {{session()->get('cartAmount')}}</span>
-                </div>
-            
 
             {{-- Modal --}}
 
@@ -345,20 +290,20 @@
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    
+
                             <div class="modal-body">
                                 <div class="generator-bg rounded  mb-4 p-4 osahan-cart-item">
                                     <h5 class="mb-1">Your Order</h5>
                                     <div class="jquerycartshow">
-                
+
                                         @if(!session()->get('cart'))
                                             <p class="mb-4 text-white">0 ITEMS</p>
                                         @else
                                             <p class="mb-4 text-white">{{count(session('cart'))}} ITEMS</p>
                                             <form method="get" action="{{URL::TO('checkout')}}">
                                                 @csrf
-                                                
-                                                
+
+
                                                 @foreach(session()->get('cart') as $id=>$detail)
                                                     <div class="dropdown-divider"></div>
                                                     <div>
@@ -368,9 +313,9 @@
                                                             <p style="color: black; font-weight: bold;">{{$detail['name']}}</p>
                                                             </div>
                                                         </span>
-                
+
                                                         @if(count($detail['proteins']) !=0)
-                                                        
+
                                                             @foreach($detail['proteins'] as $protein)
                                                             <span>
                                                                 <p class="float-right">{{$protein['qty']}}</p>
@@ -380,8 +325,8 @@
                                                             </span>
                                                             @endforeach
                                                         @endif
-                
-                                                    
+
+
                                                         <div class="float-right">
                                                             <div class="media">
                                                                 <p>{{$detail['quantity']}}</p>
@@ -392,31 +337,31 @@
                                                             <div class="mr-2"><i class="icofont-ui-delete text-danger"></i></div>
                                                             <div class="media-body">
                                                                 <a href="#" class="mb-0 text-black removecart" data-id="{{$id}}">Remove</a>
-                                                                
+
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
-                
-                                                
+
+
                                                 <div class="mb-2 bg-white rounded p-2 clearfix">
                                                     <img class="img-fluid float-left" src="https://askbootstrap.com/preview/osahan-eat/img/wallet-icon.png">
                                                     <h6 class="font-weight-bold text-right mb-2">Subtotal : <span class="text-danger">&#8358 {{session()->get('cartAmount')}}</span></h6>
                                                     <p class="seven-color mb-1 text-right">Extra charges may apply</p>
-                                                    
+
                                                 </div>
                                                 {{-- <a href="https://askbootstrap.com/preview/osahan-eat/checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i class="icofont-long-arrow-right"></i></a> --}}
                                                 <button type ="submit" class="btn btn-success btn-block btn-lg" id="spin">Checkout</button>
                                             </form>
                                         @endif
                                     </div>
-                                
+
                                 </div>
                             </div>
                         <div class="modal-footer">
                             <button type="button" class="btn d-flex w-50 text-center justify-content-center btn-outline-warning" data-dismiss="modal">CANCEL</button>
                             {{-- </button><button type="submit" class="btn d-flex w-50 text-center justify-content-center btn-warning">UPDATE</button> --}}
-                        </div>             
+                        </div>
                     </div>
                 </div>
             </div>
@@ -425,6 +370,13 @@
         </div>
     </div>
 </section>
+
+
+<div  class="is-hidden-desktop is-flex" id="mobilecart">
+    <span style="text-transform: uppercase; font-size: 15px;" id="cartCount">{{$count}} items</span>
+    <span style="font-size: 17px; text-transform: uppercase; font-weight: 500;" data-toggle="modal" id="mobilecart" data-target="#viewcart">View Cart</span>
+    <span style="font-size: 15px;">&#8358 {{session()->get('cartAmount')}}</span>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <script src="{{asset('web/js/webscript.js')}}"></script>
@@ -481,8 +433,8 @@
         },
         success:function(response){
             $('.spinnerstock').remove();
-            $('.stocklistshow').html(response.html);  
-            
+            $('.stocklistshow').html(response.html);
+
         }
         });
 
@@ -587,15 +539,15 @@
         $('.fa-star').css('color','#ffb200');
     }
 
-    $(document).ready(function(){    
+    $(document).ready(function(){
 
         $(".cartadd").click( function(e) {
             $('#spin').append('<i id="spinnercart" class="spinner-border" role="status"></i>');
             e.preventDefault();
             $('#spinnercart').show();
             $(".cartadd").attr("disabled", true);
-           
-            
+
+
             var id =$(this).attr('data-id');
             $.ajax({
                 url:"{{URL::TO('add-to-cart')}}",
@@ -618,7 +570,7 @@
 
                         toastr.error(response.message);
                     }
-                    
+
 
                     // $("#cartshow").show();
                     // $('#cartshow').append('<div class="alert alert-success alert-dismissible" id="cartview">'+response.message+'</div>');
@@ -628,7 +580,7 @@
                     //     });
                     // })
 
-                    
+
 
                 }
 
@@ -638,10 +590,10 @@
         $(function(){
             $('.stocklistshow').append('<div class="spinner-border text-warning" id="spinnerstock"></div>');
             load_stock();
-            
+
         });
 
-        
+
 
 
         $(function(){
@@ -677,7 +629,7 @@
             $(document).on('ready',function(){
                 load_stock();
             });
-            
+
         });
 
 
@@ -711,13 +663,13 @@
 
 
                     });
-                    
-                
+
+
                 }
             });
 
         });
-        
+
     });
 
 
