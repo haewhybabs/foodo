@@ -17,6 +17,8 @@ class CartController extends Controller
     public function add(Request $request)
     {
         $id = $request->id;
+        
+        
         $amount =$this->cartAmount();
 
 
@@ -48,14 +50,11 @@ class CartController extends Controller
         $vendor=DB::table('vendors')->where('idvendors',$currentVendor)->first();
 
 
-        $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
-        }
-        else{
+        $close =$this->vendorClose($vendor->idvendors);
+        if($close==true){
 
             $data['message']='We have closed. Thank you';
             return response()->json($data);
-
         }
 
         $cart=session()->get('cart');
@@ -162,14 +161,19 @@ class CartController extends Controller
         //     return redirect()->back()->with($reply);
         // }
 
-        $id = $request->id;
+        $stockId = $request->id;
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $length=16;
+        $reference=substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+
+        $id = $reference;
         $amount =$this->cartAmount();
         $data = array(
             'status'=>false,
             'newVendor'=>0,
             'close'=>0,
         );
-        $stock=DB::table('stockdetails')->where('idstockdetails',$id)->first();
+        $stock=DB::table('stockdetails')->where('idstockdetails',$stockId)->first();
         $currentVendor=session()->get('vendor_id');
         if(!$currentVendor){
 

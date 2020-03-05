@@ -48,6 +48,8 @@ return array(
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'App\\Http\\Middleware\\apiauth' => $baseDir . '/app/Http/Middleware/apiauth.php',
     'App\\Http\\Middleware\\secure' => $baseDir . '/app/Http/Middleware/secure.php',
+    'App\\Mail\\ForgotPasswordMail' => $baseDir . '/app/Mail/ForgotPasswordMail.php',
+    'App\\Mail\\RegistrationMail' => $baseDir . '/app/Mail/RegistrationMail.php',
     'App\\Orderdetail' => $baseDir . '/app/Orderdetail.php',
     'App\\Ordersummary' => $baseDir . '/app/Ordersummary.php',
     'App\\Pricebreakdown' => $baseDir . '/app/Pricebreakdown.php',

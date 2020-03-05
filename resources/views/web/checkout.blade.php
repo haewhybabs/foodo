@@ -38,9 +38,14 @@
                                 <input type="text" class="form-control" placeholder="Complete Address e.g. house number, street name, landmark" name="complete_address" required>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputPassword4">Delivery Instructions(Optional)
+                                <label for="inputPassword4">Delivery Instructions<span style="color:red;">(Optional)</span>
                                 </label>
                                 <input type="text" class="form-control" placeholder="Delivery Instructions e.g. Opposite Gold Souk Mall" name="delivery_instruction">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="inputPassword4">Delivery Phone Number<span style="color:red;">(Optional)</span>
+                                </label>
+                                <input type="text" class="form-control" placeholder="Incase the order is for someone else" name="phone_number">
                             </div>
                         </div>
 

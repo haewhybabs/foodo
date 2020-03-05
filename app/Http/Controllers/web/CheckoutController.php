@@ -32,10 +32,9 @@ class CheckoutController extends Controller
         $vendor=DB::table('vendors')->where('idvendors',$vendor_id)->first();
         $vendorRegion=$vendor->region_id;
 
-        $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
-        }
-        else{
+        $close =$this->vendorClose($vendor->idvendors);
+        if($close==true){
+
             return redirect()->back()->with('error','We have closed. Thank you');
         }
 
@@ -163,6 +162,7 @@ class CheckoutController extends Controller
             'complete_address'=>$request->complete_address,
             'delivery_instruction'=>$request->delivery_instruction,
             'user_id'=>Auth::user()->id,
+            'phone_number'=>$request->phone_number,
             'active'=>0,
         );
         DB::table('address')->insert($addressData);
@@ -178,11 +178,16 @@ class CheckoutController extends Controller
     {
         DB::table('address')->where('user_id',Auth::user()->id)->update(['active'=>0]);
         DB::table('address')->where('idaddress',$id)->update(['active'=>1]);
+
+       
+        
+
         $data=array(
 
             'message'=>'Delivery address selected',
             'alert-type'=>'info',
         );
+
         return redirect('checkout')->with($data);
     }
 
@@ -280,6 +285,21 @@ class CheckoutController extends Controller
         #insert to Order Summary
         $orderSummary=DB::table('ordersummaries')->insertGetId($orderSummaryData);
 
+        #Delivery Address
+
+        $deliveryAddress = DB::table('address')->where('user_id',Auth::user()->id)->where('active',1)->first();
+
+        $deliveryData = array(
+
+            'region_id'=>$deliveryAddress->region_id,
+            'complete_address'=>$deliveryAddress->complete_address,
+            'delivery_instruction'=>$deliveryAddress->delivery_instruction,
+            'phone_number'=>$deliveryAddress->phone_number,
+            'order_summary_id'=>$orderSummary,
+        );
+
+        DB::table('delivery_address')->insert($deliveryData);
+
         #Insert TO Order Details
         foreach(session()->get('cart') as $id=>$detail){
             $orderDetailData=array(
@@ -331,7 +351,7 @@ class CheckoutController extends Controller
         
         if($request->wallet==1){
 
-            if($this->walletMoney()>$amount)
+            if($this->walletMoney()>=$amount)
             {
                 $withdrawal=array(
                     'user_id'=>Auth::user()->id,

@@ -564,6 +564,8 @@ class ComposerStaticInitb6d77aca6db714bdd9a8802b137ea79d
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Middleware\\apiauth' => __DIR__ . '/../..' . '/app/Http/Middleware/apiauth.php',
         'App\\Http\\Middleware\\secure' => __DIR__ . '/../..' . '/app/Http/Middleware/secure.php',
+        'App\\Mail\\ForgotPasswordMail' => __DIR__ . '/../..' . '/app/Mail/ForgotPasswordMail.php',
+        'App\\Mail\\RegistrationMail' => __DIR__ . '/../..' . '/app/Mail/RegistrationMail.php',
         'App\\Orderdetail' => __DIR__ . '/../..' . '/app/Orderdetail.php',
         'App\\Ordersummary' => __DIR__ . '/../..' . '/app/Ordersummary.php',
         'App\\Pricebreakdown' => __DIR__ . '/../..' . '/app/Pricebreakdown.php',

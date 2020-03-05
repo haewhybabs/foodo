@@ -673,12 +673,7 @@
             });
         });
 
-        $(function(){
-            $(document).on('ready',function(){
-                load_stock();
-            });
-            
-        });
+        
 
 
 
