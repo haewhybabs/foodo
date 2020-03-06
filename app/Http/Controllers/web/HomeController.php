@@ -216,15 +216,7 @@ class HomeController extends Controller
         ->where('stockdetails.status','Available')
         ->where('stockcategories.app_category_id',$this->soupProteins)->get();
         
-        $close = true;
-        $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
-            $close= false;
-        }
-
-        if($vendor->close_status==1){
-            $close=true;
-        }
+        $close = $this->vendorClose($vendor->idvendors);
 
         $data = array(
             'vendor'=>$vendor,
@@ -293,17 +285,7 @@ class HomeController extends Controller
         ->where('stockdetails.status','Available')
         ->get();
         
-        $close = true;
-        $now= time()+3600; $time=(int)date('H',$now);
-        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
-            $close= false;
-        }
-
-        if($vendor->close_status==1){
-            $close=true;
-            
-            
-        }
+        $close = $this->vendorClose($vendor->idvendors);
 
         
 
@@ -319,10 +301,7 @@ class HomeController extends Controller
             'close'=>$close,
             'categories'=>$category,
             'regions'=>$regions,
-            'soupCategory'=>$this->soupCategory,
-            'mainMeal'=>$this->mainMealCategory,
-            'soupProteins'=>$this->soupProteins,
-            'stock_proteins'=>$stock_proteins,
+            
         );
 
         if($close==true){

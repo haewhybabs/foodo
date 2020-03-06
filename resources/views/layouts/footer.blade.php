@@ -22,22 +22,22 @@
     @endif
 @endauth
 @guest
-<section class="section pt-5 pb-5 becomemember-section border-bottom" style="background-color: #f79e05">
-   <div class="container">
-       <div class="section-header text-center">
-           <h1 style="color: #ffff;">Become one of our Vendors</h1>
-           <p class="become-subheading">You own a Restaurant,Bar,Supermarket,Pharmacy</p>
-           <span class="line" style="color: #fff;"></span>
-       </div>
-       <div class="row">
-           <div class="col-sm-12 text-center">
-               <a href="{{URL::TO('vendor-register')}}" class="btn btn-lg" style="border: 1px solid #fff; color: #fff;">
-               Create an Account <i class="fa fa-chevron-circle-right"></i>
-               </a>
-           </div>
-       </div>
-   </div>
-</section>
+   <section class="section pt-5 pb-5 becomemember-section border-bottom" style="background-color: #f79e05">
+      <div class="container">
+         <div class="section-header text-center">
+            <h1 style="color: #ffff;">Become one of our Vendors</h1>
+            <p class="become-subheading">You own a Restaurant,Bar,Supermarket,Pharmacy</p>
+            <span class="line" style="color: #fff;"></span>
+         </div>
+         <div class="row">
+            <div class="col-sm-12 text-center">
+                  <a href="{{URL::TO('vendor-register')}}" class="btn btn-lg" style="border: 1px solid #fff; color: #fff;">
+                  Create an Account <i class="fa fa-chevron-circle-right"></i>
+                  </a>
+            </div>
+         </div>
+      </div>
+   </section>
 @endguest
 
 
@@ -136,19 +136,21 @@
 </script>
  
 
-
+@if(Request::segment(1) != 'Restaurants')
  <!--Start of Tawk.to Script-->
-<script type="text/javascript">
-   var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-   (function(){
-   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-   s1.async=true;
-   s1.src='https://embed.tawk.to/5e580c66a89cda5a18884ef8/default';
-   s1.charset='UTF-8';
-   s1.setAttribute('crossorigin','*');
-   s0.parentNode.insertBefore(s1,s0);
-   })();
-</script>
+   <script type="text/javascript">
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/5e580c66a89cda5a18884ef8/default';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+      })();
+   </script>
+@endif
+
    <!--End of Tawk.to Script-->
  <!-- jQuery -->
  <script src="{{asset('web/js/jquery-3.3.1.slim.min.js')}}"></script>

@@ -226,6 +226,26 @@ trait BaseController
         return $credit;
     }
 
+    public function vendorClose($id){
+
+        $vendor=DB::table('vendors')->where('idvendors',$id)->first();
+
+        $close = true;
+        $now= time()+3600; 
+        $time=(int)date('H',$now);
+        if($time>=(int)$vendor->open_at and $time<=(int)$vendor->close_at){
+            $close= false;
+        }
+
+        if($vendor->close_status==1){
+            $close=true;
+            
+            
+        }
+
+        return $close;
+    }
+
 
   
 }

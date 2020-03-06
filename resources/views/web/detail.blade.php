@@ -625,12 +625,16 @@
             });
         });
 
+<<<<<<< HEAD
         $(function(){
             $(document).on('ready',function(){
                 load_stock();
             });
 
         });
+=======
+        
+>>>>>>> 92299a009908e3f348afffb8cfe40b4762faad35
 
 
 
