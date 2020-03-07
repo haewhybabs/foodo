@@ -139,8 +139,6 @@
                                     <i class="fa fa-star fa-2x"  data-index="4" ></i>
                                 </span>
                                 <h5 class="mb-0 pt-1">Rate this Place</h5>
-
-
                             </div>
                         @endauth
 
@@ -588,13 +586,10 @@
         });
 
         $(function(){
-            $('.stocklistshow').append('<div class="spinner-border text-warning" id="spinnerstock"></div>');
+            $('.stocklistshow').append('<div class="spinner-border text-warning" id="spinnerstock" style="margin-left: 50%;"></div>');
             load_stock();
 
         });
-
-
-
 
         $(function(){
             $(document).on('click','.removecart',function(e){
@@ -624,18 +619,6 @@
                 });
             });
         });
-
-<<<<<<< HEAD
-        $(function(){
-            $(document).on('ready',function(){
-                load_stock();
-            });
-
-        });
-=======
-        
->>>>>>> 92299a009908e3f348afffb8cfe40b4762faad35
-
 
 
 

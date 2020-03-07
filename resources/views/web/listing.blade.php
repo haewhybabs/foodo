@@ -99,7 +99,7 @@
                                        </div>
 
                                     </div> --}}
-                                    <div class="well" style="color:red;">
+                                    <div class="well" style="color:red; text-align: center">
                                        No {{$category_name}} listed  Yet!!! Kindly check back later
                                     </div>
                                  </div>
